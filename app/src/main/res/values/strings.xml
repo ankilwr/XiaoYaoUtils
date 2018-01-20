@@ -1,0 +1,49 @@
+<resources>
+    <string name="app_name">尚医</string>
+
+    <string name="confirm">确定</string>
+    <string name="cancel">取消</string>
+    <string name="btn_get_code">获取验证码</string>
+    <string name="btn_code_count">重新获取(%s)</string>
+
+    <string name="title_login">登录</string>
+    <string name="title_forget_pass">忘记密码</string>
+    <string name="title_online">在线问诊</string>
+    <string name="title_mine">我的</string>
+
+
+    <string name="login_hint_pass_null">请输入密码</string>
+    <string name="login_hint_phone_null">请输入手机号</string>
+    <string name="login_btn_forget_pass">忘记密码?</string>
+    <string name="login_btn_login">登录</string>
+    <string name="login_auto_login">自动登录</string>
+
+    <string name="forgetpass_name_null">请输入姓名</string>
+    <string name="forgetpass_code_null">请输入验证码</string>
+    <string name="forgetpass_pass1_null">请输入新的密码</string>
+    <string name="forgetpass_pass2_null">请再次输入密码</string>
+
+
+    <string name="register_check_protocol">我已仔细阅读并同意</string>
+    <string name="register_protocol">《博厚医疗用户协议》</string>
+    <string name="register_next">下一步</string>
+    <string name="register_has_account">已有帐号?</string>
+    <string name="register_to_login">立即登录</string>
+    <string name="pass_set_null2">请确认密码</string>
+    <string name="pass_set_finish">完成</string>
+
+    <string name="online_no_data">暂无聊天记录</string>
+
+    <string name="mine_basic_data">基本资料</string>
+    <string name="mine_doctor_data">医生资料</string>
+    <string name="mine_model">处方模版</string>
+    <string name="mine_record">开方记录</string>
+    <string name="mine_tixian">提现</string>
+    <string name="mine_setting">设置</string>
+
+
+    <string name="dialog_shop_pay">支付</string>
+    <string name="dialog_shop_price">应付金额</string>
+    <string name="dialog_share_title">分享至</string>
+
+</resources>

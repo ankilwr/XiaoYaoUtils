@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:background="@color/actionBarColor">
+
+    <ImageButton
+        android:id="@+id/back"
+        android:layout_width="50dp"
+        android:layout_height="?attr/actionBarSize"
+        android:visibility="invisible"
+        android:background="?android:attr/selectableItemBackground"
+        android:src="@drawable/title_pressed_back"
+        android:clickable="false"/>
+
+
+    <ImageView
+        android:id="@+id/rightImage"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:visibility="invisible"
+        android:clickable="false"
+        android:scaleType="center"
+        android:background="?android:attr/selectableItemBackground"
+        android:src="@mipmap/logo"/>
+
+
+    <TextView
+        android:id="@+id/rightText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:textColor="@color/textColor"
+        android:textSize="14sp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:gravity="center"
+        android:layout_centerVertical="true"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_toLeftOf="@id/rightImage"
+        android:layout_toRightOf="@id/back"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textColor="@color/textColor"
+        android:textSize="36px"
+        android:lines="1"
+        android:ellipsize="end"/>
+
+    <View
+        android:id="@+id/actionBarLine"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/line"/>
+
+</com.zhy.autolayout.AutoRelativeLayout>

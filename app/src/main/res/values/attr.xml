@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="HomeTabButton">
+        <attr name="top_on" format="reference" />
+        <attr name="top_off" format="reference" />
+        <attr name="textColor_on" format="reference|color" />
+        <attr name="textColor_off" format="reference|color" />
+        <attr name="background_on" format="reference" />
+        <attr name="background_off" format="reference" />
+        <attr name="checked" format="boolean" />
+
+        <attr name="image_width" format="dimension" />
+        <attr name="image_height" format="dimension" />
+        <attr name="content" format="reference" />
+        <attr name="content_size" format="dimension" />
+
+    </declare-styleable>
+
+
+    <declare-styleable name="ProportionImageView">
+        <attr name="ratio" format="float" />
+    </declare-styleable>
+
+</resources>

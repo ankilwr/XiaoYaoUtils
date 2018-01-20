@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/menu1"
+        android:text="回复"
+        android:layout_width="620px"
+        android:layout_height="wrap_content"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:background="@drawable/btn_dialog_round_top"
+        android:gravity="center"
+        android:textSize="30px"
+        android:textColor="#424242"/>
+
+    <View
+        android:layout_width="620px"
+        android:layout_height="1px"
+        android:background="@color/line"/>
+
+    <TextView
+        android:id="@+id/menu2"
+        android:text="私聊"
+        android:layout_width="620px"
+        android:layout_height="wrap_content"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:background="@drawable/btn_dialog_round_bottom"
+        android:gravity="center"
+        android:textSize="30px"
+        android:textColor="#424242"/>
+
+
+    <TextView
+        android:id="@+id/btnCancel"
+        android:text="取消"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="50px"
+        android:layout_width="620px"
+        android:layout_height="wrap_content"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:background="@drawable/btn_dialog_round"
+        android:gravity="center"
+        android:textSize="30px"
+        android:textColor="#424242"/>
+
+</com.zhy.autolayout.AutoLinearLayout>

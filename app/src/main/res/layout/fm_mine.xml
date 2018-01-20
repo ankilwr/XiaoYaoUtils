@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:overScrollMode="never"
+        android:scrollbars="none">
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:orientation="vertical">
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/mine_header_bg"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <ImageView
+                    android:id="@+id/ivAvatar"
+                    android:layout_width="158px"
+                    android:layout_height="158px"
+                    android:src="@mipmap/ic_avatar" />
+
+                <TextView
+                    android:id="@+id/tvName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="75px"
+                    android:paddingTop="20px"
+                    android:text="紫小鲸"
+                    android:textColor="@android:color/white"
+                    android:textSize="36px" />
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <TextView
+                android:id="@+id/btnBasic"
+                android:layout_width="match_parent"
+                android:layout_height="100px"
+                android:background="@drawable/item_select"
+                android:drawableLeft="@mipmap/mine_basic_data"
+                android:drawablePadding="30px"
+                android:drawableRight="@mipmap/icon_next"
+                android:gravity="center_vertical"
+                android:paddingLeft="30px"
+                android:paddingRight="32px"
+                android:text="@string/mine_basic_data"
+                android:textColor="@color/textColor"
+                android:textSize="30px" />
+
+            <View
+                style="@style/lineE2"
+                android:layout_marginLeft="30px"
+                android:layout_marginRight="30px" />
+
+            <TextView
+                android:id="@+id/btnDoctor"
+                android:layout_width="match_parent"
+                android:layout_height="100px"
+                android:background="@drawable/item_select"
+                android:drawableLeft="@mipmap/mine_doctor"
+                android:drawablePadding="30px"
+                android:drawableRight="@mipmap/icon_next"
+                android:gravity="center_vertical"
+                android:paddingLeft="30px"
+                android:paddingRight="32px"
+                android:text="@string/mine_doctor_data"
+                android:textColor="@color/textColor"
+                android:textSize="30px" />
+
+            <View
+                style="@style/lineE2"
+                android:layout_marginLeft="30px"
+                android:layout_marginRight="30px" />
+
+            <TextView
+                android:id="@+id/btnModel"
+                android:layout_width="match_parent"
+                android:layout_height="100px"
+                android:background="@drawable/item_select"
+                android:drawableLeft="@mipmap/mine_model"
+                android:drawablePadding="30px"
+                android:drawableRight="@mipmap/icon_next"
+                android:gravity="center_vertical"
+                android:paddingLeft="30px"
+                android:paddingRight="32px"
+                android:text="@string/mine_model"
+                android:textColor="@color/textColor"
+                android:textSize="30px" />
+
+            <View
+                style="@style/lineE2"
+                android:layout_marginLeft="30px"
+                android:layout_marginRight="30px" />
+
+            <TextView
+                android:id="@+id/btnRecord"
+                android:layout_width="match_parent"
+                android:layout_height="100px"
+                android:background="@drawable/item_select"
+                android:drawableLeft="@mipmap/mine_record"
+                android:drawablePadding="30px"
+                android:drawableRight="@mipmap/icon_next"
+                android:gravity="center_vertical"
+                android:paddingLeft="30px"
+                android:paddingRight="32px"
+                android:text="@string/mine_record"
+                android:textColor="@color/textColor"
+                android:textSize="30px" />
+
+            <View
+                style="@style/lineE2"
+                android:layout_marginLeft="30px"
+                android:layout_marginRight="30px" />
+
+            <TextView
+                android:id="@+id/btnTixian"
+                android:layout_width="match_parent"
+                android:layout_height="100px"
+                android:background="@drawable/item_select"
+                android:drawableLeft="@mipmap/mine_tixian"
+                android:drawablePadding="30px"
+                android:drawableRight="@mipmap/icon_next"
+                android:gravity="center_vertical"
+                android:paddingLeft="30px"
+                android:paddingRight="32px"
+                android:text="@string/mine_tixian"
+                android:textColor="@color/textColor"
+                android:textSize="30px" />
+
+            <View style="@style/lineE2" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="28px"
+                android:background="@color/windowBackground" />
+
+            <TextView
+                android:id="@+id/btnSetting"
+                android:layout_width="match_parent"
+                android:layout_height="100px"
+                android:background="@drawable/item_select"
+                android:drawableLeft="@mipmap/mine_setting"
+                android:drawablePadding="30px"
+                android:drawableRight="@mipmap/icon_next"
+                android:gravity="center_vertical"
+                android:paddingLeft="30px"
+                android:paddingRight="32px"
+                android:text="@string/mine_setting"
+                android:textColor="@color/textColor"
+                android:textSize="30px" />
+
+            <View style="@style/lineE2" />
+
+        </com.zhy.autolayout.AutoLinearLayout>
+    </ScrollView>
+
+
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#37CF6B">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/title_mine"
+            android:textColor="@android:color/white"
+            android:textSize="36px" />
+
+        <ImageView
+            android:id="@+id/rightImage"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:paddingRight="38px"
+            android:scaleType="center"
+            android:src="@mipmap/mine_title_msg" />
+    </com.zhy.autolayout.AutoRelativeLayout>
+
+
+</com.zhy.autolayout.AutoRelativeLayout>
