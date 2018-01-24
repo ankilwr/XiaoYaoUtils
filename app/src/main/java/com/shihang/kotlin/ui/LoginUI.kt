@@ -29,9 +29,7 @@ class LoginUI : ActionBarUI(), OnCheckedChangeListener {
 
     override fun onCheckedChanged(buttonView: CompoundButton, isChecked: Boolean) {
         when (buttonView.id) {
-            R.id.checkAuto -> {
-
-            }
+            R.id.checkAuto ->{}
             R.id.checkPass -> {
                 if (isChecked) {
                     etPass!!.transformationMethod = HideReturnsTransformationMethod.getInstance()
