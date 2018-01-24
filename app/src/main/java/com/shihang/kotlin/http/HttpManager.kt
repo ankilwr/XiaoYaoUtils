@@ -1,6 +1,7 @@
 package com.shihang.kotlin.http
 
 import android.os.Handler
+import android.os.Looper
 import android.util.SparseArray
 import com.shihang.kotlin.dialog.LoadingDialog
 import com.shihang.kotlin.extends.getLogTag
@@ -30,7 +31,7 @@ object HttpManager {
 
     private val logTag = "HttpManager"
     private val httpCalls = SparseArray<HttpCall>()
-    private val handler: Handler = Handler()
+    private val handler: Handler = Handler(Looper.getMainLooper())
 
 
     private fun getRequest(tag: Any, url: String, params: Map<String, Any>?): Request {

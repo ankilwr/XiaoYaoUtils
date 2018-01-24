@@ -30,7 +30,7 @@ class OnLineFm : TitleFm(), OnCheckedChangeListener {
     override val layout: Int = R.layout.fm_online
 
     private var adapter: OnLineFmAdapter? = null
-    private var page: Int? = null
+    private var page: Int = 1
 
 
     override fun onSelect(button: HomeTabButton, index: Int) {}
@@ -48,8 +48,9 @@ class OnLineFm : TitleFm(), OnCheckedChangeListener {
         pullView.swipeRecyclerView.layoutManager = LinearLayoutManager(context)
 
         //DefaultItemDecoration(context) //默认线条，更多属性查看DefaultItemDecoration类
-        //设置一个带有"30px" 左右边距的item线条
+        //设置一个左右 带有"30px"边距 的item线条
         pullView.swipeRecyclerView.addItemDecoration(DefaultItemDecoration(context, padding = AutoUtils.getPercentHeightSizeBigger(30)))
+
 
         //设置侧滑按钮 跟 侧滑按钮的点击监听(如果需要侧滑一定要在setAdapter之前创建好构建器)
         pullView.swipeRecyclerView.setSwipeMenuCreator(menuCreator)
@@ -105,7 +106,7 @@ class OnLineFm : TitleFm(), OnCheckedChangeListener {
         }
 
         override fun onLoadMore() {
-            loadData(false, page ?: 1)
+            loadData(false, page)
         }
     }
 
