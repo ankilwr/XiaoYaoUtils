@@ -10,10 +10,6 @@ import android.widget.TextView
 import com.shihang.kotlin.R
 
 
-/**
- * Created by Administrator on 2017/5/22.
- */
-
 class MessageDialog(context: Activity) : Dialog(context, R.style.dialogBase) {
 
     private val textView: TextView?

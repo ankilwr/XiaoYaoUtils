@@ -1,9 +1,5 @@
 package com.shihang.kotlin.bean
 
-/**
- * Created by Administrator on 2017/5/26.
- */
-
 open class BaseBean {
 
     private var status: String? = null

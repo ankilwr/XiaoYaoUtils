@@ -11,10 +11,6 @@ import android.graphics.RectF;
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 
-/**
- * Created by Administrator on 2017/4/22.
- */
-
 public class GlideRoundTransform extends BitmapTransformation {
 
     private static float radius = 0f;

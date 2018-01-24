@@ -27,9 +27,7 @@ import android.view.ViewGroup;
 import java.lang.reflect.Field;
 import java.util.List;
 
-/**
- * Created by YanZhenjie on 2017/7/20.
- */
+
 public class SwipeAdapterWrapper extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int BASE_ITEM_TYPE_HEADER = 100000;

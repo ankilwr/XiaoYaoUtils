@@ -13,9 +13,7 @@ import com.shihang.kotlin.config.Keys
 import com.shihang.kotlin.ui.LoginUI
 import com.shihang.kotlin.utils.PreferenceUtils
 
-/**
- * Created by Administrator on 2017/5/31.
- */
+
 class WelcomeAdapter(private val context: Context) : PagerAdapter() {
 
     private val drawables: IntArray = intArrayOf(R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher)

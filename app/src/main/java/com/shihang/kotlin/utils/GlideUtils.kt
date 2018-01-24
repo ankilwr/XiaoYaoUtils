@@ -7,10 +7,6 @@ import com.shihang.kotlin.R
 import com.shihang.kotlin.config.GlideCircleTransform
 
 
-/**
- * Created by Administrator on 2017/4/22.
- */
-
 object GlideUtils {
 
     fun load(context: Context, url: String, resourceId: Int, imageView: ImageView) {
