@@ -17,9 +17,9 @@ class MessageDialog(context: Activity) : Dialog(context, R.style.dialogBase) {
 
     init {
         val view = LayoutInflater.from(context).inflate(R.layout.dialog_message, null)
-        textView = view.findViewById<View>(R.id.tvMsg) as TextView
-        view.findViewById<View>(R.id.btnCancel).setOnClickListener { dismiss() }
-        view.findViewById<View>(R.id.btnConfirm).setOnClickListener { v ->
+        textView = view.findViewById(R.id.tvMsg)
+        view.findViewById<View>(R.id.btnCancel)?.setOnClickListener { dismiss() }
+        view.findViewById<View>(R.id.btnConfirm)?.setOnClickListener { v ->
             listener?.onClick(v)
             dismiss()
         }
@@ -33,7 +33,7 @@ class MessageDialog(context: Activity) : Dialog(context, R.style.dialogBase) {
         return this
     }
 
-    fun setComfirmClick(listener: View.OnClickListener): MessageDialog {
+    fun setComfirmClick(listener: View.OnClickListener?): MessageDialog {
         this.listener = listener
         return this
     }
