@@ -34,7 +34,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.0'
     implementation 'com.zhy:autolayout:1.4.5'
     implementation 'com.squareup.okhttp3:okhttp:3.9.1'
-    implementation 'com.github.bumptech.glide:glide:3.8.0'
+    implementation 'com.github.bumptech.glide:glide:4.6.1'
     implementation 'org.greenrobot:eventbus:3.1.1'
     implementation project(':recyclerview-swipe')
 }
