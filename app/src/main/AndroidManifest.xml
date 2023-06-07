@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.shihang.kotlin">
+    xmlns:tools="http://schemas.android.com/tools">
 
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -29,41 +29,19 @@
         android:supportsRtl="true"
         android:theme="@style/BlackStatus.ActionBar">
 
-
-        <provider
-            android:name="android.support.v4.content.FileProvider"
-            android:authorities="${applicationId}.provider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
-        </provider>
-
-        <meta-data android:name="design_width" android:value="750"/>
-        <meta-data android:name="design_height"  android:value="1334"/>
-
         <activity
-            android:name=".ui.WelcomeUI"
-            android:theme="@style/WelcomeStyle">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:name=".ui.activity.MainActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            tools:replace="android:label"
+            android:exported="true">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
         </activity>
 
-        <activity
-            android:name=".ui.HomeUI"
-            android:launchMode="singleTask"
-            android:theme="@style/BlackStatus.NoActionBar" />
-
-        <activity
-            android:name=".ui.LoginUI"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
-
-        <activity android:name=".ui.ForgetPassUI" />
-
-
     </application>
+
 
 </manifest>

@@ -1,1 +1,2 @@
-include ':app','recyclerview-swipe'
+include ':app'
+include ':base'

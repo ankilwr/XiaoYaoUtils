@@ -1,0 +1,12 @@
+<resources>
+
+    <string name="base_status_empty">暂时没有数据哟</string>
+    <string name="base_status_error">加载失败</string>
+    <string name="base_status_loading">正在加载</string>
+    <string name="base_status_network_error">网络连接异常, 请检查网络是否连接</string>
+
+    <string name="base_http_net_work_error">网络异常，请检查网络是否正常连接</string>
+    <string name="base_http_server_error">服务器繁忙，请稍候再试</string>
+    <string name="base_http_unknown_error">未知错误，可能抛锚了吧~</string>
+
+</resources>

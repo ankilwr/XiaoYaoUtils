@@ -1,0 +1,96 @@
+<resources>
+
+    <style name="ActionbarStyle" parent="Widget.AppCompat.ActionBar">
+        <item name="contentInsetStart">0dp</item>
+        <item name="contentInsetEnd">0dp</item>
+    </style>
+
+    <style name="AppTheme.ActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimaryDark">@android:color/black</item>
+        <item name="colorPrimary">@color/actionBarColor</item>
+        <item name="colorAccent">@color/themeColor</item>
+        <item name="android:windowBackground">@color/windowBackground</item>
+        <item name="actionBarStyle">@style/ActionbarStyle</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <!--<item name="android:actionBarSize">44dp</item>-->
+        <!--<item name="actionBarSize">44dp</item>-->
+    </style>
+
+    <style name="AppTheme.NoActionBar" parent="AppTheme.ActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="BlackStatus.ActionBar" parent="AppTheme.ActionBar">
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+    <style name="BlackStatus.NoActionBar" parent="AppTheme.NoActionBar">
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+
+    <!-- 透明主题 -->
+    <style name="App_Theme_Transparent">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="leftIcon">@drawable/base_icon_back_white</item>
+    </style>
+
+    <!-- 白色主题 -->
+    <style name="App_Theme_White" parent="App_Theme_Transparent">
+        <item name="android:background">@android:color/white</item>
+        <item name="leftIconTint">@android:color/black</item>
+        <item name="barTitleColor">@android:color/black</item>
+        <item name="rightIconTint">@android:color/black</item>
+        <item name="rightMenuTint">@android:color/black</item>
+        <item name="lightStatusBarModel">true</item>
+    </style>
+
+    <!-- 红色主题 -->
+    <style name="App_Theme_Red" parent="App_Theme_Transparent">
+        <item name="android:background">#E04F4C</item>
+        <item name="leftIconTint">@android:color/white</item>
+        <item name="barTitleColor">@android:color/white</item>
+        <item name="rightIconTint">@android:color/white</item>
+        <item name="rightMenuTint">@android:color/white</item>
+    </style>
+
+
+
+
+
+
+    <style name="Dialog.Base" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <!--<item name="android:backgroundDimAmount">0.6</item>-->
+    </style>
+
+    <style name="Dialog.Loading" parent="Dialog.Base"/>
+
+    <style name="Dialog.Bottom" parent="@style/Dialog.Base">
+        <item name="android:windowAnimationStyle">@style/Animation.Design.BottomSheetDialog</item>
+    </style>
+
+
+
+
+
+
+
+
+    <style name="lineE2">
+        <item name="android:background">@color/line</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1px</item>
+    </style>
+
+
+</resources>

@@ -1,0 +1,80 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'kotlin-parcelize'
+}
+
+android {
+    namespace 'com.mellivora.base'
+    compileSdk 32
+
+    defaultConfig {
+        minSdk 23
+        targetSdk 32
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildFeatures {
+        dataBinding true
+        viewBinding true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+
+    //Kotlin协程
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1"
+
+    //Jetpack AndroidX
+    api "androidx.multidex:multidex:2.0.1"
+    api "androidx.appcompat:appcompat:1.6.1"
+    api "androidx.core:core-ktx:1.10.1"
+    //api "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1"
+    api "androidx.activity:activity-ktx:1.7.2"
+    api "androidx.fragment:fragment-ktx:1.5.7"
+    api "androidx.constraintlayout:constraintlayout:2.1.4"
+    api "androidx.recyclerview:recyclerview:1.3.0"
+    api "androidx.viewpager2:viewpager2:1.1.0-beta02"
+    api "androidx.media:media:1.6.0"
+    api "com.google.android.material:material:1.9.0"
+    api "com.google.android:flexbox:1.1.0"
+    api "com.google.code.gson:gson:2.9.1"
+
+    //Http请求框架
+    api "com.squareup.okhttp3:okhttp:4.11.0"
+    api "com.squareup.okhttp3:logging-interceptor:4.11.0"
+    api "com.squareup.retrofit2:retrofit:2.9.0"
+    api 'com.squareup.retrofit2:converter-gson:2.9.0'
+
+
+    //图片加载库
+    api "com.github.bumptech.glide:glide:4.12.0"
+    kapt "com.github.bumptech.glide:compiler:4.12.0"
+    //Glide扩展库(高斯模糊)
+    api("jp.wasabeef:glide-transformations:4.3.0") {
+        //这个库里面用了Glide4.9.0
+        exclude group: 'com.github.bumptech.glide'
+    }
+    //SVGA动画
+    api 'com.github.yyued:SVGAPlayer-Android:2.6.1'
+
+    //下拉刷新
+    api "io.github.scwang90:refresh-layout-kernel:2.0.6"
+    api "io.github.scwang90:refresh-header-classics:2.0.6"
+
+    //adapter适配器
+    api "com.drakeet.multitype:multitype:4.2.0"
+
+
+}
