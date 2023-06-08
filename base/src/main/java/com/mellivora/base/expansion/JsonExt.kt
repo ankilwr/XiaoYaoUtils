@@ -17,9 +17,8 @@ inline fun <reified T> String?.jsonConvertBean(): T?{
     }
 }
 
-inline fun <reified T> String?.jsonConvertBeanThrow(): T?{
-    val type = object : TypeToken<T>() {}.type
-    return Gson().fromJson(this, type)
+inline fun <reified T> String?.jsonConvertBeanThrow(typeToken: TypeToken<T> = object : TypeToken<T>(){}): T{
+    return Gson().fromJson(this, typeToken.type)
 }
 
 

@@ -130,6 +130,7 @@ open class BaseMultiTypeAdapter : MultiTypeAdapter() {
         if(animation){
             val diffResult = DiffUtil.calculateDiff(DiffCallBack(items, resetList), true)
             diffResult.dispatchUpdatesTo(this)
+            items = resetList
         }else{
             items = resetList
             notifyItemRangeChanged(0, max(0, itemCount - 1))

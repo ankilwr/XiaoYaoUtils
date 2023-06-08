@@ -85,6 +85,10 @@ open class LoadingViewModel: BaseViewModel() {
     fun pullErrorConsumer(isRefresh: Boolean = true, isPull: Boolean = false, stateData: MutableLiveData<PullState> = pullState): Consumer<Throwable> {
         return Consumer {
             val error = it.parse()
+            if(error.errorCode == ErrorStatus.CANCEL){
+                //主动发起的HTTP取消操作(UI在中断HTTP请求前自行处理，此处不在回调出去)
+                return@Consumer
+            }
             pullError(isRefresh, isPull, error.errorCode, error.errorMsg, stateData)
         }
     }
@@ -99,8 +103,12 @@ open class LoadingViewModel: BaseViewModel() {
     fun errorConsumer(dismissDialog: Boolean = true, errorToast: Boolean = true, next: (msg : String) -> Unit = {}): Consumer<Throwable> {
         return Consumer {
             val error = it.parse()
+            if(error.errorCode == ErrorStatus.CANCEL){
+                //主动发起的HTTP取消操作(UI在中断HTTP请求前自行处理，此处不在回调出去)
+                return@Consumer
+            }
+            //其他异常处理
             if (dismissDialog) dismissLoadingDialog()
-            //if (errorToast) showToast("code:${error.errorCode}, error:${error.errorMsg}")
             if (errorToast) showToast(error.errorMsg)
             next(error.errorMsg)
         }

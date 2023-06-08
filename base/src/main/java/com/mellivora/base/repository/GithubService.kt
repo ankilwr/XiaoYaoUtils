@@ -9,6 +9,12 @@ interface GithubService{
     @GET("users/{user}")
     fun getGithubUserInfo(
         @Path("user") user: String?
-    ): Call<Any>
+    ): Call<String>
+
+
+    @GET("users/{user}/repos")
+    fun getGithubRepositoryList(
+        @Path("user") user: String?
+    ): Call<String>
 
 }

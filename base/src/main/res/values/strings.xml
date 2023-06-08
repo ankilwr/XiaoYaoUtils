@@ -1,5 +1,7 @@
 <resources>
 
+    <string name="base_permission_denied">请在设置-权限开启[%s]权限</string>
+
     <string name="base_status_empty">暂时没有数据哟</string>
     <string name="base_status_error">加载失败</string>
     <string name="base_status_loading">正在加载</string>

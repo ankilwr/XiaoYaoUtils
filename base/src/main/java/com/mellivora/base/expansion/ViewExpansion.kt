@@ -12,7 +12,7 @@ import androidx.fragment.app.findFragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.mellivora.base.api.OnMultiClickListener
-import com.mellivora.base.utils.DisplayUtil
+import com.mellivora.base.utils.dp
 import kotlin.math.min
 
 
@@ -138,7 +138,7 @@ fun ViewGroup.inflate(layout: Int): View{
 fun View.round(radius: Float){
     this.outlineProvider = object : ViewOutlineProvider() {
         override fun getOutline(view: View, outline: Outline) {
-            outline.setRoundRect(0, 0, view.width, view.height, DisplayUtil.dp2px(radius).toFloat())
+            outline.setRoundRect(0, 0, view.width, view.height, radius.dp)
         }
     }
     this.clipToOutline = true

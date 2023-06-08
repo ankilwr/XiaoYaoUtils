@@ -16,8 +16,8 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.mellivora.base.R
-import com.mellivora.base.utils.DisplayUtil
 import com.mellivora.base.utils.Utils
+import com.mellivora.base.utils.dp
 import com.opensource.svgaplayer.SVGADrawable
 import com.opensource.svgaplayer.SVGAImageView
 import com.opensource.svgaplayer.SVGAParser
@@ -139,7 +139,7 @@ fun ImageView.loadRound(path: String?, dp: Float = 5f, resourceId: Int? = null) 
     loadRoundDrawable(path, dp, resource?.let{ContextCompat.getDrawable(context, it)})
 }
 
-fun ImageView.loadRoundDrawable(path: String?, dp: Float = 5f, resourceDrawable: Drawable? = null) {
+fun ImageView.loadRoundDrawable(path: String?, cornersSizeDp: Float = 5f, resourceDrawable: Drawable? = null) {
     if(this.uiIsDestroyed()) return
     var options = RequestOptions()
         .placeholder(resourceDrawable?: ContextCompat.getDrawable(this.context, R.drawable.base_default_image_round))
@@ -147,8 +147,8 @@ fun ImageView.loadRoundDrawable(path: String?, dp: Float = 5f, resourceDrawable:
         ImageView.ScaleType.FIT_CENTER -> FitCenter()
         else -> CenterCrop()
     }
-    if(dp > 0f){
-        options = options.transform(scaleType, RoundedCorners(DisplayUtil.dp2px(dp)))
+    if(cornersSizeDp > 0f){
+        options = options.transform(scaleType, RoundedCorners(cornersSizeDp.dp.toInt()))
     }
     val isGif = path?.endsWith(".gif", true) == true
     val glideBuilder = if (isGif) {

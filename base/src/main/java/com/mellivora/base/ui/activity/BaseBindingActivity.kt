@@ -26,8 +26,8 @@ abstract class BaseBindingActivity<T : ViewBinding>: FragmentActivity(), Loading
         setContentView(viewBinding.root)
         if(viewBinding is ViewDataBinding){
             (viewBinding as ViewDataBinding).lifecycleOwner = this
-            initBinding(viewBinding)
         }
+        initBinding(viewBinding)
         initViews()
     }
 

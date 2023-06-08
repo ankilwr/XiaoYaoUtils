@@ -2,12 +2,28 @@
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <com.mellivora.base.ui.widget.AppThemeBar
         style="@style/App_Theme_Red"
         app:barTitle="导航"/>
 
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnListDemo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:text="列表加载示例"/>
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnUserInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:text="测试测试"/>
 
 
 

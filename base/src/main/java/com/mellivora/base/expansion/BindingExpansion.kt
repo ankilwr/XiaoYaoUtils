@@ -44,7 +44,7 @@ object BindingExpansion {
     }
 
     @JvmStatic
-    @BindingAdapter("bindDecoration", requireAll = false)
+    @BindingAdapter("bindItemDecoration", requireAll = false)
     fun setRvDecoration(recyclerView: RecyclerView, decoration: RecyclerView.ItemDecoration?){
         if(recyclerView.itemDecorationCount == 0 && decoration != null){
             recyclerView.addItemDecoration(decoration)

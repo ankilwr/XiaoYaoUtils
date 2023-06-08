@@ -7,16 +7,6 @@ import android.view.WindowManager
 
 object DisplayUtil {
 
-    fun dp2px(dpValue: Float): Int {
-        val scale = Resources.getSystem().displayMetrics.density
-        return (dpValue * scale + 0.5f).toInt()
-    }
-
-    fun px2dp(pxValue: Int): Int {
-        val scale = Resources.getSystem().displayMetrics.density
-        return (pxValue / scale + 0.5f).toInt()
-    }
-
     fun getWindowWidth(): Int {
 //        val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
 //        val dm = DisplayMetrics()

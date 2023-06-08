@@ -18,7 +18,7 @@ open class BaseViewModel: ViewModel() {
      * 开启一个在UI线程运行的协程作用域
      * @param block: 声明继承当前作用域(suspend CoroutineScope)，否则为一个普通函数
      */
-    fun doUILaunch(block: (CoroutineContext) -> Unit): Job {
+    fun doUILaunch(block: suspend CoroutineScope.(CoroutineContext) -> Unit): Job {
         val job = uiScope.launch(Dispatchers.Main){
             block(this.coroutineContext)
         }

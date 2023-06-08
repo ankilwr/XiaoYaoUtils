@@ -41,11 +41,14 @@ fun Throwable?.parse(): ExceptionHandle {
         }
         //这两个异常辈分比较大，判断放在后面
         is SocketException, is IOException -> {
-            //java.io.IOException: Canceled
+            //java.net.SocketException: Socket is closed
             //java.net.SocketException: Socket closed
-            if (message?.contains("Socket closed") == true || message?.contains("Canceled") == true) {
-                errorInfo.errorMsg = "任务取消"
-                errorInfo.errorCode = ErrorStatus.CANCEL
+            //java.io.IOException: Canceled
+            message?.let {
+                if(it.contains("Socket is closed") || it.contains("Socket closed") || it.contains("Canceled")) {
+                    errorInfo.errorMsg = "Http Canceled"
+                    errorInfo.errorCode = ErrorStatus.CANCEL
+                }
             }
         }
         else -> {

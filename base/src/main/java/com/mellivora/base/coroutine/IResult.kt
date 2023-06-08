@@ -1,5 +1,6 @@
 package com.mellivora.base.coroutine
 
+import android.util.Log
 import androidx.core.util.Consumer
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -47,6 +48,7 @@ inline fun Throwable?.onCheckError(crossinline block: (Throwable) -> Unit){
 
 fun Throwable?.onCheckError(onError: Consumer<Throwable>){
     if(this == null) return
+    Log.i("测试测试", "onCheckError:$this")
     onError.accept(this)
 }
 

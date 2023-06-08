@@ -174,12 +174,6 @@ fun CharSequence?.joinToString(join: CharSequence = ""): CharSequence?{
     return builder
 }
 
-/**
- * 每段文本中间插入指定文本
- * @also [<T> Iterable<T>.joinToString]
- */
-@Deprecated("请使用<T> Iterable<T>.joinToString代替", ReplaceWith("this?.joinToString(xxx, xxx, xxx)"))
-fun List<String>?.joinToString(join: CharSequence = ""): String? = this?.joinToString<String>()
 
 /**
  * 格式化文本

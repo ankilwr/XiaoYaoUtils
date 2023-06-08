@@ -1,5 +1,6 @@
 package com.mellivora.base.ui.dialog
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -24,7 +25,8 @@ abstract class BaseBindingDialog<T : ViewBinding>: DialogFragment() {
     var viewBinding: T? = null
         private set
 
-    private val resultKey by lazy { this::class.java.name }
+    private val resultKey by lazy { "${javaClass.name}: onResult()" }
+    private val dismissKey by lazy { "${javaClass.name}: onDismiss()" }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val type: ParameterizedType = javaClass.genericSuperclass as ParameterizedType
@@ -53,10 +55,14 @@ abstract class BaseBindingDialog<T : ViewBinding>: DialogFragment() {
     }
 
     fun setOnDismissListener(manager: FragmentManager, lifecycleOwner: LifecycleOwner, onDismiss:(()->Unit)? = null){
-        val dismissKey = "${this.javaClass.name}: onDismiss()"
         manager.setFragmentResultListener(dismissKey, lifecycleOwner){ _, _ ->
             onDismiss?.invoke()
         }
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        setFragmentResult(dismissKey, Bundle())
     }
 
 
