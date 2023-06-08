@@ -17,6 +17,13 @@
         android:ellipsize="end"
         android:text="列表加载示例"/>
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnPermissionDemo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:text="权限请求示例"/>
+
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnUserInfo"
