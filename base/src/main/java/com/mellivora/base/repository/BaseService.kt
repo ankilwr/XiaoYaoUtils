@@ -3,6 +3,7 @@ package com.mellivora.base.repository
 import android.util.Log
 import com.mellivora.base.http.converter.CopyGsonConverterFactory
 import com.mellivora.base.http.interceptor.CacheModeInterceptor
+import com.mellivora.base.http.interceptor.CacheModeRequestInterceptor
 import com.mellivora.base.utils.Utils
 import okhttp3.Cache
 import okhttp3.OkHttpClient
@@ -24,10 +25,11 @@ interface BaseService {
 
             OkHttpClient().newBuilder()
                 .cache(Cache(File(Utils.getApp().cacheDir, "http-cache"), 50L * 1024L * 1024L)) // 50 MiB
-                .addNetworkInterceptor(CacheModeInterceptor())
                 .connectTimeout(15L, TimeUnit.SECONDS)
                 .readTimeout(15L, TimeUnit.SECONDS)
                 .writeTimeout(15L, TimeUnit.SECONDS)
+                .addNetworkInterceptor(CacheModeInterceptor())
+                .addInterceptor(CacheModeRequestInterceptor())
                 .addInterceptor(logInterceptor)
                 .build()
         }

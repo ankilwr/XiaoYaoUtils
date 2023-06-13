@@ -18,11 +18,6 @@ object CacheMode{
      */
     const val MODE_CACHE_EXPIRATION = "mode-cache-expiration"
 
-    /**
-     * 只使用缓存
-     */
-    const val MODE_CACHE_ONLY = "mode-cache-only"
-
 }
 
 object CacheManager {

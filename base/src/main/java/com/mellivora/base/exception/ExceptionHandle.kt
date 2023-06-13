@@ -6,6 +6,7 @@ import com.mellivora.base.R
 import com.mellivora.base.expansion.getResString
 import kotlinx.coroutines.CancellationException
 import org.json.JSONException
+import retrofit2.HttpException
 import java.io.IOException
 import java.net.ConnectException
 import java.net.SocketException
@@ -38,6 +39,10 @@ fun Throwable?.parse(): ExceptionHandle {
         is JsonParseException, is JSONException, is ParseException, is MalformedJsonException -> {
             errorInfo.errorMsg = getResString(R.string.base_http_server_error)
             errorInfo.errorCode = ErrorStatus.API_ERROR
+        }
+        is HttpException -> {
+            errorInfo.errorMsg = this.message()
+            errorInfo.errorCode = this.code()
         }
         //这两个异常辈分比较大，判断放在后面
         is SocketException, is IOException -> {
