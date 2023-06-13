@@ -14,15 +14,29 @@ open class BaseViewModel: ViewModel() {
     private val uiScope = CoroutineScope(SupervisorJob())
 
     // ---------------------------  协程处理 --------------------------------------
-    /**
-     * 开启一个在UI线程运行的协程作用域
-     * @param block: 声明继承当前作用域(suspend CoroutineScope)，否则为一个普通函数
-     */
     fun doUILaunch(block: suspend CoroutineScope.(CoroutineContext) -> Unit): Job {
-        val job = uiScope.launch(Dispatchers.Main){
+        return doUILaunch(block, null)
+    }
+
+    /**
+     * 开启一个在UI线程运行的协程作用域，使用该API创建的作用域，出异常时互不影响
+     * @param block: 声明继承当前作用域(suspend CoroutineScope)，否则为一个普通函数
+     * @param onError: 子协程｜当前作用域抛出的异常 (当前协程launch作用域将被关闭)
+     */
+    fun doUILaunch(block: suspend CoroutineScope.(CoroutineContext) -> Unit, handler: CoroutineExceptionHandler? = null): Job {
+        val exceptionHandler = handler ?: CoroutineExceptionHandler { context, e ->
+            e.printStackTrace()
+        }
+        val job = uiScope.launch(Dispatchers.Main + exceptionHandler){
             block(this.coroutineContext)
         }
         return job
+    }
+
+    fun <T> CoroutineScope.doAsync(
+        block: suspend CoroutineScope.() -> T
+    ): Deferred<T> {
+        return async(Dispatchers.IO, block = block)
     }
 
 

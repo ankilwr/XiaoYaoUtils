@@ -13,7 +13,10 @@ import com.mellivora.base.repository.BaseService
 import com.mellivora.base.ui.activity.BaseBindingActivity
 import com.mellivora.base.vm.LoadingViewModel
 import com.shihang.kotlin.databinding.ActivityMainBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 
 class MainActivity: BaseBindingActivity<ActivityMainBinding>(){
 
@@ -40,18 +43,18 @@ class MainActivity: BaseBindingActivity<ActivityMainBinding>(){
     class MainVm: LoadingViewModel(){
 
         fun loadGithubUserInfo(){
-            val job = doUILaunch {
+            val job = doUILaunch{
                 doIOResult {
                     delay(1000L)
-                    Log.i("测试测试", "startCall")
                     val call = BaseService.githubService.getGithubUserInfo("ankilwr")
-                    Log.i("测试测试", "call:$call")
                     call.suspendExecute()
                 }.onCheckSuccess {
+                    Log.i("测试测试", "onCheckSuccess")
                     dismissLoadingDialog()
-                    Log.i("测试测试", "onCheckSuccess(${it::class.simpleName}: $it)")
-                    showToast(it.toString())
-                }.onCheckError(errorConsumer())
+                    showToast(it)
+                }.onCheckError(errorConsumer{
+                    Log.i("测试测试", "onCheckError:$it")
+                })
             }
             showLoadingDialog(job)
         }

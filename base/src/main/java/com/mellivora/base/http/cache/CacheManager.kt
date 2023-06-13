@@ -1,14 +1,31 @@
 package com.mellivora.base.http.cache
 
 
+object CacheMode{
+
+    /**
+     * 无缓存
+     */
+    const val MODE_NO_CACHE = "mode-no-cache"
+
+    /**
+     * 今日有效
+     */
+    const val MODE_CACHE_TODAY = "mode-today"
+
+    /**
+     * 有效期(单位：秒)
+     */
+    const val MODE_CACHE_EXPIRATION = "mode-cache-expiration"
+
+    /**
+     * 只使用缓存
+     */
+    const val MODE_CACHE_ONLY = "mode-cache-only"
+
+}
+
 object CacheManager {
-
-    const val CACHE_MODE_KEY = "Cache-Control"
-
-    const val CACHE_MODE_NO_CACHE = "no-cache"
-
-    const val CACHE_MODE_TODAY = "CACHE_MODE_TODAY"
-
-    //const val CACHE_MODE_CACHE = "max-age=600"
-
+    const val CACHE_MODE = "Cache-Mode"
+    const val CACHE_VALUE = "Cache-Value"
 }

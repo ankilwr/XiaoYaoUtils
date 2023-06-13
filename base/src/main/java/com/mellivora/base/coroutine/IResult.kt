@@ -48,7 +48,6 @@ inline fun Throwable?.onCheckError(crossinline block: (Throwable) -> Unit){
 
 fun Throwable?.onCheckError(onError: Consumer<Throwable>){
     if(this == null) return
-    Log.i("测试测试", "onCheckError:$this")
     onError.accept(this)
 }
 

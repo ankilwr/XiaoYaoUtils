@@ -243,4 +243,13 @@ fun CharSequence.isUrl(): Boolean {
     return mat.matches()
 }
 
+fun CharSequence?.isSpace(): Boolean {
+    if (this == null) return true;
+    for (i in indices){
+        if (!Character.isWhitespace(this[i])) {
+            return false
+        }
+    }
+    return true
+}
 

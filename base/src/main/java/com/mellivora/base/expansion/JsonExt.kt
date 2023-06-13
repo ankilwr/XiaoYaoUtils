@@ -21,22 +21,12 @@ inline fun <reified T> String?.jsonConvertBeanThrow(typeToken: TypeToken<T> = ob
     return Gson().fromJson(this, typeToken.type)
 }
 
-
-fun Serializable?.toJson(): String?{
+fun Any?.toJson(): String?{
     if(this == null){
         return null
     }
     return GsonBuilder().create().toJson(this)
 }
-
-fun Parcelable?.toJson(): String?{
-    if(this == null){
-        return null
-    }
-    return GsonBuilder().create().toJson(this)
-}
-
-
 
 inline fun <reified T> List<T>?.toJson(): String?{
     if(this == null){
