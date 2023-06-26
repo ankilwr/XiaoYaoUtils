@@ -2,13 +2,12 @@ package com.mellivora.base.repository
 
 import android.util.Log
 import com.mellivora.base.http.converter.CopyGsonConverterFactory
-import com.mellivora.base.http.interceptor.CacheModeInterceptor
 import com.mellivora.base.http.interceptor.CacheModeRequestInterceptor
+import com.mellivora.base.http.interceptor.CacheModeResponseInterceptor
 import com.mellivora.base.utils.Utils
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Call
 import retrofit2.Retrofit
 import java.io.File
 import java.util.concurrent.TimeUnit
@@ -28,7 +27,7 @@ interface BaseService {
                 .connectTimeout(15L, TimeUnit.SECONDS)
                 .readTimeout(15L, TimeUnit.SECONDS)
                 .writeTimeout(15L, TimeUnit.SECONDS)
-                .addNetworkInterceptor(CacheModeInterceptor())
+                .addNetworkInterceptor(CacheModeResponseInterceptor())
                 .addInterceptor(CacheModeRequestInterceptor())
                 .addInterceptor(logInterceptor)
                 .build()

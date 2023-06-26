@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit
 /**
  * 根据缓存策略，保存请求结果(获取到网络结果后保存)
  */
-class CacheModeInterceptor : Interceptor {
+class CacheModeResponseInterceptor : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
@@ -88,14 +88,10 @@ fun getCacheControl(cacheMode: String?, cacheValue: String?): CacheControl?{
         }
         //指定缓存有效期
         CacheMode.MODE_CACHE_EXPIRATION -> {
-            val cacheTime = cacheValue?.toIntOrNull()
-            if(cacheTime != null){
-                CacheControl.Builder()
-                    .maxAge(cacheTime, TimeUnit.SECONDS)
-                    .build()
-            }else{
-                null
-            }
+            val cacheTime = cacheValue?.toIntOrNull() ?: return null
+            CacheControl.Builder()
+                .maxAge(cacheTime, TimeUnit.SECONDS)
+                .build()
         }
         else -> null
     }
