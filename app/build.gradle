@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-android'
+    id 'kotlin-kapt'
 }
 
 
@@ -18,8 +19,12 @@ android {
     }
 
     buildFeatures {
-        dataBinding true
         viewBinding true
+        dataBinding true
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion "$compose_kotlin_compiler_version"
     }
 
     buildTypes {
