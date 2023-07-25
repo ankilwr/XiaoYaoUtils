@@ -7,11 +7,11 @@ plugins {
 
 android {
     namespace 'com.mellivora.base'
-    compileSdk 32
+    compileSdk 34
 
     defaultConfig {
         minSdk 23
-        targetSdk 32
+        targetSdk 33
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -32,19 +32,29 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
 }
 
 dependencies {
 
     //compose
+    api "com.google.accompanist:accompanist-insets:0.16.0"
+    api "com.google.accompanist:accompanist-systemuicontroller:0.30.1"
     api "androidx.compose.ui:ui-tooling:1.4.3"
     api "androidx.compose.material:material:1.4.3"
     api "androidx.activity:activity-compose:1.7.2"
-    api "androidx.constraintlayout:constraintlayout-compose:1.0.1"
+    //compose网络图片加载库
+    api "io.coil-kt:coil-compose:2.4.0"
+    //livedata转state
+    api "androidx.compose.runtime:runtime-livedata:1.6.0-alpha01"
+
 
     //Kotlin协程
-    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
-    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1"
 
     //Jetpack AndroidX
     api "androidx.multidex:multidex:2.0.1"
@@ -52,7 +62,7 @@ dependencies {
     api "androidx.core:core-ktx:1.10.1"
     //api "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1"
     api "androidx.activity:activity-ktx:1.7.2"
-    api "androidx.fragment:fragment-ktx:1.5.7"
+    api "androidx.fragment:fragment-ktx:1.6.0"
     api "androidx.constraintlayout:constraintlayout:2.1.4"
     api "androidx.recyclerview:recyclerview:1.3.0"
     api "androidx.viewpager2:viewpager2:1.1.0-beta02"

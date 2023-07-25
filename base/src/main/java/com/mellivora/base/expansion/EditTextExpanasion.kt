@@ -1,5 +1,6 @@
 package com.mellivora.base.expansion
 
+import android.content.Context
 import android.text.*
 import android.text.method.DigitsKeyListener
 import android.text.method.HideReturnsTransformationMethod
@@ -9,6 +10,7 @@ import android.view.ActionMode
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -42,9 +44,9 @@ fun EditText.editable(enable: Boolean) {
 }
 
 fun View.hideSoftInputFromWindow() {
-    val controller = ViewCompat.getWindowInsetsController(this)
-    controller?.hide(WindowInsetsCompat.Type.ime())
-    //(this.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(this.windowToken, 0)
+    //val controller = ViewCompat.getWindowInsetsController(this)
+    //controller?.hide(WindowInsetsCompat.Type.ime())
+    (this.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(this.windowToken, 0)
 }
 
 fun EditText.showSoftInputFromWindow() {

@@ -13,10 +13,7 @@ import com.mellivora.base.repository.BaseService
 import com.mellivora.base.ui.activity.BaseBindingActivity
 import com.mellivora.base.vm.LoadingViewModel
 import com.shihang.kotlin.databinding.ActivityMainBinding
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.withContext
 
 class MainActivity: BaseBindingActivity<ActivityMainBinding>(){
 
@@ -33,6 +30,10 @@ class MainActivity: BaseBindingActivity<ActivityMainBinding>(){
         }
         viewBinding.btnPermissionDemo.setMultipleClick {
             val intent = createIntent(PermissionActivity::class.java)
+            it.context.startActivity(intent)
+        }
+        viewBinding.btnCompose.setMultipleClick {
+            val intent = createIntent(ComposeActivity::class.java)
             it.context.startActivity(intent)
         }
         viewBinding.btnUserInfo.setMultipleClick {

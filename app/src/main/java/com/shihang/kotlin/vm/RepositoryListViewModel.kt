@@ -24,7 +24,12 @@ class RepositoryListViewModel: LoadingViewModel(){
                 val call = BaseService.githubService.getGithubRepositoryList("ankilwr")
                 call.executeConvert<MutableList<GithubRepositoryBean>>()
             }.onCheckSuccess {
-                dataList.value = it
+                val newList = mutableListOf<GithubRepositoryBean>()
+                if(!isRefresh){
+                    dataList.value?.let { oldList -> newList.addAll(oldList) }
+                }
+                newList.addAll(it)
+                dataList.value = newList
                 pullSuccess(isRefresh, isPullAction, false)
             }.onCheckError(pullErrorConsumer(isRefresh, isPullAction))
         }

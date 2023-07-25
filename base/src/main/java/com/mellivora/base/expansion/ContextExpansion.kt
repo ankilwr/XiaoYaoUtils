@@ -16,13 +16,17 @@ import android.graphics.drawable.StateListDrawable
 import android.net.Uri
 import android.os.Build
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.ColorInt
 import androidx.annotation.DimenRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
 import com.mellivora.base.utils.Utils
 
 fun Context?.getActivity(): Activity? {
@@ -142,7 +146,6 @@ fun getSelectDrawable(@DrawableRes normal: Int, @DrawableRes selected: Int): Sta
 }
 
 
-
 fun Context.getStatusBarHeight(): Int {
     try {
         val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
@@ -153,14 +156,40 @@ fun Context.getStatusBarHeight(): Int {
     return 0
 }
 
-fun Activity.setFullEnable(enable: Boolean){
-    //WindowCompat.setDecorFitsSystemWindows(window, !enable)
-    val flags = window.decorView.systemUiVisibility
+fun Activity.setFullEnable(enable: Boolean, adjustResizeView: View? = null){
+    WindowCompat.setDecorFitsSystemWindows(window, !enable)
     if(enable){
-        window.decorView.systemUiVisibility = flags or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
         window.statusBarColor = Color.TRANSPARENT
     }else{
-        window.decorView.systemUiVisibility = flags xor View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        val attribute = intArrayOf(android.R.attr.colorPrimaryDark)
+        val array = theme.obtainStyledAttributes(attribute)
+        window.statusBarColor = array.getColor(0, Color.TRANSPARENT)
+        array.recycle()
+    }
+//    val flags = window.decorView.systemUiVisibility
+//    if(enable){
+//        window.decorView.systemUiVisibility = flags or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+//        window.statusBarColor = Color.TRANSPARENT
+//    }else{
+//        window.decorView.systemUiVisibility = flags xor View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+//    }
+    //fix: android:fitsSystemWindows="true"时，android:windowSoftInputMode="adjustResize"失效的问题
+    adjustResizeView ?: return
+    if(enable){
+        ViewCompat.setOnApplyWindowInsetsListener(window.decorView) { v, insets ->
+            val isKeyboardVisible = insets.isVisible(WindowInsetsCompat.Type.ime())
+            val keyboardHeight = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom
+            adjustResizeView.updateLayoutParams {
+                height = if(isKeyboardVisible){
+                    adjustResizeView.height - keyboardHeight
+                }else{
+                    ViewGroup.LayoutParams.MATCH_PARENT
+                }
+            }
+            insets
+        }
+    }else{
+        ViewCompat.setOnApplyWindowInsetsListener(window.decorView, null)
     }
 }
 

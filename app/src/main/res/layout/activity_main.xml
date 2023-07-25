@@ -26,6 +26,15 @@
 
 
     <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnCompose"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:text="Compose体验"/>
+
+
+
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnUserInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
