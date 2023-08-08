@@ -21,14 +21,6 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="BlackStatus.ActionBar" parent="AppTheme.ActionBar">
-        <item name="android:windowLightStatusBar">true</item>
-    </style>
-
-    <style name="BlackStatus.NoActionBar" parent="AppTheme.NoActionBar">
-        <item name="android:windowLightStatusBar">true</item>
-    </style>
-
 
     <!-- 透明主题 -->
     <style name="App_Theme_Transparent">

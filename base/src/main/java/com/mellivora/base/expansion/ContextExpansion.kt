@@ -17,15 +17,19 @@ import android.net.Uri
 import android.os.Build
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.annotation.ColorInt
 import androidx.annotation.DimenRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ComponentActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.updateLayoutParams
 import com.mellivora.base.utils.Utils
 
@@ -156,15 +160,33 @@ fun Context.getStatusBarHeight(): Int {
     return 0
 }
 
-fun Activity.setFullEnable(enable: Boolean, adjustResizeView: View? = null){
+fun Activity.actionBarEnable(enable: Boolean){
+    if(this is AppCompatActivity){
+        supportActionBar?.let { if(enable) it.show() else it.hide() }
+    }
+    actionBar?.let { if(enable) it.show() else it.hide() }
+}
+
+fun Activity.setFullEnable(enable: Boolean){
     WindowCompat.setDecorFitsSystemWindows(window, !enable)
-    if(enable){
-        window.statusBarColor = Color.TRANSPARENT
-    }else{
-        val attribute = intArrayOf(android.R.attr.colorPrimaryDark)
-        val array = theme.obtainStyledAttributes(attribute)
-        window.statusBarColor = array.getColor(0, Color.TRANSPARENT)
-        array.recycle()
+    WindowCompat.getInsetsController(window, window.decorView).let {
+        if(enable){
+            it.hide(WindowInsetsCompat.Type.captionBar())
+        }else{
+            it.show(WindowInsetsCompat.Type.captionBar())
+        }
+        actionBarEnable(!enable)
+    }
+    window?.let {
+        it.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        if(enable){
+            it.statusBarColor = Color.TRANSPARENT
+        }else{
+            val attribute = intArrayOf(android.R.attr.colorPrimaryDark)
+            val array = theme.obtainStyledAttributes(attribute)
+            it.statusBarColor = array.getColor(0, Color.TRANSPARENT)
+            array.recycle()
+        }
     }
 //    val flags = window.decorView.systemUiVisibility
 //    if(enable){
@@ -174,23 +196,23 @@ fun Activity.setFullEnable(enable: Boolean, adjustResizeView: View? = null){
 //        window.decorView.systemUiVisibility = flags xor View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
 //    }
     //fix: android:fitsSystemWindows="true"时，android:windowSoftInputMode="adjustResize"失效的问题
-    adjustResizeView ?: return
-    if(enable){
-        ViewCompat.setOnApplyWindowInsetsListener(window.decorView) { v, insets ->
-            val isKeyboardVisible = insets.isVisible(WindowInsetsCompat.Type.ime())
-            val keyboardHeight = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom
-            adjustResizeView.updateLayoutParams {
-                height = if(isKeyboardVisible){
-                    adjustResizeView.height - keyboardHeight
-                }else{
-                    ViewGroup.LayoutParams.MATCH_PARENT
-                }
-            }
-            insets
-        }
-    }else{
-        ViewCompat.setOnApplyWindowInsetsListener(window.decorView, null)
-    }
+//    adjustResizeView ?: return
+//    if(enable){
+//        ViewCompat.setOnApplyWindowInsetsListener(window.decorView) { v, insets ->
+//            val isKeyboardVisible = insets.isVisible(WindowInsetsCompat.Type.ime())
+//            val keyboardHeight = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom
+//            adjustResizeView.updateLayoutParams {
+//                height = if(isKeyboardVisible){
+//                    adjustResizeView.height - keyboardHeight
+//                }else{
+//                    ViewGroup.LayoutParams.MATCH_PARENT
+//                }
+//            }
+//            insets
+//        }
+//    }else{
+//        ViewCompat.setOnApplyWindowInsetsListener(window.decorView, null)
+//    }
 }
 
 fun Activity.setLightModel(enable: Boolean){

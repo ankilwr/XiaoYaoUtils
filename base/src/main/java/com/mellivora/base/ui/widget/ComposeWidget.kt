@@ -7,10 +7,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.material.Colors
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
@@ -27,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.google.accompanist.insets.statusBarsHeight
+import com.google.accompanist.insets.statusBarsPadding
 import com.mellivora.base.R
 import com.mellivora.base.glide.loadAssets
 import com.mellivora.base.glide.loadUrl
@@ -54,12 +59,15 @@ fun DefaultAppTheme(
                 .fillMaxWidth()
                 .background(MaterialTheme.colors.background)
         ) {
-            Column(Modifier.background(MaterialTheme.colors.primary)) {
-                Spacer(Modifier.statusBarsHeight())
+            Column(Modifier
+                .background(MaterialTheme.colors.primary)
+            ) {
+                Spacer(Modifier.windowInsetsTopHeight(WindowInsets.statusBars))
                 Box(
                     Modifier
                         .fillMaxWidth()
-                        .height(50.dp)) {
+                        .height(50.dp)
+                ) {
                     Icon(
                         painter = painterResource(id = R.drawable.base_icon_back_white),
                         contentDescription = "返回",

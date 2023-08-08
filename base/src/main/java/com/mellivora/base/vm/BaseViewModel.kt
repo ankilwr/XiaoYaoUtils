@@ -2,6 +2,7 @@ package com.mellivora.base.vm
 
 import androidx.core.util.Consumer
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.mellivora.base.bean.BaseData
 import com.mellivora.base.exception.DataCheckException
 import com.mellivora.base.exception.ErrorStatus
