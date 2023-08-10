@@ -1,6 +1,5 @@
 package com.mellivora.base.expansion
 
-import android.os.Parcelable
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken

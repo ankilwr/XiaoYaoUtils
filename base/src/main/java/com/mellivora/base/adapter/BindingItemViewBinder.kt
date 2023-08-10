@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.viewbinding.ViewBinding
 import com.drakeet.multitype.ItemViewBinder
-import com.mmc.almanac.adapter.RecyclerHolder
 
 /**
  * ItemViewBinder

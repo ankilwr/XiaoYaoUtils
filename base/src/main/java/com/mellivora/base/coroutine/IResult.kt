@@ -1,6 +1,5 @@
 package com.mellivora.base.coroutine
 
-import android.util.Log
 import androidx.core.util.Consumer
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope

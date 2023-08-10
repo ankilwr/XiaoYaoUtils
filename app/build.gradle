@@ -24,11 +24,9 @@ android {
         dataBinding true
         compose true
     }
-
     composeOptions {
         kotlinCompilerExtensionVersion libraryVersions.compose_compiler_version
     }
-
     kotlinOptions {
         jvmTarget = "17"
     }

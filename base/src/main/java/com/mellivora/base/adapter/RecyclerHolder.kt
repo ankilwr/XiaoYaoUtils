@@ -1,4 +1,4 @@
-package com.mmc.almanac.adapter
+package com.mellivora.base.adapter
 
 import android.content.Context
 import android.graphics.drawable.Drawable
