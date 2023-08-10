@@ -4,6 +4,7 @@ import android.util.MalformedJsonException
 import com.google.gson.JsonParseException
 import com.mellivora.base.R
 import com.mellivora.base.expansion.getResString
+import com.mellivora.base.utils.LogUtils
 import kotlinx.coroutines.CancellationException
 import org.json.JSONException
 import retrofit2.HttpException
@@ -20,18 +21,15 @@ class ExceptionHandle(
 }
 
 fun Throwable?.parse(): ExceptionHandle {
+    if(LogUtils.getConfig().isLogSwitch){
+        this?.printStackTrace()
+    }
     val errorInfo = ExceptionHandle()
     when (this) {
-        is CancellationException -> {
-            errorInfo.errorMsg = ""
-            errorInfo.errorCode = ErrorStatus.CANCEL
-        }
-
         is DataCheckException -> {
             errorInfo.errorMsg = if (message.isNullOrEmpty()) getResString(R.string.base_http_server_error) else message!!
             errorInfo.errorCode = ErrorStatus.API_ERROR
         }
-
         is SocketTimeoutException, is ConnectException, is UnknownHostException -> {
             errorInfo.errorMsg = getResString(R.string.base_http_net_work_error)
             errorInfo.errorCode = ErrorStatus.NETWORK_ERROR
@@ -43,6 +41,10 @@ fun Throwable?.parse(): ExceptionHandle {
         is HttpException -> {
             errorInfo.errorMsg = this.message()
             errorInfo.errorCode = this.code()
+        }
+        is CancellationException -> {
+            errorInfo.errorMsg = "Task Canceled"
+            errorInfo.errorCode = ErrorStatus.CANCEL
         }
         //这两个异常辈分比较大，判断放在后面
         is SocketException, is IOException -> {
