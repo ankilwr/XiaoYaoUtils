@@ -8,13 +8,12 @@ import com.mellivora.base.coroutine.onCheckSuccess
 import com.mellivora.base.expansion.createIntent
 import com.mellivora.base.expansion.setMultipleClick
 import com.mellivora.base.expansion.showToast
-import com.mellivora.base.http.executeConvert
-import com.mellivora.base.repository.BaseService
+import com.mellivora.data.repository.http.executeConvert
 import com.mellivora.base.ui.activity.BaseBindingActivity
 import com.mellivora.base.vm.LoadingViewModel
+import com.mellivora.data.repository.service.BaseService
 import com.shihang.kotlin.bean.GithubUserBean
 import com.shihang.kotlin.databinding.ActivityMainBinding
-import kotlinx.coroutines.delay
 
 class MainActivity: BaseBindingActivity<ActivityMainBinding>(){
 

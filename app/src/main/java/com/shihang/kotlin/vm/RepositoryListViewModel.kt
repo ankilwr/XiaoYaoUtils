@@ -4,9 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import com.mellivora.base.coroutine.doIOResult
 import com.mellivora.base.coroutine.onCheckError
 import com.mellivora.base.coroutine.onCheckSuccess
-import com.mellivora.base.http.executeConvert
-import com.mellivora.base.repository.BaseService
+import com.mellivora.data.repository.http.executeConvert
 import com.mellivora.base.vm.LoadingViewModel
+import com.mellivora.data.repository.service.BaseService
 import com.shihang.kotlin.bean.GithubRepositoryBean
 
 
