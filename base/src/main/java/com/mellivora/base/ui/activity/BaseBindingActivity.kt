@@ -6,7 +6,6 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.FragmentActivity
 import androidx.viewbinding.ViewBinding
 import com.mellivora.base.api.LoadingDialogApi
-import com.mellivora.base.ui.dialog.LoadingDialog
 import java.lang.reflect.Method
 import java.lang.reflect.ParameterizedType
 

@@ -7,12 +7,13 @@ plugins {
 
 
 android {
-    compileSdkVersion 34
     defaultConfig {
         applicationId "com.shihang.kotlin"
         namespace = applicationId
+        compileSdk 34
         minSdkVersion 23
         targetSdkVersion 33
+
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -23,8 +24,17 @@ android {
         dataBinding true
         compose true
     }
+
     composeOptions {
-        kotlinCompilerExtensionVersion "$compose_kotlin_compiler_version"
+        kotlinCompilerExtensionVersion libraryVersions.compose_compiler_version
+    }
+
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     buildTypes {
@@ -33,16 +43,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
-    }
 }
 
 dependencies {
     testImplementation 'junit:junit:4.13.2'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    api project(":base")
+    api project(":base-binding")
+    api project(":base-compose")
 
 }

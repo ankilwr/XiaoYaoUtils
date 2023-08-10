@@ -11,21 +11,13 @@ import android.widget.*
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
 import com.drakeet.multitype.MultiTypeAdapter
 import com.mellivora.base.R
 import com.mellivora.base.adapter.BaseMultiTypeAdapter
 import com.mellivora.base.ui.widget.multiple.MultipleStatusView
 import com.mellivora.base.exception.ErrorStatus
-import com.mellivora.base.glide.load
-import com.mellivora.base.glide.loadAssets
-import com.mellivora.base.glide.loadCircleDrawable
-import com.mellivora.base.glide.loadDefaultDrawable
-import com.mellivora.base.glide.loadRoundDrawable
-import com.mellivora.base.glide.loadUrl
 import com.mellivora.base.state.LoadingState
 import com.mellivora.base.state.PullState
-import com.opensource.svgaplayer.SVGAImageView
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener
@@ -215,50 +207,6 @@ object BindingExpansion {
     fun round(view: View, radiusSize: Float) {
         view.round(radiusSize)
     }
-
-    /**
-     * 无展位图加载-设置了展位图的情况下，转为imageRectUrl加载
-     */
-    @JvmStatic
-    @BindingAdapter("bindImageUrl", "bindPlaceholderSrc", requireAll = false)
-    fun imageUrl(imageView: ImageView, path: String?, placeholderSrc: Drawable? = null) {
-        if(placeholderSrc != null){
-            imageView.loadDefaultDrawable(path, placeholderSrc)
-        }else{
-            imageView.load(path)
-        }
-    }
-
-    @JvmStatic
-    @BindingAdapter("bindImageRectUrl", "bindPlaceholderSrc", requireAll = false)
-    fun imageRectUrl(imageView: ImageView, path: String?, placeholderSrc: Drawable? = null) {
-        imageView.loadDefaultDrawable(path, placeholderSrc)
-    }
-
-    @JvmStatic
-    @BindingAdapter("bindImageRoundUrl", "bindImageRoundSize", "bindPlaceholderSrc", requireAll = false)
-    fun imageRoundUrl(imageView: ImageView, path: String?, round: Float? = 5f, placeholderSrc: Drawable? = null) {
-        imageView.loadRoundDrawable(path, round?:5f, placeholderSrc)
-    }
-
-    @JvmStatic
-    @BindingAdapter("bindImageCircleUrl", "bindPlaceholderSrc", requireAll = false)
-    fun imageCircleUrl(imageView: ImageView, path: String?, placeholderSrc: Drawable? = null) {
-        imageView.loadCircleDrawable(path, placeholderSrc)
-    }
-
-    @JvmStatic
-    @BindingAdapter("bindSvgaImageUrl", "bindPlaceholderSrc", requireAll = false)
-    fun svgaImageLoad(imageView: SVGAImageView, path: String?, placeholderSrc: Drawable? = null) {
-        imageView.loadUrl(path?:"", placeholderSrc)
-    }
-
-    @JvmStatic
-    @BindingAdapter("bindSvgaAssets", requireAll = false)
-    fun svgaImageLoad(imageView: SVGAImageView, assetsPath: String?) {
-        imageView.loadAssets(assetsPath?:"")
-    }
-
 
     @JvmStatic
     @BindingAdapter("bindText", "bindAppendText", "bindAppendColor", requireAll = true)

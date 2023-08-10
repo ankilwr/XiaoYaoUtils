@@ -20,10 +20,6 @@ android {
     buildFeatures {
         viewBinding true
         dataBinding true
-        compose true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion "$compose_kotlin_compiler_version"
     }
 
     buildTypes {
@@ -39,18 +35,6 @@ android {
 }
 
 dependencies {
-
-    //compose
-    api "com.google.accompanist:accompanist-insets:0.16.0"
-    api "com.google.accompanist:accompanist-systemuicontroller:0.30.1"
-    api "androidx.compose.ui:ui-tooling:1.4.3"
-    api "androidx.compose.material:material:1.4.3"
-    api "androidx.activity:activity-compose:1.7.2"
-    //compose网络图片加载库
-    api "io.coil-kt:coil-compose:2.4.0"
-    //livedata转state
-    api "androidx.compose.runtime:runtime-livedata:1.6.0-alpha01"
-
 
     //Kotlin协程
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1"
@@ -78,23 +62,11 @@ dependencies {
     api 'com.squareup.retrofit2:converter-gson:2.9.0'
 
 
-    //图片加载库
-    api "com.github.bumptech.glide:glide:4.12.0"
-    kapt "com.github.bumptech.glide:compiler:4.12.0"
-    //Glide扩展库(高斯模糊)
-    api("jp.wasabeef:glide-transformations:4.3.0") {
-        //这个库里面用了Glide4.9.0
-        exclude group: 'com.github.bumptech.glide'
-    }
-    //SVGA动画
-    api 'com.github.yyued:SVGAPlayer-Android:2.6.1'
-
     //下拉刷新
     api "io.github.scwang90:refresh-layout-kernel:2.0.6"
     api "io.github.scwang90:refresh-header-classics:2.0.6"
 
     //adapter适配器
     api "com.drakeet.multitype:multitype:4.2.0"
-
 
 }

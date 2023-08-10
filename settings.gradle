@@ -1,2 +1,4 @@
 include ':app'
 include ':base'
+include ':base-compose'
+include ':base-binding'

@@ -160,23 +160,32 @@ fun Context.getStatusBarHeight(): Int {
     return 0
 }
 
-fun Activity.actionBarEnable(enable: Boolean){
+/**
+ * 是否展示系统标题栏
+ */
+fun Activity.captionBarEnable(enable: Boolean){
+    //【Compose|XML】都生效
     if(this is AppCompatActivity){
         supportActionBar?.let { if(enable) it.show() else it.hide() }
     }
     actionBar?.let { if(enable) it.show() else it.hide() }
-}
-
-fun Activity.setFullEnable(enable: Boolean){
-    WindowCompat.setDecorFitsSystemWindows(window, !enable)
+    //XML生效
     WindowCompat.getInsetsController(window, window.decorView).let {
         if(enable){
-            it.hide(WindowInsetsCompat.Type.captionBar())
-        }else{
             it.show(WindowInsetsCompat.Type.captionBar())
+        }else{
+            it.hide(WindowInsetsCompat.Type.captionBar())
         }
-        actionBarEnable(!enable)
     }
+}
+
+/**
+ * 内容是否填充至状态栏底部(同时隐藏标题栏)
+ * @param enable：true
+ */
+fun Activity.setFullEnable(enable: Boolean){
+    WindowCompat.setDecorFitsSystemWindows(window, !enable)
+    captionBarEnable(!enable)
     window?.let {
         it.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         if(enable){
