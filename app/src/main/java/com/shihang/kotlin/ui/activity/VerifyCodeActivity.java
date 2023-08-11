@@ -25,6 +25,7 @@ public class VerifyCodeActivity extends AppCompatActivity {
         //在原来R.layout.xxx的基础上获取ViewBinding
         View view = findViewById(R.id.contentRootLayout);
         ActivityCodeDemoBinding binding = ActivityCodeDemoBinding.bind(view);
+        binding.appThemeBar.setLeftIconClick(v -> finish());
 
         VerifyCodeFragment getVerifyCodeFragment = new VerifyCodeFragment();
         getSupportFragmentManager()
