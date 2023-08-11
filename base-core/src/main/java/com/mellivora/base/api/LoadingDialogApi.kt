@@ -39,3 +39,10 @@ interface LoadingDialogApi {
     }
 
 }
+
+/**
+ * 获取一个默认的加载弹窗(提供给java调用)
+ */
+fun getDefaultLoadingDialogApi(): LoadingDialogApi{
+    return object: LoadingDialogApi{  }
+}

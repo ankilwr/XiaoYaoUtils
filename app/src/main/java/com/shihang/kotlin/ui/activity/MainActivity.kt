@@ -39,6 +39,10 @@ class MainActivity: BaseBindingActivity<ActivityMainBinding>(){
         viewBinding.btnUserInfo.setMultipleClick {
             viewModel.loadGithubUserInfo()
         }
+        viewBinding.btnJavaLayout.setMultipleClick {
+            val intent = createIntent(VerifyCodeActivity::class.java)
+            it.context.startActivity(intent)
+        }
     }
 
     class MainVm: LoadingViewModel(){

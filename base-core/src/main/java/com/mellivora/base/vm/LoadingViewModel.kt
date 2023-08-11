@@ -20,11 +20,12 @@ open class LoadingViewModel: BaseViewModel() {
 
     val pullState = MutableLiveData<PullState>()
     val dialogState = MutableLiveData<LoadingDialogState>()
-    var currentPage = 1
+    private var currentPage = 1
 
 
     /**
      * 获取当前需要加载的页码
+     * @param startPage: 默认页码起始位置【0|1】, 有些接口页码是从1开始的
      */
     fun getLoadPage(isRefresh: Boolean, startPage: Int = 1): Int{
         return if(isRefresh) startPage else currentPage+1

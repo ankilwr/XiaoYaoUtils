@@ -32,6 +32,14 @@
         android:ellipsize="end"
         android:text="Compose体验"/>
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnJavaLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:text="JavaLayout的Binding绑定"/>
+
+
 
 
     <androidx.appcompat.widget.AppCompatButton
