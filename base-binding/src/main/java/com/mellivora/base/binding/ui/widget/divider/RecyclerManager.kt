@@ -1,4 +1,4 @@
-package com.mellivora.base.ui.widget.divider
+package com.mellivora.base.binding.ui.widget.divider
 
 import android.content.Context
 import android.view.View

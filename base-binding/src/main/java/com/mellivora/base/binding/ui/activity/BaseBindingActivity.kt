@@ -1,4 +1,4 @@
-package com.mellivora.base.ui.activity
+package com.mellivora.base.binding.ui.activity
 
 import android.os.Bundle
 import android.view.LayoutInflater

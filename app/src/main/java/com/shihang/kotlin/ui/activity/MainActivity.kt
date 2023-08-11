@@ -2,6 +2,7 @@ package com.shihang.kotlin.ui.activity
 
 import android.util.Log
 import androidx.activity.viewModels
+import com.mellivora.base.binding.ui.activity.BaseBindingActivity
 import com.mellivora.base.coroutine.doIOResult
 import com.mellivora.base.coroutine.onCheckError
 import com.mellivora.base.coroutine.onCheckSuccess
@@ -9,7 +10,6 @@ import com.mellivora.base.expansion.createIntent
 import com.mellivora.base.expansion.setMultipleClick
 import com.mellivora.base.expansion.showToast
 import com.mellivora.data.repository.http.executeConvert
-import com.mellivora.base.ui.activity.BaseBindingActivity
 import com.mellivora.base.vm.LoadingViewModel
 import com.mellivora.data.repository.service.BaseService
 import com.shihang.kotlin.bean.GithubUserBean

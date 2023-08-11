@@ -1,9 +1,10 @@
-package com.mellivora.base.adapter
+package com.mellivora.base.binding.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.viewbinding.ViewBinding
 import com.drakeet.multitype.ItemViewBinder
+import com.mellivora.base.adapter.RecyclerHolder
 
 /**
  * ItemViewBinder

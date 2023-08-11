@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.mellivora.base.ui.widget.AppThemeBar
+        <com.mellivora.base.binding.ui.widget.AppThemeBar
             android:id="@+id/appThemeBar"
             style="@style/App_Theme_Red"
             app:barTitle="权限请求示例" />

@@ -51,5 +51,10 @@ dependencies {
         exclude(group = "com.github.bumptech.glide")
     }
     //SVGA动画
-    implementation("com.github.yyued:SVGAPlayer-Android:2.6.1")
+    api("com.github.yyued:SVGAPlayer-Android:2.6.1")
+
+    //下拉刷新
+    api("io.github.scwang90:refresh-layout-kernel:2.0.6")
+    api("io.github.scwang90:refresh-header-classics:2.0.6")
+
 }

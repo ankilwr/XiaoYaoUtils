@@ -1,4 +1,4 @@
-package com.mellivora.base.expansion
+package com.mellivora.base.binding.expansion
 
 import android.content.res.ColorStateList
 import android.graphics.Color
@@ -14,8 +14,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.drakeet.multitype.MultiTypeAdapter
 import com.mellivora.base.R
 import com.mellivora.base.adapter.BaseMultiTypeAdapter
-import com.mellivora.base.ui.widget.multiple.MultipleStatusView
+import com.mellivora.base.binding.ui.widget.multiple.MultipleStatusView
 import com.mellivora.base.exception.ErrorStatus
+import com.mellivora.base.expansion.appendColorText
+import com.mellivora.base.expansion.appendSizeText
+import com.mellivora.base.expansion.editable
+import com.mellivora.base.expansion.getResString
+import com.mellivora.base.expansion.getStateDrawable
+import com.mellivora.base.expansion.round
+import com.mellivora.base.expansion.setMultipleClick
+import com.mellivora.base.expansion.strikeLine
+import com.mellivora.base.expansion.underLine
 import com.mellivora.base.state.LoadingState
 import com.mellivora.base.state.PullState
 import com.scwang.smart.refresh.layout.SmartRefreshLayout

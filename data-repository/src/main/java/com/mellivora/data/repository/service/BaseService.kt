@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit
 object BaseService {
 
     /**
-     * 如果需要在其他模块拓展服务，可将改client注入
+     * 如果需要在其他模块拓展服务，可将该client注入，参考githubService
      */
     val okHttpClient by lazy {
         val logInterceptor = HttpLoggingInterceptor {

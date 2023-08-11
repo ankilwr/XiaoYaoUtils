@@ -1,8 +1,8 @@
-package com.mellivora.base.ui.widget.multiple.api
+package com.mellivora.base.binding.ui.widget.multiple.api
 
 import android.content.Context
 import android.view.View
-import com.mellivora.base.ui.widget.multiple.MultipleStatusView
+import com.mellivora.base.binding.ui.widget.multiple.MultipleStatusView
 
 
 /**

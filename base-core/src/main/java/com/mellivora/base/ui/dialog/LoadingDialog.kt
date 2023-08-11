@@ -8,9 +8,10 @@ import com.mellivora.base.R
 import com.mellivora.base.databinding.BaseDialogLoadingBinding
 
 
-class LoadingDialog: BaseBindingDialog<BaseDialogLoadingBinding>() {
+class LoadingDialog: BaseCoreDialog() {
 
     private var loadingMessage: CharSequence? = null
+    private var binding: BaseDialogLoadingBinding? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return Dialog(requireActivity(), R.style.Dialog_Loading).apply {
@@ -26,13 +27,19 @@ class LoadingDialog: BaseBindingDialog<BaseDialogLoadingBinding>() {
         }
     }
 
-    override fun initViews(binding: BaseDialogLoadingBinding) {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        binding = BaseDialogLoadingBinding.inflate(inflater, container, false)
+        return binding!!.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setMessage(loadingMessage)
     }
 
     fun setMessage(message: CharSequence?): LoadingDialog{
         this.loadingMessage = message
-        viewBinding?.let {
+        binding?.let {
             it.tvMessage.text = message
             it.tvMessage.isGone = message.isNullOrEmpty()
         }

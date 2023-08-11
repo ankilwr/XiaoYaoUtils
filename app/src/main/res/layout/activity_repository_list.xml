@@ -3,7 +3,7 @@
 
     <data>
 
-        <import type="com.mellivora.base.ui.widget.divider.RecyclerManager"/>
+        <import type="com.mellivora.base.binding.ui.widget.divider.RecyclerManager"/>
 
         <variable
             name="vm"
@@ -20,13 +20,13 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.mellivora.base.ui.widget.AppThemeBar
+        <com.mellivora.base.binding.ui.widget.AppThemeBar
             android:id="@+id/appThemeBar"
             style="@style/App_Theme_Red"
             app:barTitle="我的Github仓库列表" />
 
 
-        <com.mellivora.base.ui.widget.multiple.MultipleStatusView
+        <com.mellivora.base.binding.ui.widget.multiple.MultipleStatusView
             bindEmptyText='@{"您的仓库列表是空的"}'
             bindNotEmpty="@{vm.dataList.size() > 0}"
             bindStateReloadClick="@{()->vm.loadListData(true, false)}"
@@ -51,7 +51,7 @@
 
             </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
-        </com.mellivora.base.ui.widget.multiple.MultipleStatusView>
+        </com.mellivora.base.binding.ui.widget.multiple.MultipleStatusView>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

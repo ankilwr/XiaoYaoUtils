@@ -1,4 +1,4 @@
-package com.mellivora.base.ui.widget
+package com.mellivora.base.binding.ui.widget
 
 import android.content.Context
 import android.content.res.ColorStateList

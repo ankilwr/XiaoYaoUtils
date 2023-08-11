@@ -1,16 +1,16 @@
-package com.mellivora.base.ui.widget.multiple;
+package com.mellivora.base.binding.ui.widget.multiple;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.RelativeLayout;
 
-import com.mellivora.base.ui.widget.multiple.api.MultipleStatus;
-import com.mellivora.base.ui.widget.multiple.api.StatusViewCreator;
-import com.mellivora.base.ui.widget.multiple.status.EmptyStatusView;
-import com.mellivora.base.ui.widget.multiple.status.ErrorStatusView;
-import com.mellivora.base.ui.widget.multiple.status.LoadingStatusView;
-import com.mellivora.base.ui.widget.multiple.status.NetworkErrorStatusView;
+import com.mellivora.base.binding.ui.widget.multiple.api.MultipleStatus;
+import com.mellivora.base.binding.ui.widget.multiple.api.StatusViewCreator;
+import com.mellivora.base.binding.ui.widget.multiple.status.EmptyStatusView;
+import com.mellivora.base.binding.ui.widget.multiple.status.ErrorStatusView;
+import com.mellivora.base.binding.ui.widget.multiple.status.LoadingStatusView;
+import com.mellivora.base.binding.ui.widget.multiple.status.NetworkErrorStatusView;
 
 public class MultipleStatusView extends RelativeLayout {
     private static final String TAG = "MultipleStatusView";

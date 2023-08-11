@@ -3,11 +3,11 @@ package com.shihang.kotlin.ui.activity
 import android.Manifest
 import android.content.Intent
 import android.provider.MediaStore
+import com.mellivora.base.binding.ui.activity.BaseBindingActivity
 import com.mellivora.base.expansion.hasPermissions
 import com.mellivora.base.expansion.setMultipleClick
 import com.mellivora.base.launcher.PermissionLauncher
 import com.mellivora.base.launcher.launcher
-import com.mellivora.base.ui.activity.BaseBindingActivity
 import com.shihang.kotlin.databinding.ActivityPermissionBinding
 
 /**

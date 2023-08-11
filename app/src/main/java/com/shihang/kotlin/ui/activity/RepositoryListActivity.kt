@@ -4,9 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.activity.viewModels
 import com.mellivora.base.adapter.BaseMultiTypeAdapter
-import com.mellivora.base.adapter.BindingItemViewBinder
-import com.mellivora.base.ui.activity.BaseBindingActivity
 import com.mellivora.base.adapter.RecyclerHolder
+import com.mellivora.base.binding.adapter.BindingItemViewBinder
+import com.mellivora.base.binding.ui.activity.BaseBindingActivity
 import com.shihang.kotlin.bean.GithubRepositoryBean
 import com.shihang.kotlin.databinding.ActivityRepositoryListBinding
 import com.shihang.kotlin.databinding.ItemRepositoryListBinding
