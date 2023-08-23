@@ -1,4 +1,4 @@
-package com.mellivora.base.ui.dialog
+package com.mellivora.base.binding.ui.dialog
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,6 +10,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.viewbinding.ViewBinding
 import com.mellivora.base.expansion.childFragmentManager
+import com.mellivora.base.ui.dialog.BaseCoreDialog
 import java.lang.reflect.Method
 import java.lang.reflect.ParameterizedType
 

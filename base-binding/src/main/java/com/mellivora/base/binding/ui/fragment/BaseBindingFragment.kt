@@ -1,4 +1,4 @@
-package com.mellivora.base.ui.fragment
+package com.mellivora.base.binding.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
