@@ -1,6 +1,7 @@
 package com.shihang.kotlin
 
 import android.app.Application
+import com.mellivora.base.AppManager
 import com.scwang.smart.refresh.footer.ClassicsFooter
 import com.scwang.smart.refresh.header.ClassicsHeader
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
@@ -18,6 +19,11 @@ class MyApplication: Application() {
         SmartRefreshLayout.setDefaultRefreshFooterCreator { context, _ ->
             ClassicsFooter(context)
         }
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        registerActivityLifecycleCallbacks(AppManager.getUiLifeListener())
     }
 
 }

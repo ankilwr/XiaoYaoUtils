@@ -6,13 +6,12 @@ import androidx.lifecycle.viewModelScope
 import com.mellivora.base.bean.BaseData
 import com.mellivora.base.exception.DataCheckException
 import com.mellivora.base.exception.ErrorStatus
+import com.mellivora.base.utils.LogUtils
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
 open class BaseViewModel: ViewModel() {
 
-    //使用SupervisorJob()，每个协程作用域自处理异常
-    private val uiScope = CoroutineScope(SupervisorJob())
 
     // ---------------------------  协程处理 --------------------------------------
     fun doUILaunch(block: suspend CoroutineScope.(CoroutineContext) -> Unit): Job {
@@ -20,15 +19,16 @@ open class BaseViewModel: ViewModel() {
     }
 
     /**
-     * 开启一个在UI线程运行的协程作用域，使用该API创建的作用域，出异常时互不影响
+     * 开启一个在UI线程运行的协程根作用域，使用该API创建的作用域，出异常时互不影响
      * @param block: 声明继承当前作用域(suspend CoroutineScope)，否则为一个普通函数
-     * @param onError: 子协程｜当前作用域抛出的异常 (当前协程launch作用域将被关闭)
+     * @param handler: 子协程｜当前作用域抛出的异常 (当前协程launch作用域将被关闭)
      */
     fun doUILaunch(block: suspend CoroutineScope.(CoroutineContext) -> Unit, handler: CoroutineExceptionHandler? = null): Job {
         val exceptionHandler = handler ?: CoroutineExceptionHandler { context, e ->
             e.printStackTrace()
+            LogUtils.print2ConsoleError("doUILaunch():${e.stackTraceToString()}")
         }
-        val job = uiScope.launch(Dispatchers.Main + exceptionHandler){
+        val job = viewModelScope.launch(Dispatchers.Main + exceptionHandler){
             block(this.coroutineContext)
         }
         return job
@@ -41,17 +41,11 @@ open class BaseViewModel: ViewModel() {
     }
 
 
-    override fun onCleared() {
-        super.onCleared()
-        uiScope.cancel()
-    }
-
-
     /**
      * 清理子任务
      */
     fun taskClear() {
-        uiScope.coroutineContext.cancelChildren()
+        viewModelScope.coroutineContext.cancelChildren()
     }
 
     //=================================  提供基础的 数据消费事件  ======================================

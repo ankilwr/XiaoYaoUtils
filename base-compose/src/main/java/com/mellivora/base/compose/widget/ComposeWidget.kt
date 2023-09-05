@@ -113,7 +113,6 @@ fun DefaultAppTheme(
 
 }
 
-
 /**
  * SVGA IMAGE
  */

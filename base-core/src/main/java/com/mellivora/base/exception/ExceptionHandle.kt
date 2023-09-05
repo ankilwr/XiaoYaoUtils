@@ -20,9 +20,7 @@ class ExceptionHandle(
 }
 
 fun Throwable?.parse(): ExceptionHandle {
-    if(LogUtils.getConfig().isLogSwitch){
-        this?.printStackTrace()
-    }
+    LogUtils.print2ConsoleError("Throwable.parse():${this?.stackTraceToString()}")
     val errorInfo = ExceptionHandle()
     when (this) {
         is DataCheckException -> {

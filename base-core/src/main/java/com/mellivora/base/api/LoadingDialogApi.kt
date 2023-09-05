@@ -24,11 +24,13 @@ interface LoadingDialogApi {
         loadingDialog.apply {
             isCancelable = cancelEnable
             setMessage(message)
-            setOnDismissListener(fragmentManager, lifecycleOwner){
-                disposable ?: return@setOnDismissListener
+            setOnCancelListener {
+                disposable ?: return@setOnCancelListener
                 if(disposable.isActive) disposable.cancel()
             }
-            showNow(fragmentManager, dialogTag)
+            if(dialog?.isShowing != true && !loadingDialog.isAdded){
+                showNow(fragmentManager, dialogTag)
+            }
         }
     }
 

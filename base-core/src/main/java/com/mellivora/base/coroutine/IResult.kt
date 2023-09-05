@@ -1,6 +1,8 @@
 package com.mellivora.base.coroutine
 
 import androidx.core.util.Consumer
+import com.mellivora.base.exception.parse
+import com.mellivora.base.utils.LogUtils
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -47,6 +49,7 @@ inline fun Throwable?.onCheckError(crossinline block: (Throwable) -> Unit){
 
 fun Throwable?.onCheckError(onError: Consumer<Throwable>){
     if(this == null) return
+    LogUtils.print2ConsoleError("Throwable.onCheckError():${this.stackTraceToString()}")
     onError.accept(this)
 }
 

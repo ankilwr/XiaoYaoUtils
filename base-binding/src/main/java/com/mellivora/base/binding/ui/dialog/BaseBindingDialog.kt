@@ -42,20 +42,14 @@ abstract class BaseBindingDialog<T : ViewBinding>: BaseCoreDialog() {
         }
     }
 
-    fun setOnDismissListener(view: View, lifecycleOwner: LifecycleOwner, onDismiss:(()->Unit)? = null){
-        val fragmentManager = view.childFragmentManager ?: return
-        setOnDismissListener(fragmentManager, lifecycleOwner, onDismiss)
-    }
-
     open fun showNow(view: View, tag: String = this::class.java.name){
         val fragmentManager = view.childFragmentManager ?: return
         showNow(fragmentManager, tag)
     }
 
-    open fun showNow(view: View, tag: String = this::class.java.name, listener: FragmentResultListener){
+    open fun showNow(view: View, tag: String = this::class.java.name, onResult:((Bundle)->Unit)){
         val fragmentManager = view.childFragmentManager ?: return
-        val lifecycleOwner = view.findViewTreeLifecycleOwner() ?: return
-        showNow(lifecycleOwner, fragmentManager, tag, listener)
+        showNow(fragmentManager, tag, onResult)
     }
 
 }

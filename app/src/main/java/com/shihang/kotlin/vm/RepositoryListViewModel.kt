@@ -1,5 +1,6 @@
 package com.shihang.kotlin.vm
 
+import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.MutableLiveData
 import com.mellivora.base.coroutine.doIOResult
 import com.mellivora.base.coroutine.onCheckError
@@ -13,6 +14,7 @@ import com.shihang.kotlin.bean.GithubRepositoryBean
 class RepositoryListViewModel: LoadingViewModel(){
 
     val dataList = MutableLiveData<MutableList<GithubRepositoryBean>>()
+    val dataStateList = mutableStateListOf<GithubRepositoryBean>()
 
     fun loadListData(isRefresh: Boolean, isPullAction: Boolean){
         doUILaunch {
@@ -30,7 +32,10 @@ class RepositoryListViewModel: LoadingViewModel(){
                 }
                 newList.addAll(it)
                 dataList.value = newList
+                dataStateList.clear()
+                dataStateList.addAll(newList)
                 pullSuccess(isRefresh, isPullAction, false)
+                println(System.currentTimeMillis())
             }.onCheckError(pullErrorConsumer(isRefresh, isPullAction))
         }
     }

@@ -3,24 +3,49 @@ package com.mellivora.base.vm
 import androidx.core.util.Consumer
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.lifecycle.viewModelScope
 import com.mellivora.base.R
 import com.mellivora.base.api.LoadingDialogApi
 import com.mellivora.base.exception.ErrorStatus
 import com.mellivora.base.expansion.getResString
 import com.mellivora.base.expansion.showToast
 import com.mellivora.base.exception.parse
-import com.mellivora.base.state.LoadingDialogState
+import com.mellivora.base.state.LoadingDialogEvent
 import com.mellivora.base.state.LoadingState
 import com.mellivora.base.state.PullState
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.launch
 
 open class LoadingViewModel: BaseViewModel() {
 
-    val pullState = MutableLiveData<PullState>()
-    val dialogState = MutableLiveData<LoadingDialogState>()
     private var currentPage = 1
+
+    /**
+     * loading|pullState状态流
+     */
+    private val _pullState: MutableStateFlow<PullState> = MutableStateFlow(PullState())
+    val pullState = _pullState.asStateFlow()
+
+    /**
+     * 弹窗effect事件,effect事件带来的副作用，通常是 一次性事件 且 一对一的订阅关系
+     * 例如：弹Toast、导航Fragment等
+     */
+    private val _loadingDialogChannel: Channel<LoadingDialogEvent> = Channel(Channel.UNLIMITED)
+    val loadingDialogChannel= _loadingDialogChannel.receiveAsFlow()
+
+//    /**
+//     * event包含用户与ui的交互（如点击操作），也有来自后台的消息（如切换自习模式）
+//     */
+//    private val _event: MutableSharedFlow<Event> = MutableSharedFlow()
+//    val event = _event.asSharedFlow()
 
 
     /**
@@ -31,18 +56,18 @@ open class LoadingViewModel: BaseViewModel() {
         return if(isRefresh) startPage else currentPage+1
     }
 
-    fun loading(stateData: MutableLiveData<PullState> = pullState){
-        val state = stateData.value ?: PullState()
+    fun loading(stateData: MutableStateFlow<PullState> = _pullState){
+        val state = stateData.value.copy()
         state.loadingState = LoadingState.LOADING
         state.message = getResString(R.string.base_status_loading)
         stateData.value = state
     }
 
-    fun loadingSuccess(stateData: MutableLiveData<PullState> = pullState){
+    fun loadingSuccess(stateData: MutableStateFlow<PullState> = _pullState){
         pullSuccess(true, isPull = false, hasMore = false, stateData = stateData)
     }
 
-    fun loadingError(isPull: Boolean = false, throwable: Throwable? = null, stateData: MutableLiveData<PullState> = pullState){
+    fun loadingError(isPull: Boolean = false, throwable: Throwable? = null, stateData: MutableStateFlow<PullState> = _pullState){
         if(throwable != null){
             pullErrorConsumer(true, isPull = isPull, stateData).accept(throwable)
         }else{
@@ -50,13 +75,13 @@ open class LoadingViewModel: BaseViewModel() {
         }
     }
 
-    fun pullSuccess(isRefresh: Boolean, isPull: Boolean, hasMore: Boolean, message: String? = "加载成功", stateData: MutableLiveData<PullState> = pullState){
+    fun pullSuccess(isRefresh: Boolean, isPull: Boolean, hasMore: Boolean, message: String? = "加载成功", stateData: MutableStateFlow<PullState> = _pullState){
         if(isRefresh){
             currentPage = 1
         }else{
             currentPage += 1
         }
-        val result = stateData.value?: PullState()
+        val result = stateData.value.copy()
         result.isRefresh = isRefresh
         result.isPull = isPull
         result.hasMore = hasMore
@@ -66,8 +91,8 @@ open class LoadingViewModel: BaseViewModel() {
         stateData.value = result
     }
 
-    fun pullError(isRefresh: Boolean, isPull: Boolean, code: Int, error: String, stateData: MutableLiveData<PullState> = pullState){
-        val result = stateData.value?: PullState()
+    fun pullError(isRefresh: Boolean, isPull: Boolean, code: Int, error: String, stateData: MutableStateFlow<PullState> = _pullState){
+        val result = stateData.value.copy()
         result.isRefresh = isRefresh
         result.isPull = isPull
         result.hasMore = false
@@ -83,7 +108,7 @@ open class LoadingViewModel: BaseViewModel() {
      * @see errorConsumer()
      * @return 异常捕获事件
      */
-    fun pullErrorConsumer(isRefresh: Boolean = true, isPull: Boolean = false, stateData: MutableLiveData<PullState> = pullState): Consumer<Throwable> {
+    fun pullErrorConsumer(isRefresh: Boolean = true, isPull: Boolean = false, stateData: MutableStateFlow<PullState> = _pullState): Consumer<Throwable> {
         return Consumer {
             val error = it.parse()
             if(error.errorCode == ErrorStatus.CANCEL){
@@ -120,27 +145,39 @@ open class LoadingViewModel: BaseViewModel() {
      * 注册加载Dialog
      */
     fun registerLoadingDialog(lifecycleOwner: LifecycleOwner, api: LoadingDialogApi){
-        dialogState.observe(lifecycleOwner) {
-            val fragmentManager = when(lifecycleOwner){
-                is FragmentActivity ->  lifecycleOwner.supportFragmentManager
-                is Fragment -> lifecycleOwner.childFragmentManager
-                else -> null
-            }
-            fragmentManager ?: return@observe
-            if(it.isShow){
-                api.showLoadingDialog(fragmentManager, lifecycleOwner, it.job, it.cancelEnable, it.message)
-            }else{
-                api.dismissLoadingDialog(fragmentManager)
+        viewModelScope.launch {
+            lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED){
+                //lifecycleOwner声明周期 > STARTED, 开始消费事件
+                loadingDialogChannel.collect { channel ->
+                    val fragmentManager = when(lifecycleOwner){
+                        is FragmentActivity ->  lifecycleOwner.supportFragmentManager
+                        is Fragment -> lifecycleOwner.childFragmentManager
+                        else -> null
+                    }
+                    fragmentManager ?: return@collect
+                    when(channel){
+                        is LoadingDialogEvent.LoadingDialogShowEvent -> {
+                            api.showLoadingDialog(fragmentManager, lifecycleOwner, channel.job, channel.cancelEnable, channel.message)
+                        }
+                        is LoadingDialogEvent.LoadingDialogCloseEvent -> {
+                            api.dismissLoadingDialog(fragmentManager)
+                        }
+                    }
+                }
             }
         }
     }
 
     fun showLoadingDialog(disposable: Job? = null, cancelEnable: Boolean = true, message: String? = null){
-        dialogState.value = (LoadingDialogState(true, disposable, cancelEnable, message))
+        viewModelScope.launch {
+            _loadingDialogChannel.send(LoadingDialogEvent.LoadingDialogShowEvent(disposable, cancelEnable, message))
+        }
     }
 
     fun dismissLoadingDialog(){
-        dialogState.value = (LoadingDialogState(false))
+        viewModelScope.launch {
+            _loadingDialogChannel.send(LoadingDialogEvent.LoadingDialogCloseEvent)
+        }
     }
 
 }

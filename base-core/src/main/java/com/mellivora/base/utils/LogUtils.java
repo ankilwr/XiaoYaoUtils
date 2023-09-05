@@ -499,6 +499,16 @@ public final class LogUtils {
         }
     }
 
+    public static void print2ConsoleInfo(String msg) {
+        if(getConfig().isLog2ConsoleSwitch()){
+            System.out.println(msg);
+        }
+    }
+    public static void print2ConsoleError(String msg) {
+        if(getConfig().isLog2ConsoleSwitch()){
+            System.err.println(msg);
+        }
+    }
     private static void print2Console(int type, String tag, String msg) {
         Log.println(type, tag, msg);
         if (CONFIG.mOnConsoleOutputListener != null) {

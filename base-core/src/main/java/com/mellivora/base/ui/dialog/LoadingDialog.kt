@@ -1,6 +1,7 @@
 package com.mellivora.base.ui.dialog
 
 import android.app.Dialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.*
 import androidx.core.view.isGone

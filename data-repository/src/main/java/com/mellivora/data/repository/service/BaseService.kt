@@ -20,7 +20,7 @@ object BaseService {
      */
     val okHttpClient by lazy {
         val logInterceptor = HttpLoggingInterceptor {
-            LogUtils.iTag("HttpInterceptor", it)
+            LogUtils.eTag("HttpInterceptor", it)
         }
         logInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
 

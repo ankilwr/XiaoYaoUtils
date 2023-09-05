@@ -21,11 +21,9 @@ suspend inline fun <reified R> Call<R>.suspendExecute() = executeConvert<R>()
  */
 suspend inline fun <reified R> Call<*>.executeConvert() = suspendCancellableCoroutine {
     it.invokeOnCancellation { e ->
-        if(LogUtils.getConfig().isLogSwitch){
-            e?.printStackTrace()
-        }
         //协程任务取消, 同时取消HTTP请求, Call.cancel()
         this.cancel()
+        LogUtils.print2ConsoleError("invokeOnCancellation():${e?.stackTraceToString()}")
     }
     //执行HTTP请求
     try {
@@ -46,9 +44,7 @@ suspend inline fun <reified R> Call<*>.executeConvert() = suspendCancellableCoro
             it.safeResumeWithException(DataCheckException(response.message() ?: "", response.code()))
         }
     }catch (e: Throwable){
-        if(LogUtils.getConfig().isLogSwitch){
-            e.printStackTrace()
-        }
+        LogUtils.print2ConsoleError("executeConvert():${e.stackTraceToString()}")
         it.safeResumeWithException(e)
     }
 }
