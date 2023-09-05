@@ -23,13 +23,8 @@ import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
-import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -41,8 +36,6 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.mellivora.base.compose.attr.LightThemeColors
@@ -55,7 +48,6 @@ import com.mellivora.base.compose.widget.MultiStateWidget
 import com.mellivora.base.expansion.setFullEnable
 import com.mellivora.base.expansion.showToast
 import com.mellivora.base.state.LoadingState
-import com.mellivora.base.state.PullState
 import com.shihang.kotlin.R
 import com.shihang.kotlin.bean.GithubRepositoryBean
 import com.shihang.kotlin.bean.Owner
@@ -76,7 +68,9 @@ class ComposeActivity : BaseComposeActivity() {
     }
 
     override fun onLazyLoad() {
-        viewModel.loadListData(true, isPullAction = false)
+        if(viewModel.pullState.value.loadingState == LoadingState.NONE){
+            viewModel.loadListData(true, isPullAction = false)
+        }
     }
 
     @Preview("示例页面")
@@ -86,8 +80,8 @@ class ComposeActivity : BaseComposeActivity() {
         viewModel: RepositoryListViewModel,
     ) {
         //val scope = rememberCoroutineScope()
-        val rememberPullState = viewModel.pullState
-        val rememberStateList = viewModel.dataStateList
+        val rememberPullState = viewModel.pullState.collectAsState()
+        val rememberStateList = remember { viewModel.dataStateList }
 
         println("测试测试: ComposeMainContentView()")
 
@@ -101,7 +95,7 @@ class ComposeActivity : BaseComposeActivity() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight(),
-                state = rememberPullState.value ?: PullState(),
+                state = rememberPullState.value,
                 isDataEmpty = rememberStateList.isEmpty(),
                 onReloadClick = { showToast("哇哈哈") }
             ){

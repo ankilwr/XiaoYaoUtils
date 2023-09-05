@@ -644,10 +644,10 @@ public final class LogUtils {
         private boolean                 mLog2ConsoleSwitch = true;  // The logcat's switch of log.
         private String                  mGlobalTag         = "";    // The global tag of log.
         private boolean                 mTagIsSpace        = true;  // The global tag is space.
-        private boolean                 mLogHeadSwitch     = true;  // The head's switch of log.
+        private boolean                 mLogHeadSwitch     = false;  // The head's switch of log.
         private boolean                 mLog2FileSwitch    = false; // The file's switch of log.
         private boolean                 mLogBorderSwitch   = true;  // The border's switch of log.
-        private boolean                 mSingleTagSwitch   = true;  // The single tag of log.
+        private boolean                 mSingleTagSwitch   = false;  // The single tag of log.
         private int                     mConsoleFilter     = V;     // The console's filter of log.
         private int                     mFileFilter        = V;     // The file's filter of log.
         private int                     mStackDeep         = 1;     // The stack's deep of log.

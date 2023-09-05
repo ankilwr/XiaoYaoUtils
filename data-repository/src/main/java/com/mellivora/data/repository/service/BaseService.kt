@@ -1,5 +1,6 @@
 package com.mellivora.data.repository.service
 
+import android.util.Log
 import com.mellivora.base.utils.LogUtils
 import com.mellivora.data.repository.http.interceptor.CacheModeRequestInterceptor
 import com.mellivora.data.repository.http.interceptor.CacheModeResponseInterceptor
@@ -20,7 +21,7 @@ object BaseService {
      */
     val okHttpClient by lazy {
         val logInterceptor = HttpLoggingInterceptor {
-            LogUtils.eTag("HttpInterceptor", it)
+            LogUtils.iTag("HttpInterceptor", it)
         }
         logInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
 
