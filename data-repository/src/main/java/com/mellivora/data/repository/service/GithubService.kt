@@ -22,9 +22,6 @@ interface GithubService{
     ): Call<String>
 
 
-    @Headers(
-        "${CacheManager.CACHE_MODE}:${CacheMode.MODE_NO_CACHE}",
-    )
     @GET("users/{user}/repos")
     fun getGithubRepositoryList(
         @Path("user") user: String?

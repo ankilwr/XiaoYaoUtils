@@ -9,6 +9,7 @@ import com.mellivora.data.repository.http.executeConvert
 import com.mellivora.base.vm.LoadingViewModel
 import com.mellivora.data.repository.service.BaseService
 import com.shihang.kotlin.bean.GithubRepositoryBean
+import kotlinx.coroutines.delay
 
 
 class RepositoryListViewModel: LoadingViewModel(){
@@ -23,6 +24,7 @@ class RepositoryListViewModel: LoadingViewModel(){
                 loading()
             }
             doIOResult {
+                delay(2000L)
                 val call = BaseService.githubService.getGithubRepositoryList("ankilwr")
                 call.executeConvert<MutableList<GithubRepositoryBean>>()
             }.onCheckSuccess {
