@@ -9,8 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.findFragment
-import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
 import com.mellivora.base.api.OnMultiClickListener
 import com.mellivora.base.utils.dp
 import kotlin.math.min
@@ -166,16 +164,5 @@ inline fun ViewGroup.initStatusBar(){
     val statusBarHeight = context.getStatusBarHeight()
     setPadding(paddingStart, statusBarHeight, paddingEnd, paddingBottom)
 }
-
-inline fun ViewPager2.getRecyclerView(): RecyclerView?{
-    for(i in 0 until childCount){
-        val child = getChildAt(i)
-        if(child is RecyclerView){
-            return child
-        }
-    }
-    return null
-}
-
 
 

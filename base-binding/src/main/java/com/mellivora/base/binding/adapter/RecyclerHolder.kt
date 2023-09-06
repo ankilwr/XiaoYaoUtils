@@ -1,4 +1,4 @@
-package com.mellivora.base.adapter
+package com.mellivora.base.binding.adapter
 
 import android.content.Context
 import android.graphics.drawable.Drawable

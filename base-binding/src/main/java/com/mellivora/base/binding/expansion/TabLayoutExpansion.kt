@@ -1,15 +1,18 @@
-package com.mellivora.base.expansion
+package com.mellivora.base.binding.expansion
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.findFragment
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayout.Tab
 import com.google.android.material.tabs.TabLayoutMediator
-import com.mellivora.base.adapter.BaseFragmentPagerAdapter
+import com.mellivora.base.binding.adapter.BaseFragmentPagerAdapter
+import com.mellivora.base.expansion.activity
+import com.mellivora.base.expansion.tryBlock
 
 /**
  * 关联TabLayout跟ViewPager的联动
@@ -117,6 +120,15 @@ interface TabFragmentPagerBinder<T>: TabPagerBinder {
 }
 
 
+fun ViewPager2.getRecyclerView(): RecyclerView?{
+    for(i in 0 until childCount){
+        val child = getChildAt(i)
+        if(child is RecyclerView){
+            return child
+        }
+    }
+    return null
+}
 
 
 

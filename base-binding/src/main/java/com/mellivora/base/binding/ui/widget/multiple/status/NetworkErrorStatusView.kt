@@ -3,7 +3,7 @@ package com.mellivora.base.binding.ui.widget.multiple.status
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
-import com.mellivora.base.databinding.BaseLayoutStatusNetworkErrorBinding
+import com.mellivora.base.binding.databinding.BaseLayoutStatusNetworkErrorBinding
 import com.mellivora.base.binding.ui.widget.multiple.MultipleStatusView
 import com.mellivora.base.binding.ui.widget.multiple.api.MultipleStatus
 

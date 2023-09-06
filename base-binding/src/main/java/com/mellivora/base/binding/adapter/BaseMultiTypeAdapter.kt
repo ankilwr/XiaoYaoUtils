@@ -1,4 +1,4 @@
-package com.mellivora.base.adapter
+package com.mellivora.base.binding.adapter
 
 import androidx.recyclerview.widget.DiffUtil
 import com.drakeet.multitype.MultiTypeAdapter

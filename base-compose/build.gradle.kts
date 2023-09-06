@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
 }
 
 val libraryVersions: Map<String, String> by rootProject.extra
@@ -48,17 +49,22 @@ dependencies {
     api(project(":base-core"))
 
     //compose
+    api("androidx.compose.ui:ui:1.4.3")
+    //kapt("androidx.compose.ui:ui-compiler:1.4.3")
     api("androidx.compose.ui:ui-tooling:1.4.3")
     api("androidx.compose.material:material:1.4.3")
     api("androidx.activity:activity-compose:1.7.2")
+//    api("androidx.compose.ui.graphics.animation:1.0.0")
+//    api("androidx.compose.ui.graphics:1.0.0")
 
     api("com.google.accompanist:accompanist-insets:0.16.0")
+    api("com.google.accompanist:accompanist-drawablepainter:0.30.1")
     api("com.google.accompanist:accompanist-systemuicontroller:0.30.1")
 
     //compose网络图片加载库
     api("io.coil-kt:coil-compose:2.4.0")
     //livedata转state
-    api("androidx.compose.runtime:runtime-livedata:1.6.0-alpha02")
+    api("androidx.compose.runtime:runtime-livedata:1.6.0-alpha04")
 
     //SVGA动画
     implementation("com.github.yyued:SVGAPlayer-Android:2.6.1")

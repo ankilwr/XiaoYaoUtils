@@ -1,4 +1,4 @@
-package com.mellivora.base.bean
+package com.mellivora.data.repository.bean
 
 
 class BaseData<T> {

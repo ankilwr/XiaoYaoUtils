@@ -15,6 +15,7 @@ android {
     }
 
     buildFeatures{
+        viewBinding = true
         dataBinding = true
     }
 
@@ -35,10 +36,18 @@ android {
 
 dependencies {
 
-    implementation("com.google.android.material:material:1.9.0")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+
+    api("com.google.android.material:material:1.9.0")
+    api("androidx.constraintlayout:constraintlayout:2.1.4")
+    api("androidx.recyclerview:recyclerview:1.3.1")
+    api("androidx.viewpager2:viewpager2:1.1.0-beta02")
+    api("androidx.media:media:1.6.0")
+    api("com.google.android:flexbox:1.1.0")
+    //adapter适配器
+    api("com.drakeet.multitype:multitype:4.2.0")
 
     api(project(":base-core"))
 
@@ -56,5 +65,6 @@ dependencies {
     //下拉刷新
     api("io.github.scwang90:refresh-layout-kernel:2.0.6")
     api("io.github.scwang90:refresh-header-classics:2.0.6")
+
 
 }

@@ -11,7 +11,7 @@ import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import com.mellivora.base.R
-import com.mellivora.base.databinding.BaseLayoutThemeTitlebarBinding
+import com.mellivora.base.binding.databinding.BaseLayoutThemeTitlebarBinding
 import com.mellivora.base.expansion.activity
 import com.mellivora.base.expansion.getStatusBarHeight
 import com.mellivora.base.expansion.layoutInflater

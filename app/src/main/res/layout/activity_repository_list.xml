@@ -11,7 +11,7 @@
 
         <variable
             name="adapter"
-            type="com.mellivora.base.adapter.BaseMultiTypeAdapter" />
+            type="com.mellivora.base.binding.adapter.BaseMultiTypeAdapter" />
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"

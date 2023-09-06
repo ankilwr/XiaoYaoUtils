@@ -1,7 +1,7 @@
 package com.mellivora.base.compose.widget
 
+import android.graphics.drawable.AnimationDrawable
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
@@ -18,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,6 +26,8 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat
+import com.google.accompanist.drawablepainter.rememberDrawablePainter
 import com.mellivora.base.compose.R
 import com.mellivora.base.exception.ErrorStatus
 import com.mellivora.base.state.LoadingState
@@ -104,6 +107,27 @@ fun ComposeLoadingWidget(
     @PreviewParameter(StringProvider::class,1)
     message: String?
 ) {
+
+//    val context = LocalContext.current
+//    val animationDrawable = remember {
+//        ContextCompat.getDrawable(context, R.drawable.base_anim_loading)
+//        AnimationDrawable().apply {
+//            addFrame(resour, 100)
+//            addFrame(ContextCompat.getDrawable(LocalContext.current, R.drawable.frame2)!!, 100)
+//            addFrame(ContextCompat.getDrawable(LocalContext.current, R.drawable.frame3)!!, 100)
+//            isOneShot = false
+//        }
+//    }
+//    val currentIndex = remember { mutableStateOf(0) }
+//    LaunchedEffect(Unit) {
+//        while (true) {
+//            delay(animationDrawable.getDuration(currentIndex.value).toLong())
+//            withContext(Dispatchers.Main) {
+//                currentIndex.value = (currentIndex.value + 1) % animationDrawable.numberOfFrames
+//            }
+//        }
+//    }
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -111,8 +135,15 @@ fun ComposeLoadingWidget(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(modifier = Modifier.weight(0.333f))
+//        Image(
+//            //painter = rememberDrawablePainter(drawable = animationDrawable.getFrame(currentIndex.value)),
+////            painter = rememberDrawablePainter(drawable = animationDrawable),
+//            painter = painterResource(R.drawable.base_anim_loading),
+//            contentDescription = null,
+//            modifier = Modifier.size(40.dp)
+//        )
         CircularProgressIndicator(
-            modifier = Modifier.size(35.dp, 35.dp)
+            modifier = Modifier.size(40.dp)
         )
         if(message?.isNotEmpty() == true){
             Spacer(modifier = Modifier.height(10.dp))
@@ -147,7 +178,7 @@ fun ComposeEmptyWidget(
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight()
-            .clickable (
+            .clickable(
                 onClick = { onReloadClick?.invoke() },
                 indication = null,
                 interactionSource = remember { MutableInteractionSource() }
