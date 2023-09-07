@@ -1,12 +1,10 @@
 package com.shihang.kotlin.ui.activity
 
 import android.os.Bundle
-import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -47,13 +45,12 @@ import com.mellivora.base.compose.widget.DefaultAppTheme
 import com.mellivora.base.compose.widget.LinkifyText
 import com.mellivora.base.compose.widget.MultiStateWidget
 import com.mellivora.base.expansion.setFullEnable
-import com.mellivora.base.expansion.showToast
-import com.mellivora.base.state.LoadingState
 import com.shihang.kotlin.R
 import com.shihang.kotlin.bean.GithubRepositoryBean
 import com.shihang.kotlin.bean.Owner
 import com.shihang.kotlin.vm.RepositoryListViewModel
 
+@OptIn(ExperimentalFoundationApi::class)
 class ComposeActivity : BaseComposeActivity() {
 
     private val viewModel: RepositoryListViewModel by viewModels()
@@ -67,7 +64,7 @@ class ComposeActivity : BaseComposeActivity() {
     override fun InitMainComposeView() {
         LaunchedEffect(Unit){
             if(viewModel.isNoneState()){
-                viewModel.loadListData(true, isPullAction = false)
+                viewModel.loadListData(true, isPull = false)
             }
         }
         ComposeMainContentView(viewModel)
@@ -87,7 +84,7 @@ class ComposeActivity : BaseComposeActivity() {
 
         DefaultAppTheme(
             colors = LightThemeColors,
-            title = rememberStateList.getOrNull(0)?.owner?.login ?: "标题",
+            title = rememberStateList.getOrNull(0)?.owner?.login ?: "",
             onBackClick = rememberOnDefaultBackClick()
         ) {
             println("测试测试: DefaultAppTheme()")
@@ -106,10 +103,14 @@ class ComposeActivity : BaseComposeActivity() {
                 ) {
                     itemsIndexed(
                         items = rememberStateList,
+                        key = { index, it -> it.id ?: "$index" },
                         contentType = { _, it -> it::class }
-                    ) { _, item ->
-                        RepositoryItem(item){
-                            showToast(item.name)
+                    ) { position, item ->
+                        RepositoryItem(
+                            data = item,
+                            modifier = Modifier.animateItemPlacement()
+                        ){
+                            viewModel.removePosition(position)
                         }
                     }
                 }
@@ -123,11 +124,12 @@ class ComposeActivity : BaseComposeActivity() {
     private fun RepositoryItem(
         @PreviewParameter(GithubRepositoryDataProvider::class,1)
         data: GithubRepositoryBean,
+        modifier: Modifier = Modifier,
         onItemClick:(()-> Unit)? = null
     ) {
         println("测试测试: DefaultAppTheme.RepositoryItem()")
         Column(
-            modifier = Modifier
+            modifier = modifier
                 .clickable { onItemClick?.invoke() }
                 .background(MaterialTheme.colors.otherColor.white)
                 .padding(15.dp, 15.dp, 15.dp, 0.dp)

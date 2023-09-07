@@ -33,7 +33,6 @@ class RepositoryListViewModel: LoadingViewModel(){
                 dataList.value = newList
                 dataStateList.clear()
                 dataStateList.addAll(newList)
-                println("loadSuccess(): -> size:${dataStateList.size}")
                 pullSuccess(isRefresh, isPull, false)
             }.onCheckError(pullErrorConsumer(isRefresh, isPull))
         }
