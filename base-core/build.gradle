@@ -7,10 +7,10 @@ plugins {
 
 android {
     namespace 'com.mellivora.base'
-    compileSdk 34
+    compileSdk 33
 
     defaultConfig {
-        minSdk 23
+        minSdk 21
         targetSdk 33
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

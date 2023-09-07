@@ -23,6 +23,7 @@ import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -64,13 +65,12 @@ class ComposeActivity : BaseComposeActivity() {
 
     @Composable
     override fun InitMainComposeView() {
-        ComposeMainContentView(viewModel)
-    }
-
-    override fun onLazyLoad() {
-        if(viewModel.pullState.value.loadingState == LoadingState.NONE){
-            viewModel.loadListData(true, isPullAction = false)
+        LaunchedEffect(Unit){
+            if(viewModel.isNoneState()){
+                viewModel.loadListData(true, isPullAction = false)
+            }
         }
+        ComposeMainContentView(viewModel)
     }
 
     @Preview("示例页面")
@@ -97,14 +97,13 @@ class ComposeActivity : BaseComposeActivity() {
                     .fillMaxHeight(),
                 state = rememberPullState.value,
                 isDataEmpty = rememberStateList.isEmpty(),
-                onReloadClick = { showToast("哇哈哈") }
+                onReloadClick = { viewModel.loadListData(isRefresh = true, false) }
             ){
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxWidth()
                         .fillMaxHeight()
                 ) {
-                    println("测试测试: DefaultAppTheme.LazyColumn()")
                     itemsIndexed(
                         items = rememberStateList,
                         contentType = { _, it -> it::class }
@@ -126,12 +125,7 @@ class ComposeActivity : BaseComposeActivity() {
         data: GithubRepositoryBean,
         onItemClick:(()-> Unit)? = null
     ) {
-
         println("测试测试: DefaultAppTheme.RepositoryItem()")
-
-//        val colors = mutableListOf(
-//           Color.Blue, Color.DarkGray, Color.Red, Color.Yellow, Color.Cyan
-//        )
         Column(
             modifier = Modifier
                 .clickable { onItemClick?.invoke() }
@@ -181,7 +175,6 @@ class ComposeActivity : BaseComposeActivity() {
         }
     }
 
-
 }
 
 private class ComposeMainViewModelProvider : PreviewParameterProvider<RepositoryListViewModel> {
@@ -189,10 +182,10 @@ private class ComposeMainViewModelProvider : PreviewParameterProvider<Repository
     override val values: Sequence<RepositoryListViewModel>
         get() = listOf(
             RepositoryListViewModel().apply {
-                pullSuccess(isRefresh = true, isPull = true, false)
                 dataStateList.addAll(dataProvider.values)
                 dataStateList.addAll(dataProvider.values)
                 dataStateList.addAll(dataProvider.values)
+                loadingSuccess()
             }
         ).asSequence()
 }

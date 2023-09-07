@@ -4,7 +4,7 @@ plugins {
     id("kotlin-kapt")
 }
 
-val libraryVersions: Map<String, String> by rootProject.extra
+val libVersions: Map<String, String> by rootProject.extra
 
 android {
     namespace = "com.mellivora.data.repository"

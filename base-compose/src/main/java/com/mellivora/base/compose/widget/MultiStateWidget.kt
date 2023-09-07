@@ -11,32 +11,30 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import com.google.accompanist.drawablepainter.rememberDrawablePainter
 import com.mellivora.base.compose.R
+import com.mellivora.base.compose.ui.tools.StringParamsProvider
 import com.mellivora.base.exception.ErrorStatus
 import com.mellivora.base.state.LoadingState
 import com.mellivora.base.state.PullState
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.withContext
 
 /**
  * 多状态布局
@@ -63,13 +61,10 @@ fun MultiStateWidget(
     },
     contentWidget: @Composable () -> Unit,
 ) {
-
-    println("测试测试: MultiStateWidget() state:${state.loadingState.name}")
-
+    if(state.isPull){
+        return
+    }
     Box(modifier = modifier){
-
-        println("测试测试: MultiStateWidget().Box()")
-
         when(state.loadingState){
             LoadingState.LOADING -> {
                 if(state.isRefresh && !state.isPull){
@@ -109,27 +104,24 @@ fun MultiStateWidget(
 )
 @Composable
 fun ComposeLoadingWidget(
-    @PreviewParameter(StringProvider::class,1)
+    @PreviewParameter(StringParamsProvider::class,1)
     message: String?
 ) {
-
     val context = LocalContext.current
-    val animationDrawable = remember {
-        ContextCompat.getDrawable(context, R.drawable.base_anim_loading) as AnimationDrawable
-//        AnimationDrawable().apply {
-//            addFrame(ContextCompat.getDrawable(LocalContext.current, R.drawable.frame1)!!, 100)
-//            addFrame(ContextCompat.getDrawable(LocalContext.current, R.drawable.frame2)!!, 100)
-//            addFrame(ContextCompat.getDrawable(LocalContext.current, R.drawable.frame3)!!, 100)
-//            isOneShot = false
-//        }
-    }
-    val currentIndex = remember { mutableStateOf(0) }
-    LaunchedEffect(Unit) {
-        while (true) {
-            delay(animationDrawable.getDuration(currentIndex.value).toLong())
-            withContext(Dispatchers.Main) {
-                currentIndex.value = (currentIndex.value + 1) % animationDrawable.numberOfFrames
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val animationDrawable = remember { ContextCompat.getDrawable(context, R.drawable.base_anim_loading) as AnimationDrawable }
+
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            when (event) {
+                Lifecycle.Event.ON_PAUSE -> animationDrawable.stop()
+                Lifecycle.Event.ON_START -> animationDrawable.start()
+                else -> Unit
             }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
         }
     }
 
@@ -141,7 +133,7 @@ fun ComposeLoadingWidget(
     ) {
         Spacer(modifier = Modifier.weight(0.333f))
         Image(
-            painter = rememberDrawablePainter(drawable = animationDrawable.getFrame(currentIndex.value)),
+            painter = rememberDrawablePainter(drawable = animationDrawable),
             contentDescription = null,
             modifier = Modifier.size(40.dp)
         )
@@ -173,7 +165,7 @@ fun ComposeLoadingWidget(
 )
 @Composable
 fun ComposeEmptyWidget(
-    @PreviewParameter(StringProvider::class,1)
+    @PreviewParameter(StringParamsProvider::class,1)
     message: String?,
     onReloadClick: (() -> Unit)? = null
 ) {
@@ -221,7 +213,7 @@ fun ComposeEmptyWidget(
  */
 @Composable
 fun ComposeErrorWidget(
-    @PreviewParameter(StringProvider::class,1)
+    @PreviewParameter(StringParamsProvider::class,1)
     errorMsg: String?,
     onReloadClick: (() -> Unit)? = null
 ) {
@@ -267,7 +259,7 @@ fun ComposeErrorWidget(
 )
 @Composable
 fun ComposeNetworkErrorWidget(
-    @PreviewParameter(StringProvider::class,1)
+    @PreviewParameter(StringParamsProvider::class,1)
     networkErrorMsg: String?,
     onReloadClick: (() -> Unit)? = null
 ) {
@@ -297,10 +289,4 @@ fun ComposeNetworkErrorWidget(
         }
         Spacer(modifier = Modifier.weight(0.666f))
     }
-}
-
-
-private class StringProvider : PreviewParameterProvider<String> {
-    override val values: Sequence<String>
-        get() = listOf("测试测试").asSequence()
 }

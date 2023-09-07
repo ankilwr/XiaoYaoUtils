@@ -4,7 +4,7 @@ plugins {
     id("kotlin-kapt")
 }
 
-val libraryVersions: Map<String, String> by rootProject.extra
+val libVersions: Map<String, String> by rootProject.extra
 
 android {
     namespace = "com.mellivora.base.compose"
@@ -20,7 +20,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = libraryVersions["compose_compiler_version"]
+        kotlinCompilerExtensionVersion = libVersions["compose_compiler_version"]
     }
     kotlinOptions {
         jvmTarget = "17"
@@ -48,18 +48,23 @@ dependencies {
 
     api(project(":base-core"))
 
+//    val composeBom = platform("androidx.compose:compose-bom:2023.01.00")
+//    implementation(composeBom)
+//    androidTestImplementation(composeBom)
+//    api("androidx.compose.material3:material3")
+//    debugApi("androidx.compose.ui:ui-tooling")
+//    api("androidx.compose.ui:ui")
+
     //compose
-    api("androidx.compose.ui:ui:1.4.3")
-    //kapt("androidx.compose.ui:ui-compiler:1.4.3")
-    api("androidx.compose.ui:ui-tooling:1.4.3")
-    api("androidx.compose.material:material:1.4.3")
+    debugApi("androidx.compose.ui:ui-tooling:${libVersions["compose_compiler_version"]}")
+    api("androidx.compose.ui:ui:${libVersions["compose_compiler_version"]}")
+    api("androidx.compose.material:material:${libVersions["compose_compiler_version"]}")
     api("androidx.activity:activity-compose:1.7.2")
-//    api("androidx.compose.ui.graphics.animation:1.0.0")
-//    api("androidx.compose.ui.graphics:1.0.0")
+//    api("androidx.compose.ui.graphics.animation:${libVersions["compose_compiler_version"]}")
 
     api("com.google.accompanist:accompanist-insets:0.16.0")
-    api("com.google.accompanist:accompanist-drawablepainter:0.30.1")
     api("com.google.accompanist:accompanist-systemuicontroller:0.30.1")
+    api("com.google.accompanist:accompanist-drawablepainter:0.30.1")
 
     //compose网络图片加载库
     api("io.coil-kt:coil-compose:2.4.0")

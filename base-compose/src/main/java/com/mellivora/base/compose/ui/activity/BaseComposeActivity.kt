@@ -13,19 +13,9 @@ abstract class BaseComposeActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent { InitMainComposeView() }
-        lifecycleScope
     }
 
     @Composable
     abstract fun InitMainComposeView()
-    abstract fun onLazyLoad()
-
-    override fun onResume() {
-        super.onResume()
-        if(isLazyLoad){
-            isLazyLoad = false
-            onLazyLoad()
-        }
-    }
 
 }

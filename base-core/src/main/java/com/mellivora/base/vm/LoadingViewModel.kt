@@ -49,6 +49,13 @@ open class LoadingViewModel: BaseViewModel() {
 
 
     /**
+     * 数据加载是否为初始状态
+     */
+    fun isNoneState(): Boolean{
+        return pullState.value.loadingState == LoadingState.NONE
+    }
+
+    /**
      * 获取当前需要加载的页码
      * @param startPage: 默认页码起始位置【0|1】, 有些接口页码是从1开始的
      */
