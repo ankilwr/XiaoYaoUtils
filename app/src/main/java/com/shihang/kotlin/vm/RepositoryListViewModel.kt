@@ -14,15 +14,12 @@ import kotlinx.coroutines.delay
 
 class RepositoryListViewModel: LoadingViewModel(){
 
-    val dataList = MutableLiveData<MutableList<GithubRepositoryBean>>()
+    val dataList = MutableLiveData<List<GithubRepositoryBean>>()
     val dataStateList = mutableStateListOf<GithubRepositoryBean>()
 
-    fun loadListData(isRefresh: Boolean, isPullAction: Boolean){
+    fun loadListData(isRefresh: Boolean, isPull: Boolean){
         doUILaunch {
-            if(isRefresh && !isPullAction){
-                //将UI视图更新为loading状态
-                loading()
-            }
+            loading(isRefresh, isPull)
             doIOResult {
                 delay(2000L)
                 val call = BaseService.githubService.getGithubRepositoryList("ankilwr")
@@ -36,10 +33,15 @@ class RepositoryListViewModel: LoadingViewModel(){
                 dataList.value = newList
                 dataStateList.clear()
                 dataStateList.addAll(newList)
-                pullSuccess(isRefresh, isPullAction, false)
-                println(System.currentTimeMillis())
-            }.onCheckError(pullErrorConsumer(isRefresh, isPullAction))
+                println("loadSuccess(): -> size:${dataStateList.size}")
+                pullSuccess(isRefresh, isPull, false)
+            }.onCheckError(pullErrorConsumer(isRefresh, isPull))
         }
+    }
+
+    fun removePosition(p: Int){
+        //loadListData(false, isPull = true)
+        dataStateList.removeAt(p)
     }
 
 }

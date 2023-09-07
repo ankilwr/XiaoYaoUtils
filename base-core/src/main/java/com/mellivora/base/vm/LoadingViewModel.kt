@@ -63,10 +63,16 @@ open class LoadingViewModel: BaseViewModel() {
         return if(isRefresh) startPage else currentPage+1
     }
 
-    fun loading(stateData: MutableStateFlow<PullState> = _pullState){
+    fun loading(
+        isRefresh: Boolean = true,
+        isPull: Boolean = false,
+        stateData: MutableStateFlow<PullState> = _pullState
+    ){
         val state = stateData.value.copy()
         state.loadingState = LoadingState.LOADING
         state.message = getResString(R.string.base_status_loading)
+        state.isRefresh = isRefresh
+        state.isPull = isPull
         stateData.value = state
     }
 

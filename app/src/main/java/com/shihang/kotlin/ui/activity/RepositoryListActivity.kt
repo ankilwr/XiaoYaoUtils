@@ -31,7 +31,7 @@ class RepositoryListActivity: BaseBindingActivity<ActivityRepositoryListBinding>
         viewBinding.appThemeBar.setLeftIconClick{
             finish()
         }
-        viewModel.loadListData(isRefresh = true, isPullAction = false)
+        viewModel.loadListData(isRefresh = true, isPull = false)
     }
 
 

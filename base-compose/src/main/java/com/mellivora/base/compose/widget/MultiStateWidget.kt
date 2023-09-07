@@ -61,10 +61,12 @@ fun MultiStateWidget(
     },
     contentWidget: @Composable () -> Unit,
 ) {
-    if(state.isPull){
-        return
-    }
+    println("MultiStateWidget()")
     Box(modifier = modifier){
+        if(state.isPull){
+            contentWidget()
+            return
+        }
         when(state.loadingState){
             LoadingState.LOADING -> {
                 if(state.isRefresh && !state.isPull){
@@ -72,10 +74,12 @@ fun MultiStateWidget(
                 }
             }
             LoadingState.ERROR -> {
-                if(state.code == ErrorStatus.NETWORK_ERROR){
-                    networkErrorWidget(state.message, onReloadClick)
-                }else{
-                    errorWidget(state.message, onReloadClick)
+                if(state.isRefresh && !state.isPull){
+                    if(state.code == ErrorStatus.NETWORK_ERROR){
+                        networkErrorWidget(state.message, onReloadClick)
+                    }else{
+                        errorWidget(state.message, onReloadClick)
+                    }
                 }
             }
             LoadingState.SUCCESS -> {
