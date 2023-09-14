@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentResultListener
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.findViewTreeLifecycleOwner
@@ -47,7 +48,7 @@ abstract class BaseBindingDialog<T : ViewBinding>: BaseCoreDialog() {
         showNow(fragmentManager, tag)
     }
 
-    open fun showNow(view: View, tag: String = this::class.java.name, onResult:((Bundle)->Unit)){
+    open fun showNow(view: View, tag: String = this::class.java.name, onResult:((DialogFragment, Bundle)->Unit)){
         val fragmentManager = view.childFragmentManager ?: return
         showNow(fragmentManager, tag, onResult)
     }

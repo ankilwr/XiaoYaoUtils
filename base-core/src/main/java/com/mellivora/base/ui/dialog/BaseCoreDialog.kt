@@ -32,12 +32,12 @@ abstract class BaseCoreDialog: DialogFragment() {
 
     private var onCancelListener: (() -> Unit)? = null
     private var onDismissListener: (() -> Unit)? = null
-    private var onResultListener: ((Bundle) -> Unit)? = null
+    private var onResultListener: ((DialogFragment, Bundle) -> Unit)? = null
 
     class FragmentCacheViewModel: ViewModel(){
         var cacheOnCancelListener: (() -> Unit)? = null
         var cacheOnDismissListener: (() -> Unit)? = null
-        var cacheOnResultListener: ((Bundle) -> Unit)? = null
+        var cacheOnResultListener: ((DialogFragment, Bundle) -> Unit)? = null
     }
 
     /**
@@ -70,7 +70,7 @@ abstract class BaseCoreDialog: DialogFragment() {
     /**
      * 设置弹窗处理结果回调
      */
-    fun setOnResultListener(onResult: ((Bundle)->Unit)?){
+    fun setOnResultListener(onResult: ((DialogFragment, Bundle)->Unit)?){
         try {
             cacheViewModel.cacheOnResultListener = onResult
         }catch (e: Throwable){
@@ -104,7 +104,7 @@ abstract class BaseCoreDialog: DialogFragment() {
         showNow(fragmentManager, this::class.java.name)
     }
 
-    fun showNow(fragmentManager: FragmentManager, tag: String = this::class.java.name, onResult:((Bundle)->Unit)){
+    fun showNow(fragmentManager: FragmentManager, tag: String = this::class.java.name, onResult:((DialogFragment, Bundle)->Unit)){
         setOnResultListener(onResult)
         showNow(fragmentManager, tag)
     }
@@ -120,7 +120,7 @@ abstract class BaseCoreDialog: DialogFragment() {
     }
 
     open fun setFragmentResult(bundle: Bundle){
-        cacheViewModel.cacheOnResultListener?.invoke(bundle)
+        cacheViewModel.cacheOnResultListener?.invoke(this, bundle)
     }
 
     open fun dismissForResult(bundle: Bundle){
