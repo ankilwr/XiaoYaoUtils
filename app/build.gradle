@@ -48,7 +48,6 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     api project(":base-binding")
-    api project(":base-compose")
     api project(":data-repository")
 
     implementation("com.alibaba:arouter-api:1.5.2")

@@ -49,7 +49,6 @@ inline fun Throwable?.onCheckError(crossinline block: (Throwable) -> Unit){
 
 fun Throwable?.onCheckError(onError: Consumer<Throwable>){
     if(this == null) return
-    LogUtils.print2ConsoleError("Throwable.onCheckError():${this.stackTraceToString()}")
     onError.accept(this)
 }
 

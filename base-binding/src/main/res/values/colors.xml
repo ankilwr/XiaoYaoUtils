@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="actionBarColor">#ffffff</color>
+    <color name="themeColor">#37CF6B</color>
+    <color name="themePressColor">#37AD6B</color>
+
+    <color name="windowBackground">#F3F3F3</color>
+
+    <color name="itemColor">#EFEFEF</color>
+    <color name="btnEnable">#A0A0A0</color>
+
+
+    <color name="tabFalse">#587060</color>
+    <color name="tabTrue">#37CF6B</color>
+
+    <color name="line">#E2E2E2</color>
+
+    <color name="editHint">#A0A0A0</color>
+    <color name="textColor">#202336</color>
+
+    <color name="text66">#666666</color>
+    <color name="text99">#999999</color>
+    <color name="text33">#333333</color>
+    <color name="textCC">#cccccc</color>
+
+</resources>

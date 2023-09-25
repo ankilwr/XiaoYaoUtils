@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <dimen name="actionbarSize">60dp</dimen>
-<!--    <dimen name="actionbarSize">?attr/actionBarSize</dimen>-->
-    <dimen name="statusBarSize">24dp</dimen>
-
-</resources>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="AppThemeBar">
+        <attr name="barTitle" format="string"/>
+        <attr name="barTitleColor" format="color" />
+        <attr name="leftIcon" format="reference" />
+        <attr name="leftIconTint" format="color" />
+        <attr name="rightIcon" format="reference" />
+        <attr name="rightIconTint" format="color" />
+        <attr name="rightMenu" format="string" />
+        <attr name="rightMenuTint" format="color" />
+        <attr name="actionbarLineEnable" format="boolean" />
+        <attr name="actionbarLineColor" format="color" />
+        <attr name="fullStatusBar" format="boolean" />
+        <attr name="lightStatusBarModel" format="boolean" />
+    </declare-styleable>
+
+</resources>

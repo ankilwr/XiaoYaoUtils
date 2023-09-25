@@ -32,10 +32,6 @@ class MainActivity: BaseBindingActivity<ActivityMainBinding>(){
             val intent = createIntent(PermissionActivity::class.java)
             it.context.startActivity(intent)
         }
-        viewBinding.btnCompose.setMultipleClick {
-            val intent = createIntent(ComposeActivity::class.java)
-            it.context.startActivity(intent)
-        }
         viewBinding.btnUserInfo.setMultipleClick {
             viewModel.loadGithubUserInfo()
         }

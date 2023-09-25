@@ -18,7 +18,6 @@ import com.mellivora.base.state.LoadingState
 import com.mellivora.base.state.PullState
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -30,21 +29,22 @@ open class LoadingViewModel: BaseViewModel() {
 
     /**
      * loading|pullState状态流
+     * 只保留最终事件的通道(适合用做单一状态记录)
      */
-    private val _pullState: MutableStateFlow<PullState> = MutableStateFlow(PullState())
+    private val _pullState = MutableStateFlow(PullState())
     val pullState = _pullState.asStateFlow()
 
     /**
-     * 弹窗effect事件,effect事件带来的副作用，通常是 一次性事件 且 一对一的订阅关系
+     * 消息队列通道(假如有多个订阅者，事件只会由其中一个订阅者处理，即事件只会被消费一次)
      * 例如：弹Toast、导航Fragment等
      */
     private val _loadingDialogChannel: Channel<LoadingDialogEvent> = Channel(Channel.UNLIMITED)
     val loadingDialogChannel= _loadingDialogChannel.receiveAsFlow()
 
 //    /**
-//     * event包含用户与ui的交互（如点击操作），也有来自后台的消息（如切换自习模式）
+//     * 可保留多个事件的通道，并且支持一对多(多个订阅者都能收到通道内的事件回调)
 //     */
-//    private val _event: MutableSharedFlow<Event> = MutableSharedFlow()
+//    private val _event: MutableSharedFlow<String> = MutableSharedFlow()
 //    val event = _event.asSharedFlow()
 
 
@@ -160,7 +160,7 @@ open class LoadingViewModel: BaseViewModel() {
     fun registerLoadingDialog(lifecycleOwner: LifecycleOwner, api: LoadingDialogApi){
         viewModelScope.launch {
             lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED){
-                //lifecycleOwner声明周期 > STARTED, 开始消费事件
+                //lifecycleOwner生命周期 > STARTED, 开始消费事件
                 loadingDialogChannel.collect { channel ->
                     val fragmentManager = when(lifecycleOwner){
                         is FragmentActivity ->  lifecycleOwner.supportFragmentManager

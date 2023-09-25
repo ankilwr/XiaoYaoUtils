@@ -27,6 +27,6 @@
         android:layout_marginTop="6dp"
         tools:text="正在加载"
         android:textColor="@android:color/white"
-        android:textSize="@dimen/sp15"/>
+        android:textSize="15dp"/>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

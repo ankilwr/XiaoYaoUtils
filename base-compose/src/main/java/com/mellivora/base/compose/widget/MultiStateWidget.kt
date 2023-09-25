@@ -61,7 +61,6 @@ fun MultiStateWidget(
     },
     contentWidget: @Composable () -> Unit,
 ) {
-    println("MultiStateWidget()")
     Box(modifier = modifier){
         if(state.isPull){
             contentWidget()

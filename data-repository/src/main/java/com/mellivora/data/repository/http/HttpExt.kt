@@ -23,7 +23,7 @@ suspend inline fun <reified R> Call<*>.executeConvert() = suspendCancellableCoro
     it.invokeOnCancellation { e ->
         //协程任务取消, 同时取消HTTP请求, Call.cancel()
         this.cancel()
-        LogUtils.print2ConsoleError("invokeOnCancellation():${e?.stackTraceToString()}")
+        LogUtils.print2ConsoleError("executeConvert.invokeOnCancellation():${e?.stackTraceToString()}")
     }
     //执行HTTP请求
     try {
