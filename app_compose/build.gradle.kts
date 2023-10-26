@@ -64,4 +64,14 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+
+
+
+    implementation("com.google.accompanist:accompanist-insets-ui:0.26.2-beta")
+    implementation("com.google.accompanist:accompanist-insets:0.26.2-beta")
+    implementation("androidx.compose.ui:ui:${libVersions["compose_compiler_version"]}")
+    implementation("androidx.navigation:navigation-compose:2.5.1")
+
+    implementation("com.airbnb.android:lottie-compose:5.2.0")
+
 }

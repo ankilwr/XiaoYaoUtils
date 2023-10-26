@@ -38,32 +38,27 @@ fun DefaultAppTheme(
     onTitleClick: (() -> Unit)? = null,
     actionbarCompose: (@Composable BoxScope.() -> Unit)? = null
 ) {
-    Column(
-        Modifier
-            .fillMaxWidth()
-            .background(theme.colors.background)
+    Column(Modifier
+        .fillMaxWidth()
+        .background(theme.colors.primary)
     ) {
-        Column(Modifier
-            .background(theme.colors.primary)
+        Spacer(Modifier.windowInsetsTopHeight(WindowInsets.statusBars))
+        Box(
+            Modifier
+                .fillMaxWidth()
+                .height(50.dp)
         ) {
-            Spacer(Modifier.windowInsetsTopHeight(WindowInsets.statusBars))
-            Box(
-                Modifier
-                    .fillMaxWidth()
-                    .height(50.dp)
-            ) {
-                actionbarCompose?.invoke(this)
-                if (!title.isNullOrEmpty()) {
-                    Text(
-                        modifier = Modifier
-                            .align(Alignment.Center)
-                            .clickable { onTitleClick?.invoke() },
-                        textAlign = TextAlign.Center,
-                        text = title,
-                        color = if (theme.colors.isLight) Color.White else Color.Black,
-                        fontSize = 18.sp
-                    )
-                }
+            actionbarCompose?.invoke(this)
+            if (!title.isNullOrEmpty()) {
+                Text(
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .clickable { onTitleClick?.invoke() },
+                    textAlign = TextAlign.Center,
+                    text = title,
+                    color = if (theme.colors.isLight) Color.White else Color.Black,
+                    fontSize = 18.sp
+                )
             }
         }
     }

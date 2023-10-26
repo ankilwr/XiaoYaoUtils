@@ -4,39 +4,39 @@
 
     <item
         android:drawable="@drawable/base_loading_anim1"
-        android:duration="100" />
+        android:duration="80" />
     <item
         android:drawable="@drawable/base_loading_anim2"
-        android:duration="100" />
+        android:duration="80" />
     <item
         android:drawable="@drawable/base_loading_anim3"
-        android:duration="100" />
+        android:duration="80" />
     <item
         android:drawable="@drawable/base_loading_anim4"
-        android:duration="100" />
+        android:duration="80" />
     <item
         android:drawable="@drawable/base_loading_anim5"
-        android:duration="100" />
+        android:duration="80" />
     <item
         android:drawable="@drawable/base_loading_anim6"
-        android:duration="100" />
+        android:duration="80" />
     <item
         android:drawable="@drawable/base_loading_anim7"
-        android:duration="100" />
+        android:duration="80" />
     <item
         android:drawable="@drawable/base_loading_anim8"
-        android:duration="100" />
+        android:duration="80" />
     <item
         android:drawable="@drawable/base_loading_anim9"
-        android:duration="100" />
+        android:duration="80" />
     <item
         android:drawable="@drawable/base_loading_anim10"
-        android:duration="100" />
+        android:duration="80" />
     <item
         android:drawable="@drawable/base_loading_anim11"
-        android:duration="100" />
+        android:duration="80" />
     <item
         android:drawable="@drawable/base_loading_anim12"
-        android:duration="100" />
+        android:duration="80" />
 
 </animation-list>

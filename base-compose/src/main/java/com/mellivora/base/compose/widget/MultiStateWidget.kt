@@ -85,11 +85,13 @@ fun MultiStateWidget(
                 if(isDataEmpty){
                     emptyWidget(emptyText, onReloadClick)
                 }else{
-                    contentWidget()
+                    if(state.isRefresh && !state.isPull){
+                        contentWidget()
+                    }
                 }
             }
             else -> {
-                contentWidget()
+                //contentWidget()
             }
         }
     }

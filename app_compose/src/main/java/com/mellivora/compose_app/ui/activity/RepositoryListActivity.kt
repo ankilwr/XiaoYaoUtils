@@ -8,7 +8,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -38,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.mellivora.base.compose.attr.DarkThemeColors
 import com.mellivora.base.compose.attr.LightThemeColors
 import com.mellivora.base.compose.attr.otherColor
 import com.mellivora.base.compose.ui.activity.BaseComposeActivity
@@ -93,10 +93,9 @@ class RepositoryListActivity : BaseComposeActivity() {
                 viewModel.loadListData(true, isPull = false)
             }
         }
-
         Column(Modifier.fillMaxSize()) {
             BackTheme(
-                title = viewModel.dataStateList.getOrNull(0)?.owner?.login ?: "",
+                title = viewModel.dataStateList.getOrNull(0)?.owner?.login?.plus("的仓库") ?: "",
             )
             MultiStateWidget(
                 modifier = Modifier.fillMaxSize(),
@@ -104,20 +103,29 @@ class RepositoryListActivity : BaseComposeActivity() {
                 isDataEmpty = rememberStateList.isEmpty(),
                 onReloadClick = { viewModel.loadListData(isRefresh = true, false) }
             ){
-                LazyColumn(Modifier.fillMaxSize()) {
-                    itemsIndexed(
-                        items = rememberStateList,
-                        key = { index, it -> it.id ?: "$index" },
-                        contentType = { _, it -> it::class }
-                    ) { position, item ->
-                        RepositoryItem(
-                            data = item,
-                            modifier = Modifier.animateItemPlacement()
-                        ){
-                            viewModel.removePosition(position)
+
+                println("重组：MultiStateWidget() -> ${rememberPullState.value.toString()}")
+
+//                SmartRefresh(
+//                    modifier = Modifier.fillMaxSize(),
+//                    pullState = rememberPullState.value,
+//                    onRefresh = { viewModel.loadListData(isRefresh = true, true) }
+//                ){
+                    LazyColumn(Modifier.fillMaxSize()) {
+                        itemsIndexed(
+                            items = rememberStateList,
+                            //key = { index, it -> it.id ?: "$index" },
+                            contentType = { _, it -> it::class }
+                        ) { position, item ->
+                            RepositoryItem(
+                                data = item,
+                                modifier = Modifier.animateItemPlacement()
+                            ){
+                                //viewModel.removePosition(position)
+                            }
                         }
                     }
-                }
+//                }
             }
         }
     }
@@ -170,7 +178,8 @@ class RepositoryListActivity : BaseComposeActivity() {
                 fontSize = 15.sp,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(0.dp, 10.dp, 0.dp, 0.dp)
+                    .padding(0.dp, 10.dp, 0.dp, 0.dp),
+                onClick = { onItemClick?.invoke() }
             )
 
             Divider(
@@ -184,7 +193,6 @@ class RepositoryListActivity : BaseComposeActivity() {
     }
 
 }
-
 
 private class RepositoryListViewModelProvider : PreviewParameterProvider<RepositoryListViewModel> {
     private val dataProvider = GithubRepositoryDataProvider()

@@ -1,11 +1,11 @@
 package com.mellivora.base.coroutine
 
 import androidx.core.util.Consumer
-import com.mellivora.base.exception.parse
-import com.mellivora.base.utils.LogUtils
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 
 sealed class IResult<out T : Any> {
@@ -72,21 +72,53 @@ fun <T: Any> IResult<T>.checkResult(onSuccess: Consumer<T>, onError: Consumer<Th
 /**
  * 运行在IO子协程的异常处理
  */
-suspend fun <T : Any> doIOResult(block: suspend CoroutineScope.() -> T): IResult<T> {
+suspend fun <T : Any> withIOResult(
+    dispatchers: CoroutineDispatcher = Dispatchers.IO,
+    block: suspend CoroutineScope.() -> T
+): IResult<T> {
     return try {
-        IResult.Success(withContext(Dispatchers.IO) { block() })
+        IResult.Success(withContext(dispatchers) { block() })
     } catch (e: Exception) {
         IResult.Error(e)
     }
 }
 
+
 /**
- * 运行在指定协程的结果处理
+ * 并发运行的IO子协程操作(已捕捉异常)
  */
-suspend fun <T : Any> doResult(dispatchers: CoroutineDispatcher = Dispatchers.IO, block: suspend () -> T): IResult<T> {
-    return try {
-        IResult.Success(withContext(dispatchers) { block() })
-    } catch (e: Exception) {
-        IResult.Error(e)
+inline fun <reified T : Any> CoroutineScope.asyncIOResult(
+    dispatchers: CoroutineDispatcher = Dispatchers.IO,
+    crossinline block: suspend CoroutineScope.() -> T
+): Deferred<IResult<T>> {
+    return async(dispatchers){
+        try {
+            IResult.Success(block())
+        } catch (e: java.lang.Exception) {
+            IResult.Error(e)
+        }
+    }
+}
+
+
+fun <T : Any> IResult<T>.getData(): T{
+    when(this){
+        is IResult.Success -> {
+            return data
+        }
+        is IResult.Error -> {
+            throw exception
+        }
+    }
+}
+
+fun <T : Any> IResult<T>.getDataOrNull(): T?{
+    return when(this){
+        is IResult.Success -> {
+            data
+        }
+        is IResult.Error -> {
+            null
+        }
     }
 }

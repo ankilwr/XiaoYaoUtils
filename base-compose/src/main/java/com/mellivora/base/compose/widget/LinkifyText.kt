@@ -4,6 +4,7 @@ import android.os.Build
 import android.text.SpannableString
 import android.text.style.URLSpan
 import android.text.util.Linkify
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.Text
@@ -44,6 +45,7 @@ fun LinkifyText(
     onTextLayout: (TextLayoutResult) -> Unit = {},
     style: TextStyle = LocalTextStyle.current,
     clickable: Boolean = true,
+    onClick: (() -> Unit)? = null,
     onClickLink: ((linkText: String) -> Unit)? = null
 ) {
     val uriHandler = LocalUriHandler.current
@@ -52,10 +54,7 @@ fun LinkifyText(
         append(text)
         linkInfos.forEach {
             addStyle(
-                style = SpanStyle(
-                    color = linkColor,
-                    textDecoration = TextDecoration.Underline
-                ),
+                style = SpanStyle(color = linkColor, textDecoration = TextDecoration.Underline),
                 start = it.start,
                 end = it.end
             )
@@ -86,23 +85,22 @@ fun LinkifyText(
             onTextLayout = onTextLayout,
             style = style,
             onClick = { offset ->
-                annotatedString.getStringAnnotations(
-                    start = offset,
-                    end = offset,
-                ).firstOrNull()?.let { result ->
+                annotatedString.getStringAnnotations(offset, offset).firstOrNull()?.also { result ->
                     if (linkEntire) {
                         onClickLink?.invoke(annotatedString.substring(result.start, result.end))
                     } else {
                         uriHandler.openUri(result.item)
                         onClickLink?.invoke(annotatedString.substring(result.start, result.end))
                     }
+                } ?: run{
+                    onClick?.invoke()
                 }
             }
         )
     } else {
         Text(
             text = annotatedString,
-            modifier = modifier,
+            modifier = modifier.clickable { onClick?.invoke() },
             color = color,
             fontSize = fontSize,
             fontStyle = fontStyle,
@@ -198,12 +196,10 @@ private class SpannableStr(source: CharSequence): SpannableString(source) {
     private val spanList = mutableListOf<Data>()
 
     private val linkInfos: List<LinkInfo>
-        get() = spanList.filter { it.what is URLSpan }.map {
-            LinkInfo(
-                (it.what as URLSpan).url,
-                it.start,
-                it.end
-            )
+        get() = spanList.filter {
+            it.what is URLSpan
+        }.map {
+            LinkInfo((it.what as URLSpan).url, it.start, it.end)
         }
 
     override fun removeSpan(what: Any?) {

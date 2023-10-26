@@ -10,7 +10,7 @@ import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
-import com.mellivora.base.R
+import com.mellivora.base.binding.R
 import com.mellivora.base.binding.databinding.BaseLayoutThemeTitlebarBinding
 import com.mellivora.base.expansion.activity
 import com.mellivora.base.expansion.getStatusBarHeight

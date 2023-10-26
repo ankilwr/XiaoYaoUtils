@@ -1,7 +1,7 @@
 package com.mellivora.compose_app.vm
 
 import androidx.compose.runtime.mutableStateListOf
-import com.mellivora.base.coroutine.doIOResult
+import com.mellivora.base.coroutine.withIOResult
 import com.mellivora.base.coroutine.onCheckError
 import com.mellivora.base.coroutine.onCheckSuccess
 import com.mellivora.data.repository.http.executeConvert
@@ -18,12 +18,12 @@ class RepositoryListViewModel: LoadingViewModel(){
     fun loadListData(isRefresh: Boolean, isPull: Boolean){
         doUILaunch {
             loading(isRefresh, isPull)
-            doIOResult {
+            withIOResult {
                 delay(2000L)
                 val call = BaseService.githubService.getGithubRepositoryList("ankilwr")
                 call.executeConvert<MutableList<GithubRepositoryBean>>()
             }.onCheckSuccess {
-                if(!isRefresh){
+                if(isRefresh){
                     dataStateList.clear()
                 }
                 dataStateList.addAll(it)

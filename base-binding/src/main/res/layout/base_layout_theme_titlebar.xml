@@ -5,7 +5,7 @@
     android:id="@+id/titleLayout"
     tools:theme="@style/App_Theme_Red"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/actionbarSize">
+    android:layout_height="50dp">
 
     <ImageView
         android:id="@+id/back"

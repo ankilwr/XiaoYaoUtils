@@ -71,6 +71,10 @@ dependencies {
     //livedata转state
     api("androidx.compose.runtime:runtime-livedata:1.6.0-alpha04")
 
+
     //SVGA动画
     implementation("com.github.yyued:SVGAPlayer-Android:2.6.1")
+    //下拉刷新
+    //implementation("io.github.shenzhen2017:compose-refreshlayout:1.0.0")
+
 }

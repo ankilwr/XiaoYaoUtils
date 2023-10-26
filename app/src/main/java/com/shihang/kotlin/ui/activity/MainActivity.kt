@@ -3,9 +3,9 @@ package com.shihang.kotlin.ui.activity
 import android.util.Log
 import androidx.activity.viewModels
 import com.mellivora.base.binding.ui.activity.BaseBindingActivity
-import com.mellivora.base.coroutine.doIOResult
 import com.mellivora.base.coroutine.onCheckError
 import com.mellivora.base.coroutine.onCheckSuccess
+import com.mellivora.base.coroutine.withIOResult
 import com.mellivora.base.expansion.createIntent
 import com.mellivora.base.expansion.setMultipleClick
 import com.mellivora.base.expansion.showToast
@@ -45,7 +45,7 @@ class MainActivity: BaseBindingActivity<ActivityMainBinding>(){
 
         fun loadGithubUserInfo(){
             val job = doUILaunch{
-                doIOResult {
+                withIOResult {
                     val call = BaseService.githubService.getGithubUserInfo("ankilwr")
                     call.executeConvert<GithubUserBean>()
                 }.onCheckSuccess {
