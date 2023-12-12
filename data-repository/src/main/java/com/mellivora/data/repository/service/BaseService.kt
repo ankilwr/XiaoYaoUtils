@@ -1,9 +1,8 @@
 package com.mellivora.data.repository.service
 
-import android.util.Log
 import com.mellivora.base.utils.LogUtils
-import com.mellivora.data.repository.http.interceptor.CacheModeRequestInterceptor
-import com.mellivora.data.repository.http.interceptor.CacheModeResponseInterceptor
+import com.mellivora.data.repository.http.interceptor.CacheRequestInterceptor
+import com.mellivora.data.repository.http.interceptor.CacheNetworkResponseInterceptor
 import com.mellivora.base.utils.Utils
 import com.mellivora.data.repository.http.converter.CopyGsonConverterFactory
 import okhttp3.Cache
@@ -30,8 +29,8 @@ object BaseService {
             .connectTimeout(30L, TimeUnit.SECONDS)
             .readTimeout(30L, TimeUnit.SECONDS)
             .writeTimeout(30L, TimeUnit.SECONDS)
-            .addNetworkInterceptor(CacheModeResponseInterceptor())
-            .addInterceptor(CacheModeRequestInterceptor())
+            .addNetworkInterceptor(CacheNetworkResponseInterceptor())
+            .addInterceptor(CacheRequestInterceptor())
             .addInterceptor(logInterceptor)
             .build()
     }

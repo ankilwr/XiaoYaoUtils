@@ -11,6 +11,7 @@ import com.mellivora.base.expansion.setMultipleClick
 import com.mellivora.base.expansion.showToast
 import com.mellivora.data.repository.http.executeConvert
 import com.mellivora.base.vm.LoadingViewModel
+import com.mellivora.data.repository.http.cache.CacheMode
 import com.mellivora.data.repository.service.BaseService
 import com.shihang.kotlin.bean.GithubUserBean
 import com.shihang.kotlin.databinding.ActivityMainBinding
@@ -46,7 +47,7 @@ class MainActivity: BaseBindingActivity<ActivityMainBinding>(){
         fun loadGithubUserInfo(){
             val job = doUILaunch{
                 withIOResult {
-                    val call = BaseService.githubService.getGithubUserInfo("ankilwr")
+                    val call = BaseService.githubService.getGithubUserInfo(CacheMode.Today, "ankilwr")
                     call.executeConvert<GithubUserBean>()
                 }.onCheckSuccess {
                     Log.i("测试测试", "onCheckSuccess")
