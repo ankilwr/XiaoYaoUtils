@@ -27,6 +27,7 @@ import kotlinx.coroutines.launch
 open class LoadingViewModel: BaseViewModel() {
 
     private var currentPage = 1
+    val defaultPageSize = 20
 
     /**
      * loading|pullState状态流

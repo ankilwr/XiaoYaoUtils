@@ -42,6 +42,7 @@
         <activity android:name=".ui.activity.RepositoryListActivity"/>
         <activity android:name=".ui.activity.PermissionActivity"/>
         <activity android:name=".ui.activity.VerifyCodeActivity"/>
+        <activity android:name=".ui.activity.CommunityActivity"/>
 
     </application>
 

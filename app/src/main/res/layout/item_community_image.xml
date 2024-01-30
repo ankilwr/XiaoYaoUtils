@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.mellivora.data.repository.bean.CommunityData" />
+
+        <variable
+            name="adapter"
+            type="com.mellivora.base.binding.adapter.BaseMultiTypeAdapter" />
+
+        <import type="com.mellivora.base.binding.ui.widget.divider.RecyclerManager" />
+    </data>
+
+    <androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/imagesContainer"
+        bindAdapter="@{adapter}"
+        bindItemDecoration="@{RecyclerManager.INSTANCE.getGridDecoration(10f, 10f)}"
+        bindItemList="@{data.images}"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:overScrollMode="never"
+        android:minHeight="80dp"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="3" />
+</layout>

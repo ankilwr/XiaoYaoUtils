@@ -40,6 +40,10 @@ class MainActivity: BaseBindingActivity<ActivityMainBinding>(){
             val intent = createIntent(VerifyCodeActivity::class.java)
             it.context.startActivity(intent)
         }
+        viewBinding.btnFriend.setMultipleClick {
+            val intent = createIntent(CommunityActivity::class.java)
+            it.context.startActivity(intent)
+        }
     }
 
     class MainVm: LoadingViewModel(){
@@ -47,7 +51,7 @@ class MainActivity: BaseBindingActivity<ActivityMainBinding>(){
         fun loadGithubUserInfo(){
             val job = doUILaunch{
                 withIOResult {
-                    val call = BaseService.githubService.getGithubUserInfo(CacheMode.Today, "ankilwr")
+                    val call = BaseService.githubService.getGithubUserInfo("ankilwr")
                     call.executeConvert<GithubUserBean>()
                 }.onCheckSuccess {
                     Log.i("测试测试", "onCheckSuccess")

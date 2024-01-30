@@ -30,11 +30,6 @@ open class BaseViewModel: ViewModel() {
         return job
     }
 
-    fun <T> CoroutineScope.doAsync(
-        block: suspend CoroutineScope.() -> T
-    ): Deferred<T> {
-        return async(Dispatchers.IO, block = block)
-    }
 
 
     /**

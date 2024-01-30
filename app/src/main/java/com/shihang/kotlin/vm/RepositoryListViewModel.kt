@@ -6,6 +6,7 @@ import com.mellivora.base.coroutine.onCheckError
 import com.mellivora.base.coroutine.onCheckSuccess
 import com.mellivora.data.repository.http.executeConvert
 import com.mellivora.base.vm.LoadingViewModel
+import com.mellivora.data.repository.http.cache.CacheMode
 import com.mellivora.data.repository.service.BaseService
 import com.shihang.kotlin.bean.GithubRepositoryBean
 import kotlinx.coroutines.delay
@@ -20,7 +21,7 @@ class RepositoryListViewModel: LoadingViewModel(){
             loading(isRefresh, isPull)
             withIOResult {
                 delay(2000L)
-                val call = BaseService.githubService.getGithubRepositoryList("ankilwr")
+                val call = BaseService.githubService.getGithubRepositoryList(CacheMode.Today, "ankilwr")
                 call.executeConvert<MutableList<GithubRepositoryBean>>()
             }.onCheckSuccess {
                 val newList = mutableListOf<GithubRepositoryBean>()

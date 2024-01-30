@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <import type="com.mellivora.base.binding.ui.widget.divider.RecyclerManager"/>
+
+        <variable
+            name="vm"
+            type="com.shihang.kotlin.vm.CommunityListViewModel" />
+
+        <variable
+            name="adapter"
+            type="com.mellivora.base.binding.adapter.BaseMultiTypeAdapter" />
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.mellivora.base.binding.ui.widget.AppThemeBar
+            android:id="@+id/appThemeBar"
+            style="@style/App_Theme_Red"
+            app:barTitle="朋友圈" />
+
+
+        <com.mellivora.base.binding.ui.widget.multiple.MultipleStatusView
+            bindEmptyText='@{"暂无好友动态"}'
+            bindNotEmpty="@{vm.dataList.size() > 0}"
+            bindStateReloadClick="@{()->vm.loadListData(true, false)}"
+            bindViewState="@{vm.pullState}"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.scwang.smart.refresh.layout.SmartRefreshLayout
+                bindOnRefresh="@{()->vm.loadListData(true, true)}"
+                bindOnLoadMore="@{()->vm.loadListData(false, true)}"
+                bindPullState="@{vm.pullState}"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    bindAdapter="@{adapter}"
+                    bindItemList="@{vm.dataList}"
+                    bindItemDecoration="@{RecyclerManager.INSTANCE.getLinearDecoration(1f)}"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+            </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
+        </com.mellivora.base.binding.ui.widget.multiple.MultipleStatusView>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.mellivora.data.repository.bean.CommunityData" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivAvatar"
+            bindImageRoundSize="@{5f}"
+            bindImageRoundUrl="@{data.avatar}"
+            bindPlaceholderSrc="@{@drawable/base_default_image_round}"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:contentDescription="@null"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/base_default_image_round" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvNickName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:text="@{data.nickName}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textColor="#333333"
+                android:textSize="15sp"
+                tools:text="昵称" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvSay"
+                bindVisible="@{data.content.length() > 0}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:text="@{data.content}"
+                android:textColor="#666666"
+                android:textSize="15sp"
+                tools:text="朕emo拉～～～～朕emo拉～～～～\n朕emo拉～～～～朕emo拉～～～～\n朕emo拉～～～～" />
+
+            <!-- 不同类型的容器 -->
+            <FrameLayout
+                android:id="@+id/typeContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/tvNickName"
+                app:layout_constraintTop_toBottomOf="@id/tvSay" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvLocation"
+                bindVisible="@{data.location != null}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:text="@{data.location.place}"
+                android:textColor="@android:color/holo_blue_dark"
+                android:textSize="@dimen/sp14"
+                tools:text="xxx市xx区" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvDate"
+                bindVisible="@{data.dateFormat.length() > 0}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:text="@{data.dateFormat}"
+                android:textColor="#999999"
+                android:textSize="@dimen/sp14"
+                tools:text="昨天" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </LinearLayout>
+</layout>

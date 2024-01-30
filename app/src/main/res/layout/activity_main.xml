@@ -40,6 +40,13 @@
         android:ellipsize="end"
         android:text="测试测试"/>
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnFriend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:text="朋友圈"/>
+
 
 
 </androidx.appcompat.widget.LinearLayoutCompat>

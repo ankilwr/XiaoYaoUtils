@@ -47,4 +47,9 @@ object BaseService {
         retrofit.create(GithubService::class.java)
     }
 
+    /**
+     * mock数据服务
+     */
+    val mockService: MockDataService by lazy { object: MockDataService{} }
+
 }

@@ -41,7 +41,7 @@ suspend inline fun <reified R> Call<*>.executeConvert() = suspendCancellableCoro
                 it.safeResume(responseData as R)
             }
         } else {
-            it.safeResumeWithException(DataCheckException(response.message() ?: "", response.code()))
+            it.safeResumeWithException(DataCheckException(response.message() ?: "", "${response.code()}"))
         }
     }catch (e: Throwable){
         LogUtils.print2ConsoleError("executeConvert():${e.stackTraceToString()}")

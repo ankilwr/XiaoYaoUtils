@@ -107,12 +107,16 @@ object BindingExpansion {
     @BindingAdapter("bindPullState")
     fun pullState(refreshView: SmartRefreshLayout, state: PullState?){
         if(state == null) return
-        if(state.isPull){
-            if(state.isRefresh){
-                refreshView.finishRefresh(state.loadingState == LoadingState.SUCCESS)
-            }else{
-                refreshView.finishLoadMore(state.loadingState == LoadingState.SUCCESS)
+        when(state.loadingState){
+            LoadingState.SUCCESS,
+            LoadingState.ERROR -> {
+                if(state.isRefresh){
+                    refreshView.finishRefresh(state.loadingState == LoadingState.SUCCESS)
+                }else{
+                    refreshView.finishLoadMore(state.loadingState == LoadingState.SUCCESS)
+                }
             }
+            else -> {}
         }
         if(state.loadingState == LoadingState.SUCCESS){
             refreshView.setNoMoreData(!state.hasMore)
