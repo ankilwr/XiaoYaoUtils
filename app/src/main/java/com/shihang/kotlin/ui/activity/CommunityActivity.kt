@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.viewModels
+import androidx.viewbinding.ViewBinding
 import com.mellivora.base.binding.adapter.BaseMultiTypeAdapter
 import com.mellivora.base.binding.adapter.BindingItemViewBinder
 import com.mellivora.base.binding.adapter.RecyclerHolder
@@ -30,6 +31,7 @@ class CommunityActivity: BaseBindingActivity<ActivityCommunityListBinding>() {
     private val viewModel: CommunityListViewModel by viewModels()
 
     override fun initBinding(binding: ActivityCommunityListBinding) {
+        binding.vm = viewModel
         binding.adapter = BaseMultiTypeAdapter().apply {
             //注册一对多类型的绑定(一种数据类型对应多种布局)
             register(CommunityData::class).to(
@@ -47,7 +49,6 @@ class CommunityActivity: BaseBindingActivity<ActivityCommunityListBinding>() {
                 }
             }
         }
-        binding.vm = viewModel
     }
 
     override fun initViews() {
@@ -55,34 +56,70 @@ class CommunityActivity: BaseBindingActivity<ActivityCommunityListBinding>() {
     }
 
     /**
-     * 普通类型的朋友圈
+     * 普通类型的朋友圈(基础文字)
      */
-    class NormalBinder: BindingItemViewBinder<CommunityData, ItemCommunityNormalBinding>(){
+    open class NormalBinder: BindingItemViewBinder<CommunityData, ItemCommunityNormalBinding>(){
         override fun onCreateBinding(inflater: LayoutInflater, parent: ViewGroup): ItemCommunityNormalBinding {
             return ItemCommunityNormalBinding.inflate(inflater, parent, false)
         }
         override fun onBindViewHolder(binding: ItemCommunityNormalBinding, data: CommunityData, holder: RecyclerHolder) {
             binding.data = data
+            bindTypeContainerHolder(data, holder)
+        }
+        /**
+         * 添加子视图的ViewBinding
+         */
+        fun attachTypeContainerBinding(holder: RecyclerHolder, viewId: Int, childBinding: ViewBinding){
+            holder.getBinding<ItemCommunityNormalBinding>().apply {
+                holder.saveChildBinding(viewId, childBinding)
+                typeContainer.addView(childBinding.root)
+                typeContainer.visibility = View.VISIBLE
+            }
+        }
+
+        open fun bindTypeContainerHolder(data: CommunityData, holder: RecyclerHolder){
+
+        }
+    }
+
+    /**
+     * 分享链接类型的朋友圈
+     */
+    class LinkBinder: NormalBinder(){
+        override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup): RecyclerHolder {
+            val holder = super.onCreateViewHolder(inflater, parent)
+            val linkBinding = ItemCommunityLinkBinding.inflate(inflater, parent, false)
+            attachTypeContainerBinding(holder, R.id.linkContainer, linkBinding)
+            return holder
+        }
+
+        override fun bindTypeContainerHolder(data: CommunityData, holder: RecyclerHolder) {
+            val linkBinding = holder.getChildBinding<ItemCommunityLinkBinding>(R.id.linkContainer) ?: return
+            //处理link子视图
+            linkBinding.data = data.link
+            linkBinding.root.setMultipleClick {
+                val intent = Intent()
+                intent.setAction(Intent.ACTION_VIEW)
+                intent.setData(Uri.parse(data.link?.url))
+                it.context.startActivity(intent)
+            }
         }
     }
 
     /**
      * 视频类型的朋友圈
      */
-    class VideoBinder: BindingItemViewBinder<CommunityData, ItemCommunityNormalBinding>(){
-        override fun onCreateBinding(inflater: LayoutInflater, parent: ViewGroup): ItemCommunityNormalBinding {
-            return ItemCommunityNormalBinding.inflate(inflater, parent, false).apply {
-                val videoView = LayoutInflater.from(parent.context).inflate(R.layout.item_community_video, parent, false)
-                typeContainer.addView(videoView)
-                typeContainer.visibility = View.VISIBLE
-            }
+    class VideoBinder: NormalBinder(){
+        override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup): RecyclerHolder {
+            val holder = super.onCreateViewHolder(inflater, parent)
+            val videoBinding = ItemCommunityVideoBinding.inflate(inflater, parent, false)
+            attachTypeContainerBinding(holder, R.id.videoContainer, videoBinding)
+            return holder
         }
-        override fun onBindViewHolder(binding: ItemCommunityNormalBinding, data: CommunityData, holder: RecyclerHolder) {
-            //绑定根Item数据
-            binding.data = data
+
+        override fun bindTypeContainerHolder(data: CommunityData, holder: RecyclerHolder) {
             //处理视屏子视图
-            val videoContainer = binding.typeContainer.findViewById<View>(R.id.videoContainer)
-            val videoBinding = ItemCommunityVideoBinding.bind(videoContainer)
+            val videoBinding = holder.getChildBinding<ItemCommunityVideoBinding>(R.id.videoContainer) ?: return
             videoBinding.data = data.video
         }
     }
@@ -90,25 +127,20 @@ class CommunityActivity: BaseBindingActivity<ActivityCommunityListBinding>() {
     /**
      * 图片类型的朋友圈
      */
-    class ImageBinder: BindingItemViewBinder<CommunityData, ItemCommunityNormalBinding>(){
-        override fun onCreateBinding(inflater: LayoutInflater, parent: ViewGroup): ItemCommunityNormalBinding {
-            return ItemCommunityNormalBinding.inflate(inflater, parent, false).apply {
-                val linkView = LayoutInflater.from(parent.context).inflate(R.layout.item_community_image, parent, false)
-                typeContainer.addView(linkView)
-                typeContainer.visibility = View.VISIBLE
-            }
-        }
-        override fun onBindViewHolder(binding: ItemCommunityNormalBinding, data: CommunityData, holder: RecyclerHolder) {
-            //绑定根Item数据
-            binding.data = data
-            //处理图片子视图
-            val imagesContainer = binding.typeContainer.findViewById<View>(R.id.imagesContainer)
-            val imagesBinding = ItemCommunityImageBinding.bind(imagesContainer)
-            if(imagesBinding.adapter == null){
-                imagesBinding.adapter = BaseMultiTypeAdapter().apply {
+    class ImageBinder: NormalBinder(){
+        override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup): RecyclerHolder {
+            val holder = super.onCreateViewHolder(inflater, parent)
+            val imagesBinding = ItemCommunityImageBinding.inflate(inflater, parent, false).apply {
+                adapter = BaseMultiTypeAdapter().apply {
                     register(ImageSingleBinder())
                 }
             }
+            attachTypeContainerBinding(holder, R.id.imagesContainer, imagesBinding)
+            return holder
+        }
+        override fun bindTypeContainerHolder(data: CommunityData, holder: RecyclerHolder) {
+            //处理图片子视图
+            val imagesBinding = holder.getChildBinding<ItemCommunityImageBinding>(R.id.imagesContainer) ?: return
             imagesBinding.data = data
         }
     }
@@ -122,33 +154,6 @@ class CommunityActivity: BaseBindingActivity<ActivityCommunityListBinding>() {
         }
         override fun onBindViewHolder(binding: ItemCommunityImageChildBinding, data: CommunityData.Image, holder: RecyclerHolder) {
             binding.data = data
-        }
-    }
-
-    /**
-     * 分享链接类型的朋友圈
-     */
-    class LinkBinder: BindingItemViewBinder<CommunityData, ItemCommunityNormalBinding>(){
-        override fun onCreateBinding(inflater: LayoutInflater, parent: ViewGroup): ItemCommunityNormalBinding {
-            return ItemCommunityNormalBinding.inflate(inflater, parent, false).apply {
-                val linkView = LayoutInflater.from(parent.context).inflate(R.layout.item_community_link, parent, false)
-                typeContainer.addView(linkView)
-                typeContainer.visibility = View.VISIBLE
-            }
-        }
-        override fun onBindViewHolder(binding: ItemCommunityNormalBinding, data: CommunityData, holder: RecyclerHolder) {
-            //绑定根Item数据
-            binding.data = data
-            //处理link子视图
-            val linkContainer = binding.typeContainer.findViewById<View>(R.id.linkContainer)
-            val linkBinding = ItemCommunityLinkBinding.bind(linkContainer)
-            linkBinding.data = data.link
-            linkBinding.root.setMultipleClick {
-                val intent = Intent()
-                intent.setAction(Intent.ACTION_VIEW)
-                intent.setData(Uri.parse(data.link?.url))
-                it.context.startActivity(intent)
-            }
         }
     }
 

@@ -26,6 +26,7 @@ open class RecyclerHolder : RecyclerView.ViewHolder {
     }
 
     private val mViews: SparseArray<View> = SparseArray()
+    private val mViewsBinding: SparseArray<ViewBinding> = SparseArray()
     private var viewBinding: ViewBinding? = null
 
     fun <T: ViewBinding> getBinding(): T{
@@ -97,6 +98,14 @@ open class RecyclerHolder : RecyclerView.ViewHolder {
             mViews.put(viewId, view)
         }
         return view as T
+    }
+
+    fun <T: ViewBinding> saveChildBinding(viewId: Int, binding: T){
+        mViewsBinding.put(viewId, binding)
+    }
+
+    fun <T: ViewBinding> getChildBinding(viewId: Int): T?{
+        return mViewsBinding.get(viewId) as? T
     }
 
     fun getString(stringId: Int): String {
