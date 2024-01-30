@@ -29,7 +29,7 @@ import com.mellivora.base.compose.widget.DefaultAppTheme
 import com.mellivora.base.expansion.createIntent
 import com.mellivora.base.expansion.setFullEnable
 
-class MainActivity : BaseComposeActivity() {
+class FlowDemoActivity : BaseComposeActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setFullEnable(true)
@@ -54,43 +54,6 @@ class MainActivity : BaseComposeActivity() {
 
     @Composable
     fun ContentView() {
-        val context = LocalContext.current
-        Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState())){
-            Spacer(modifier = Modifier.height(15.dp))
-            Box(
-                Modifier.fillMaxSize()
-                    .padding(horizontal = 15.dp)
-                    .clip(RoundedCornerShape(10.dp))
-                    .background(MaterialTheme.colors.primary)
-                    .clickable {
-                        val intent = context.createIntent(RepositoryListActivity::class.java)
-                        context.startActivity(intent)
-                    }
-            ){
-                Text(
-                    text = "github仓库列表",
-                    color = MaterialTheme.colors.otherColor.white,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxSize().padding(0.dp, 10.dp, 0.dp, 10.dp)
-                )
-            }
-
-            Text(
-                text = "Flow示例",
-                color = MaterialTheme.colors.otherColor.white,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .padding(15.dp, 15.dp, 15.dp, 0.dp)
-                    .fillMaxSize()
-                    .clip(RoundedCornerShape(10.dp))
-                    .background(MaterialTheme.colors.primary)
-                    .clickable {
-                        val intent = context.createIntent(FlowDemoActivity::class.java)
-                        context.startActivity(intent)
-                    }
-                    .padding(0.dp, 10.dp, 0.dp, 10.dp)
-            )
-        }
     }
 }
 

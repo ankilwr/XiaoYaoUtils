@@ -35,9 +35,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".sample.MainActivity"/>
-
         <activity android:name=".ui.activity.RepositoryListActivity"/>
+        <activity android:name=".ui.activity.FlowDemoActivity"/>
     </application>
 
 </manifest>

@@ -20,6 +20,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
@@ -68,6 +69,7 @@ open class LoadingViewModel: BaseViewModel() {
         isPull: Boolean = false,
         stateData: MutableStateFlow<PullState> = _pullState
     ){
+        loadingDialogChannel.buffer()
         val state = stateData.value.copy()
         state.loadingState = LoadingState.LOADING
         state.message = getResString(R.string.base_status_loading)
@@ -115,13 +117,18 @@ open class LoadingViewModel: BaseViewModel() {
         stateData.value = result
     }
 
+    fun loadingErrorConsumer(): Consumer<Throwable>{
+        return pullErrorConsumer(true, isPull = false)
+    }
+
     /**
      * 带有下拉刷线|加载更多的回调，兼容errorConsumer()
-     * @param isRefresh: 是否是下拉刷新
+     * @param isRefresh: 是否为刷新
+     * @param isPull: 是否是下拉刷新or上拉加载更多
      * @see errorConsumer()
      * @return 异常捕获事件
      */
-    fun pullErrorConsumer(isRefresh: Boolean = true, isPull: Boolean = false, stateData: MutableStateFlow<PullState> = _pullState): Consumer<Throwable> {
+    fun pullErrorConsumer(isRefresh: Boolean, isPull: Boolean, stateData: MutableStateFlow<PullState> = _pullState): Consumer<Throwable> {
         return Consumer {
             val error = it.parse()
             if(error.errorCode == ErrorStatus.CANCEL){

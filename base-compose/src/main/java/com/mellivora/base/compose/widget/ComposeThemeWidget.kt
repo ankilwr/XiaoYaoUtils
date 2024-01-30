@@ -33,15 +33,13 @@ import com.mellivora.base.compose.remember.rememberOnDefaultBackClick
  */
 @Composable
 fun DefaultAppTheme(
+    modifier: Modifier = Modifier.fillMaxWidth(),
     theme: MaterialTheme = MaterialTheme,
     title: String? = null,
     onTitleClick: (() -> Unit)? = null,
     actionbarCompose: (@Composable BoxScope.() -> Unit)? = null
 ) {
-    Column(Modifier
-        .fillMaxWidth()
-        .background(theme.colors.primary)
-    ) {
+    Column(modifier.background(theme.colors.primary)) {
         Spacer(Modifier.windowInsetsTopHeight(WindowInsets.statusBars))
         Box(
             Modifier

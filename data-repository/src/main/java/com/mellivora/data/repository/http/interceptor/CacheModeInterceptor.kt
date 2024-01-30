@@ -1,6 +1,7 @@
 package com.mellivora.data.repository.http.interceptor
 
 import com.mellivora.data.repository.http.cache.CacheMode
+import okhttp3.HttpUrl
 import okhttp3.Interceptor
 import okhttp3.Response
 
