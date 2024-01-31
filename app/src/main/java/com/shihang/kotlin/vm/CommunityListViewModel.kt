@@ -1,7 +1,7 @@
 package com.shihang.kotlin.vm
 
 import androidx.lifecycle.MutableLiveData
-import com.mellivora.base.coroutine.httpCheckConsumer
+import com.mellivora.base.coroutine.httpCheckData
 import com.mellivora.base.coroutine.withIOResult
 import com.mellivora.base.coroutine.onCheckError
 import com.mellivora.base.coroutine.onCheckSuccess
@@ -25,10 +25,11 @@ class CommunityListViewModel: LoadingViewModel(){
                 val context = Utils.getApp()
                 val loadPage = getLoadPage(isRefresh)
                 BaseService.mockService.getCommunityData(context, loadPage, defaultPageSize)
-            }.onCheckSuccess (httpCheckConsumer {
-                updateUiList(isRefresh, dataList, it)
-                pullSuccess(isRefresh, isPull, false)
-            }).onCheckError(pullErrorConsumer(isRefresh, isPull))
+            }.onCheckSuccess {
+                val listData = it.httpCheckData()
+                updateUiList(isRefresh, dataList, listData)
+                pullSuccess(isRefresh, isPull, it.hasMore())
+            }.onCheckError(pullErrorConsumer(isRefresh, isPull))
         }
     }
 

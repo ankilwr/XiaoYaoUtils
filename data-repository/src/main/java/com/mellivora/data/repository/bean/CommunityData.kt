@@ -6,6 +6,8 @@ import kotlin.math.max
  * 朋友圈列表数据
  */
 data class CommunityData(
+    @SerializedName("id")
+    val id: String?,
     @SerializedName("avatar")
     val avatar: String?,
     @SerializedName("nick_name")
@@ -16,6 +18,10 @@ data class CommunityData(
     val content: String?,
     @SerializedName("location")
     val location: Location?,
+    @SerializedName("up")
+    val up: MutableList<Up>?,
+    @SerializedName("discuss")
+    val discuss: MutableList<Discuss>?,
     @SerializedName("link")
     val link: Link?,
     @SerializedName("music")
@@ -72,6 +78,26 @@ data class CommunityData(
             return "$width:$height"
         }
     }
+
+    data class Up(
+        @SerializedName("user_id")
+        val userId: String?,
+        @SerializedName("nickname")
+        val nickname: String?,
+    )
+
+    data class Discuss(
+        @SerializedName("sender")
+        val sender: String?,
+        @SerializedName("sender_id")
+        val senderId: String?,
+        @SerializedName("recipient")
+        val recipient: String?,
+        @SerializedName("recipient_id")
+        val recipientId: String?,
+        @SerializedName("content")
+        val content: String?,
+    )
 
 }
 

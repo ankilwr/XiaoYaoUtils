@@ -226,21 +226,10 @@ fun TextView.appendColorText(appendContent: CharSequence?, color: Int): TextView
     return this
 }
 
-fun TextView.appendClickText(@ColorInt matchingColor: Int, content: String, clickListener: () -> Unit): TextView {
+fun TextView.appendClickText(@ColorInt matchingColor: Int, content: String, onClick: (View) -> Unit): TextView {
     this.highlightColor = Color.TRANSPARENT
     this.movementMethod = ClickMovementMethod()
-    val clickBuilder = SpannableStringBuilder(content)
-    val click = object : ClickableSpan() {
-        override fun onClick(widget: View) {
-            clickListener()
-        }
-        override fun updateDrawState(ds: TextPaint) {
-            ds.color = matchingColor
-            ds.isUnderlineText = false
-        }
-    }
-    clickBuilder.setSpan(click, 0, content.length-1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-    append(clickBuilder)
+    append(getClickText(content, matchingColor, onClick))
     return this
 }
 

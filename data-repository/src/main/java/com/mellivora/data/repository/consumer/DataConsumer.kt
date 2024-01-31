@@ -17,10 +17,10 @@ import kotlinx.coroutines.Deferred
  * @return BaseBean.data的数据，校验失败则抛出DataCheckException
  */
 @Throws(DataCheckException::class)
-fun <T> BaseData<T>.httpCheck(checkData: Boolean = false): T?{
+fun <T> BaseData<T>.httpCheckData(checkData: Boolean = false): T?{
     val it = this
     //有些接口正常返回数据，但是不返回code的,就跳过code验证
-    if (it.code != null && !it.httpCheck()) {
+    if (it.code != null && "200" != it.code) {
         throw DataCheckException(it.msg ?: "", it.code)
     }
     //校验data
@@ -51,7 +51,7 @@ fun <T> BaseData<T>.dataCheck(): T{
  */
 suspend fun <T : Any> Deferred<IResult<BaseData<T>>>.awaitBaseDataForHttpOrNull(checkData: Boolean = false): T?{
     return try{
-        await().getData().httpCheck(checkData)
+        await().getData().httpCheckData(checkData)
     }catch (e: Throwable){
         null
     }
@@ -76,7 +76,7 @@ suspend fun <T : Any> Deferred<IResult<BaseData<T>>>.awaitBaseDataOrNull(): T?{
 @Throws(DataCheckException::class)
 suspend fun <T : Any> Deferred<IResult<BaseData<T>>>.awaitBaseDataForHttp(checkData: Boolean = false): T?{
     val it = await().getData()
-    return it.httpCheck(checkData)
+    return it.httpCheckData(checkData)
 }
 
 /**
@@ -97,7 +97,7 @@ suspend fun <T : Any> Deferred<IResult<BaseData<T>>>.awaitBaseData(): T{
  */
 fun <B> httpCheckConsumer(checkData: Boolean = false, next: (B?) -> Unit): Consumer<BaseData<B>> {
     return Consumer {
-        val data = it.httpCheck(checkData)
+        val data = it.httpCheckData(checkData)
         next(data)
     }
 }

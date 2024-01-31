@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
+        <import type="com.mellivora.base.binding.ui.widget.divider.RecyclerManager" />
+
         <variable
             name="data"
             type="com.mellivora.data.repository.bean.CommunityData" />
+
+        <variable
+            name="discussAdapter"
+            type="com.mellivora.base.binding.adapter.BaseMultiTypeAdapter" />
     </data>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/white"
@@ -101,6 +108,54 @@
                 android:textColor="#999999"
                 android:textSize="@dimen/sp14"
                 tools:text="昨天" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                bindVisible="@{data.up.size() > 0 || data.discuss.size() > 0}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/base_shape_radius5"
+                android:backgroundTint="#e2e2e2"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvUp"
+                    bindVisible="@{data.up.size() > 0}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:ellipsize="end"
+                    android:focusable="true"
+                    android:gravity="center_vertical"
+                    android:includeFontPadding="false"
+                    android:padding="10dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:textColor="#5b7fe4"
+                    android:textSize="12sp"
+                    tools:text="♡ 王大锤" />
+
+                <View
+                    bindVisible="@{data.up.size() > 0 &amp;&amp; data.discuss.size() > 0}"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="#cccccc" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    bindAdapter="@{discussAdapter}"
+                    bindItemAnimator="@{null}"
+                    bindItemDecoration="@{RecyclerManager.INSTANCE.getLinearDecoration(5f)}"
+                    bindItemList="@{data.discuss}"
+                    bindNotifyAll="@{true}"
+                    bindVisible="@{data.discuss.size() > 0}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    android:padding="10dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/item_community_discuss" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

@@ -3,10 +3,14 @@ package com.mellivora.base.expansion
 import android.graphics.Color
 import android.text.Spannable
 import android.text.SpannableStringBuilder
+import android.text.TextPaint
 import android.text.style.AbsoluteSizeSpan
+import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
+import android.view.View
 import androidx.annotation.ColorInt
 import androidx.annotation.DimenRes
+import com.mellivora.base.api.textview.ClickMovementMethod
 import java.util.Collections
 import java.util.regex.Pattern
 
@@ -102,6 +106,38 @@ fun getColorAndSizeForResource(text: CharSequence?, @ColorInt color: Int, @Dimen
     return builder
 }
 
+fun getClickText(text: CharSequence?, @ColorInt color: Int, onClick:(View)->Unit): CharSequence?{
+    if(text.isNullOrEmpty()) return text
+    val builder = SpannableStringBuilder(text)
+    val clickSpan = object : ClickableSpan() {
+        override fun onClick(widget: View) {
+            onClick.invoke(widget)
+        }
+        override fun updateDrawState(ds: TextPaint) {
+        }
+    }
+    val colorSpan = ForegroundColorSpan(color)
+    builder.setSpan(colorSpan, 0, text.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+    builder.setSpan(clickSpan, 0, text.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+    return builder
+}
+
+/**
+ * 获取可点击的富文本
+ */
+fun getClickText(text: CharSequence?, onClick:(View)->Unit): CharSequence?{
+    if(text.isNullOrEmpty()) return text
+    val builder = SpannableStringBuilder(text)
+    val clickSpan = object : ClickableSpan() {
+        override fun onClick(widget: View) {
+            onClick.invoke(widget)
+        }
+        override fun updateDrawState(ds: TextPaint) {
+        }
+    }
+    builder.setSpan(clickSpan, 0, text.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+    return builder
+}
 
 fun SpannableStringBuilder?.appendColorText(text: CharSequence?, @ColorInt color: Int): SpannableStringBuilder?{
     text?.let {
