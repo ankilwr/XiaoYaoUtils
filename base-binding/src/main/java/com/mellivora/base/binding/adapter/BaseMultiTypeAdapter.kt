@@ -7,7 +7,7 @@ import kotlin.math.max
 
 open class BaseMultiTypeAdapter : MultiTypeAdapter() {
 
-    var onChildItemClick: (childBean: Any)->Unit = {}
+    var onChildItemClick: (holder: RecyclerHolder, childBean: Any)->Unit = {_, _ ->}
 
 
     //============================   查   ==================================

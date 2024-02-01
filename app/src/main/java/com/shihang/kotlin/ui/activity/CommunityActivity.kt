@@ -1,5 +1,6 @@
 package com.shihang.kotlin.ui.activity
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
@@ -8,6 +9,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.viewbinding.ViewBinding
 import com.mellivora.base.api.textview.ClickMovementMethod
 import com.mellivora.base.binding.adapter.BaseMultiTypeAdapter
@@ -28,6 +32,8 @@ import com.shihang.kotlin.databinding.ItemCommunityLinkBinding
 import com.shihang.kotlin.databinding.ItemCommunityNormalBinding
 import com.shihang.kotlin.databinding.ItemCommunityVideoBinding
 import com.shihang.kotlin.vm.CommunityListViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 /**
@@ -36,14 +42,11 @@ import com.shihang.kotlin.vm.CommunityListViewModel
 class CommunityActivity: BaseBindingActivity<ActivityCommunityListBinding>() {
 
     private val viewModel: CommunityListViewModel by viewModels()
+    private val endSmoothScroller by lazy { EndLinearSmoothScroller(this) }
 
     override fun initBinding(binding: ActivityCommunityListBinding) {
         binding.vm = viewModel
         binding.adapter = BaseMultiTypeAdapter().apply {
-            //回复某某评论的点击事件
-            val discussClick = fun (data:CommunityData, discuss: CommunityData.Discuss){
-
-            }
             //注册一对多类型的绑定(一种数据类型对应多种布局)
             register(CommunityData::class).to(
                 NormalBinder(discussClick),
@@ -66,12 +69,26 @@ class CommunityActivity: BaseBindingActivity<ActivityCommunityListBinding>() {
         viewModel.loadListData(true, isPull = false)
     }
 
+    //编辑评论的点击事件
+    private val discussClick = fun (view: View, data:CommunityData, discuss: CommunityData.Discuss?){
+        viewModel.showDiscussEditMode(view, data, discuss)
+        val index = viewModel.dataList.value?.indexOf(data) ?: -1
+        if(index > -1){
+            lifecycleScope.launch {
+                delay(500L)
+                val manager = viewBinding.rvList.layoutManager as? LinearLayoutManager ?: return@launch
+                endSmoothScroller.targetPosition = index
+                manager.startSmoothScroll(endSmoothScroller)
+            }
+        }
+    }
+    
     /**
      * 普通类型的朋友圈(基础文字)
      * @param onDiscussClick: 去回复xxx
      */
     open class NormalBinder(
-        private val onDiscussClick:(data:CommunityData, discuss: CommunityData.Discuss)->Unit
+        private val onDiscussClick:(View, data:CommunityData, discuss: CommunityData.Discuss?)->Unit
     ): BindingItemViewBinder<CommunityData, ItemCommunityNormalBinding>(){
         override fun onCreateBinding(inflater: LayoutInflater, parent: ViewGroup): ItemCommunityNormalBinding {
             return ItemCommunityNormalBinding.inflate(inflater, parent, false).apply {
@@ -99,9 +116,9 @@ class CommunityActivity: BaseBindingActivity<ActivityCommunityListBinding>() {
             binding.tvUp.text = upText
             bindTypeContainerHolder(data, holder)
 
-            binding.discussAdapter?.onChildItemClick = { discuss ->
+            binding.discussAdapter?.onChildItemClick = { h, discuss ->
                 discuss as CommunityData.Discuss
-                onDiscussClick.invoke(data, discuss)
+                onDiscussClick.invoke(h.itemView, data, discuss)
             }
         }
         /**
@@ -126,7 +143,7 @@ class CommunityActivity: BaseBindingActivity<ActivityCommunityListBinding>() {
      * 分享链接类型的朋友圈
      */
     class LinkBinder(
-        onDiscussClick:(data:CommunityData, discuss: CommunityData.Discuss)->Unit
+        onDiscussClick:(View, data:CommunityData, discuss: CommunityData.Discuss?)->Unit
     ): NormalBinder(onDiscussClick){
         override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup): RecyclerHolder {
             val holder = super.onCreateViewHolder(inflater, parent)
@@ -152,7 +169,7 @@ class CommunityActivity: BaseBindingActivity<ActivityCommunityListBinding>() {
      * 视频类型的朋友圈
      */
     class VideoBinder(
-        onDiscussClick:(data:CommunityData, discuss: CommunityData.Discuss)->Unit
+        onDiscussClick:(View, data:CommunityData, discuss: CommunityData.Discuss?)->Unit
     ): NormalBinder(onDiscussClick){
         override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup): RecyclerHolder {
             val holder = super.onCreateViewHolder(inflater, parent)
@@ -172,7 +189,7 @@ class CommunityActivity: BaseBindingActivity<ActivityCommunityListBinding>() {
      * 图片类型的朋友圈
      */
     class ImageBinder(
-        onDiscussClick:(data:CommunityData, discuss: CommunityData.Discuss)->Unit
+        onDiscussClick:(View, data:CommunityData, discuss: CommunityData.Discuss?)->Unit
     ): NormalBinder(onDiscussClick){
         override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup): RecyclerHolder {
             val holder = super.onCreateViewHolder(inflater, parent)
@@ -204,7 +221,7 @@ class CommunityActivity: BaseBindingActivity<ActivityCommunityListBinding>() {
     }
 
     /**
-     * 朋友圈评论
+     * 朋友圈动态下的评论
      */
     class DiscussBinder: BindingItemViewBinder<CommunityData.Discuss, ItemCommunityDiscussBinding>(){
         override fun onCreateBinding(inflater: LayoutInflater, parent: ViewGroup): ItemCommunityDiscussBinding {
@@ -221,6 +238,13 @@ class CommunityActivity: BaseBindingActivity<ActivityCommunityListBinding>() {
             builder.append(": ${data.content}")
 
             binding.tvDiscuss.text = builder
+        }
+    }
+
+    //将Item元素对齐底部的滚动事件
+    private inner class EndLinearSmoothScroller(context: Context): LinearSmoothScroller(context){
+        override fun getVerticalSnapPreference(): Int {
+            return SNAP_TO_END
         }
     }
 

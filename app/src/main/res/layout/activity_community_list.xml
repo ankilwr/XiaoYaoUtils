@@ -42,9 +42,12 @@
                 android:layout_height="match_parent">
 
                 <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvList"
                     bindAdapter="@{adapter}"
                     bindItemList="@{vm.dataList}"
                     bindItemDecoration="@{RecyclerManager.INSTANCE.getLinearDecoration(1f)}"
+                    bindItemAnimator="@{null}"
+                    bindChangeAnimator="@{false}"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"

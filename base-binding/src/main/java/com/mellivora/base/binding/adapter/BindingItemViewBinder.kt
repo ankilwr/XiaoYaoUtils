@@ -23,7 +23,7 @@ abstract class BindingItemViewBinder<T, B: ViewBinding> : ItemViewBinder<T, Recy
         onBindViewHolder(holder.getBinding(), item, holder)
         if(adapter is BaseMultiTypeAdapter){
             holder.itemView.setMultipleClick {
-                (adapter as BaseMultiTypeAdapter).onChildItemClick.invoke(item as Any)
+                (adapter as BaseMultiTypeAdapter).onChildItemClick.invoke(holder, item as Any)
             }
         }
     }

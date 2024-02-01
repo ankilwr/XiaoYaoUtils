@@ -1,6 +1,7 @@
 package com.mellivora.data.repository.bean
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlin.math.max
+import kotlinx.parcelize.Parcelize
 
 /**
  * 朋友圈列表数据
@@ -21,7 +22,7 @@ data class CommunityData(
     @SerializedName("up")
     val up: MutableList<Up>?,
     @SerializedName("discuss")
-    val discuss: MutableList<Discuss>?,
+    var discuss: MutableList<Discuss>?,
     @SerializedName("link")
     val link: Link?,
     @SerializedName("music")
@@ -86,6 +87,7 @@ data class CommunityData(
         val nickname: String?,
     )
 
+    @Parcelize
     data class Discuss(
         @SerializedName("sender")
         val sender: String?,
@@ -97,7 +99,7 @@ data class CommunityData(
         val recipientId: String?,
         @SerializedName("content")
         val content: String?,
-    )
+    ): Parcelable
 
 }
 

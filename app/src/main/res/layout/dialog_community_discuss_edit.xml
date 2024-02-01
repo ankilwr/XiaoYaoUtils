@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/blockReply"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:orientation="horizontal"
+    android:paddingStart="16dp"
+    android:paddingTop="10dp"
+    android:paddingEnd="16dp"
+    android:paddingBottom="10dp">
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/etReply"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/base_shape_radius10"
+        android:backgroundTint="#f2f2f4"
+        android:hint="评论"
+        android:maxLines="4"
+        android:minHeight="36dp"
+        android:padding="10dp"
+        android:textColorHint="#9a9cab" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/btnReply"
+        android:layout_width="55dp"
+        android:layout_height="32dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="15dp"
+        android:background="@drawable/base_shape_radius8"
+        android:backgroundTint="#E04F4C"
+        android:gravity="center"
+        android:text="发送"
+        android:textColor="@android:color/white"
+        android:textSize="15sp" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

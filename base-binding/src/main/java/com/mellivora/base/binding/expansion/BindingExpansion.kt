@@ -11,6 +11,7 @@ import android.widget.*
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.drakeet.multitype.MultiTypeAdapter
 import com.mellivora.base.R
 import com.mellivora.base.binding.adapter.BaseMultiTypeAdapter
@@ -56,6 +57,17 @@ object BindingExpansion {
     @BindingAdapter("bindItemAnimator", requireAll = false)
     fun setRvItemAnimator(recyclerView: RecyclerView, animator: RecyclerView.ItemAnimator?){
         recyclerView.itemAnimator = animator
+    }
+
+    @JvmStatic
+    @BindingAdapter("bindChangeAnimator", requireAll = false)
+    fun setRvItemAnimator(recyclerView: RecyclerView, changeAnimator: Boolean?){
+        if(changeAnimator != null){
+            val itemAnimator = recyclerView.itemAnimator
+            if(itemAnimator is SimpleItemAnimator){
+                itemAnimator.supportsChangeAnimations = changeAnimator
+            }
+        }
     }
 
     @JvmStatic
