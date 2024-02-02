@@ -27,6 +27,8 @@ import com.mellivora.base.binding.ui.widget.keyboard.callback.TranslateDeferring
 import com.mellivora.base.expansion.getClickText
 import com.mellivora.base.expansion.getColorText
 import com.mellivora.base.expansion.hideSoftInputFromWindow
+import com.mellivora.base.expansion.imeVisible
+import com.mellivora.base.expansion.isOutsideTouch
 import com.mellivora.base.expansion.setMultipleClick
 import com.mellivora.base.expansion.showSoftInputFromWindow
 import com.mellivora.base.expansion.showToast
@@ -84,8 +86,6 @@ class CommunityActivity: BaseBindingActivity<ActivityCommunityListBinding>() {
             }
         }
 
-        viewModel.loadListData(true, isPull = false)
-
         val deferringInsetsListener = RootViewDeferringInsetsCallback(
             persistentInsetTypes = WindowInsetsCompat.Type.systemBars(),
             deferredInsetTypes = WindowInsetsCompat.Type.ime()
@@ -99,26 +99,20 @@ class CommunityActivity: BaseBindingActivity<ActivityCommunityListBinding>() {
                 view = viewBinding.blockReply,
                 persistentInsetTypes = WindowInsetsCompat.Type.statusBars(),
                 deferredInsetTypes = WindowInsetsCompat.Type.ime(),
-                dispatchMode = WindowInsetsAnimationCompat.Callback.DISPATCH_MODE_CONTINUE_ON_SUBTREE
+                dispatchMode = DISPATCH_MODE_CONTINUE_ON_SUBTREE
             ){
                 override fun onStart(animation: WindowInsetsAnimationCompat, bounds: WindowInsetsAnimationCompat.BoundsCompat): WindowInsetsAnimationCompat.BoundsCompat {
-                    val insets = ViewCompat.getRootWindowInsets(viewBinding.root)
-                    if(insets != null){
+                    if(viewBinding.root.imeVisible() == false){
                         //在软键盘收起前，提前隐藏EditView()
-                        //如果放到onEnd里面去隐藏，表现的效果就是，EditView跟着键盘下滑收起后, EditView才隐藏
-                        val imeVisible = insets.isVisible(WindowInsetsCompat.Type.ime())
-                        if(!imeVisible){
-                            viewModel.clearDiscussEditMode()
-                        }
+                        //如果放到onEnd里面去隐藏，表现的效果就是，EditView跟着键盘下滑收起后, EditView才隐藏(视觉上有个卡顿)
+                        viewModel.clearDiscussEditMode()
                     }
                     return super.onStart(animation, bounds)
                 }
 
                 override fun onEnd(animation: WindowInsetsAnimationCompat) {
                     super.onEnd(animation)
-                    val insets = ViewCompat.getRootWindowInsets(viewBinding.root) ?: return
-                    val imeVisible = insets.isVisible(WindowInsetsCompat.Type.ime())
-                    if(imeVisible){
+                    if(viewBinding.root.imeVisible() == true){
                         val editData = viewModel.communityData.value ?: return
                         val index = viewModel.dataList.value?.indexOf(editData) ?: -1
                         if(index > -1){
@@ -130,6 +124,8 @@ class CommunityActivity: BaseBindingActivity<ActivityCommunityListBinding>() {
                 }
             }
         )
+        //加载数据
+        viewModel.loadListData(true, isPull = false)
     }
 
     //编辑评论的点击事件
@@ -137,33 +133,21 @@ class CommunityActivity: BaseBindingActivity<ActivityCommunityListBinding>() {
         viewModel.showDiscussEditMode(data, discuss)
     }
 
-
     override fun dispatchTouchEvent(event: MotionEvent?): Boolean {
-        val insets = ViewCompat.getRootWindowInsets(viewBinding.root)
-        val imeVisible = insets?.isVisible(WindowInsetsCompat.Type.ime())
-        if(imeVisible != true){
+        if(viewBinding.root.imeVisible() != true){
             return super.dispatchTouchEvent(event)
         }
-        try {
-            if(event != null){
-                val x = event.rawX
-                val y = event.rawY
-                val location = IntArray(2)
-                viewBinding.blockReply.getLocationInWindow(location)
-                val left = location[0]
-                val top = location[1]
-                val right: Int = left + viewBinding.blockReply.width
-                val bottom: Int = top + viewBinding.blockReply.height
-                when (event.action) {
-                    MotionEvent.ACTION_DOWN -> if (x < left || x > right || y < top || y > bottom) {
-                        //点击事件发生在目标视图的范围外
-                        viewBinding.etReply.hideSoftInputFromWindow()
-                    }
-                    else -> {}
+        if(event == null){
+            return super.dispatchTouchEvent(event)
+        }
+        when (event.action) {
+            MotionEvent.ACTION_DOWN -> {
+                if(viewBinding.blockReply.isOutsideTouch(event)){
+                    viewBinding.etReply.hideSoftInputFromWindow()
+                    return true
                 }
             }
-        }catch (e: Throwable){
-            e.printStackTrace()
+            else -> {}
         }
         return super.dispatchTouchEvent(event)
     }

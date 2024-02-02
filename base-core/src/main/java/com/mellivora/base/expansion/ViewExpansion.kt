@@ -5,6 +5,8 @@ package com.mellivora.base.expansion
 import android.app.Activity
 import android.graphics.Outline
 import android.view.*
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
@@ -164,5 +166,27 @@ inline fun ViewGroup.initStatusBar(){
     val statusBarHeight = context.getStatusBarHeight()
     setPadding(paddingStart, statusBarHeight, paddingEnd, paddingBottom)
 }
+
+fun View.imeVisible(): Boolean? {
+    val insets = ViewCompat.getRootWindowInsets(this)
+    return insets?.isVisible(WindowInsetsCompat.Type.ime())
+}
+
+fun View.isOutsideTouch(event: MotionEvent): Boolean{
+    val x = event.rawX
+    val y = event.rawY
+    val location = IntArray(2)
+    this.getLocationInWindow(location)
+    val left = location[0]
+    val top = location[1]
+    val right: Int = left + this.width
+    val bottom: Int = top + this.height
+    return x < left || x > right || y < top || y > bottom
+}
+
+fun View.isInsideTouch(event: MotionEvent): Boolean {
+    return !isOutsideTouch(event)
+}
+
 
 
