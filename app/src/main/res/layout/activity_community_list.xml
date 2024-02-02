@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
-        <import type="com.mellivora.base.binding.ui.widget.divider.RecyclerManager"/>
+        <import type="com.mellivora.base.binding.ui.widget.divider.RecyclerManager" />
 
         <variable
             name="vm"
@@ -14,7 +14,7 @@
             type="com.mellivora.base.binding.adapter.BaseMultiTypeAdapter" />
     </data>
 
-    <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -25,18 +25,18 @@
             style="@style/App_Theme_Red"
             app:barTitle="朋友圈" />
 
-
         <com.mellivora.base.binding.ui.widget.multiple.MultipleStatusView
             bindEmptyText='@{"暂无好友动态"}'
             bindNotEmpty="@{vm.dataList.size() > 0}"
             bindStateReloadClick="@{()->vm.loadListData(true, false)}"
             bindViewState="@{vm.pullState}"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
             <com.scwang.smart.refresh.layout.SmartRefreshLayout
-                bindOnRefresh="@{()->vm.loadListData(true, true)}"
                 bindOnLoadMore="@{()->vm.loadListData(false, true)}"
+                bindOnRefresh="@{()->vm.loadListData(true, true)}"
                 bindPullState="@{vm.pullState}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -44,10 +44,10 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvList"
                     bindAdapter="@{adapter}"
-                    bindItemList="@{vm.dataList}"
-                    bindItemDecoration="@{RecyclerManager.INSTANCE.getLinearDecoration(1f)}"
-                    bindItemAnimator="@{null}"
                     bindChangeAnimator="@{false}"
+                    bindItemAnimator="@{null}"
+                    bindItemDecoration="@{RecyclerManager.INSTANCE.getLinearDecoration(1f)}"
+                    bindItemList="@{vm.dataList}"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
@@ -57,5 +57,49 @@
 
         </com.mellivora.base.binding.ui.widget.multiple.MultipleStatusView>
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/blockReply"
+            bindVisible="@{vm.communityData != null}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="10dp"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etReply"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/base_shape_radius10"
+                android:backgroundTint="#f2f2f4"
+                android:hint='@{vm.discussData == null ? "评论": "回复\"" + vm.discussData.sender +"\""}'
+                android:maxLines="4"
+                android:minHeight="36dp"
+                android:padding="10dp"
+                android:text="@={vm.editContent}"
+                android:textColorHint="#9a9cab" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btnReply"
+                bindOnClick="@{()-> vm.postDiscuss()}"
+                android:layout_width="55dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="15dp"
+                android:background="@drawable/base_shape_radius8"
+                android:backgroundTint="#E04F4C"
+                android:gravity="center"
+                android:text="发送"
+                android:textColor="@android:color/white"
+                android:textSize="15sp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </LinearLayout>
 </layout>

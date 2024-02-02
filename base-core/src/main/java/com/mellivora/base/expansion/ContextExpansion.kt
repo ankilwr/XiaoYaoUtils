@@ -184,6 +184,7 @@ fun Activity.captionBarEnable(enable: Boolean){
  * @param enable：true
  */
 fun Activity.setFullEnable(enable: Boolean){
+    //this.enableEdgeToEdge()
     WindowCompat.setDecorFitsSystemWindows(window, !enable)
     captionBarEnable(!enable)
     window?.let {

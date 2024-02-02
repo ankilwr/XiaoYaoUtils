@@ -1,18 +1,17 @@
 package com.shihang.kotlin.vm
 
-import android.view.View
 import androidx.lifecycle.MutableLiveData
+import com.mellivora.base.coroutine.httpCheckConsumer
 import com.mellivora.base.coroutine.httpCheckData
 import com.mellivora.base.coroutine.withIOResult
 import com.mellivora.base.coroutine.onCheckError
 import com.mellivora.base.coroutine.onCheckSuccess
 import com.mellivora.base.coroutine.updateUiList
-import com.mellivora.base.expansion.childFragmentManager
+import com.mellivora.base.expansion.showToast
 import com.mellivora.base.utils.Utils
 import com.mellivora.base.vm.LoadingViewModel
 import com.mellivora.data.repository.bean.CommunityData
 import com.mellivora.data.repository.service.BaseService
-import com.shihang.kotlin.ui.dialog.DiscussEditDialog
 
 /**
  * 朋友圈VM
@@ -20,6 +19,11 @@ import com.shihang.kotlin.ui.dialog.DiscussEditDialog
 class CommunityListViewModel: LoadingViewModel(){
 
     val dataList = MutableLiveData<MutableList<CommunityData>>()
+
+    //编辑模式下的临时内容
+    val communityData = MutableLiveData<CommunityData?>()
+    val discussData = MutableLiveData<CommunityData.Discuss?>()
+    val editContent = MutableLiveData<CharSequence>()
 
     fun loadListData(isRefresh: Boolean, isPull: Boolean){
         doUILaunch {
@@ -41,29 +45,56 @@ class CommunityListViewModel: LoadingViewModel(){
      * @param data: 朋友圈的某条动态
      * @param discuss: 朋友圈的某条动态下的评论(回复某某时传)
      */
-    fun showDiscussEditMode(v: View, data: CommunityData, discuss: CommunityData.Discuss? = null){
-        val fragmentManager = v.childFragmentManager ?: return
-        val dialog = DiscussEditDialog.getInstance(data.id, discuss)
-        dialog.showNow(fragmentManager){ _, resultBundle ->
-            //resultBundle结果，可查看DiscussEditDialog::dismissForResult的传参
-            val id = resultBundle.getString("communityDataId")
-            val newDiscuss: CommunityData.Discuss? = resultBundle.getParcelable("newDiscuss")
-            newDiscuss ?: return@showNow
-            //更新列表UI
-            val newList = mutableListOf<CommunityData>()
-            dataList.value?.let { newList.addAll(it) }
-            newList.forEachIndexed { index, it ->
-                if(it.id == id){
-                    val copyData = it.copy()
-                    val discussList = copyData.discuss ?: mutableListOf()
-                    discussList.add(newDiscuss)
-                    copyData.discuss = discussList
-                    newList[index] = copyData
-                    dataList.value = newList
-                    return@showNow
-                }
-            }
+    fun showDiscussEditMode(data: CommunityData, discuss: CommunityData.Discuss? = null){
+        communityData.value = data
+        discussData.value = discuss
+    }
+
+    /**
+     * 清除编辑模式产生的临时数据
+     */
+    fun clearDiscussEditMode(){
+        communityData.value = null
+        discussData.value = null
+        editContent.value = ""
+    }
+
+    /**
+     * 发表评论
+     */
+    fun postDiscuss(){
+        val editCommunity = communityData.value
+        val editText = editContent.value?.toString()
+        if(editText.isNullOrEmpty()){
+            showToast("请输入评论内容")
+            return
         }
+        if(editCommunity == null){
+            showToast("朋友圈动态ID错误")
+            return
+        }
+        val job = doUILaunch {
+            withIOResult {
+                BaseService.mockService.postDiscuss(editCommunity.id, discussData.value, editText)
+            }.onCheckSuccess(httpCheckConsumer(true){ newDiscuss ->
+                dismissLoadingDialog()
+                val newList = mutableListOf<CommunityData>()
+                dataList.value?.let { newList.addAll(it) }
+                newList.forEachIndexed { index, it ->
+                    if(it.id == editCommunity.id){
+                        val copyData = it.copy()
+                        val discussList = copyData.discuss ?: mutableListOf()
+                        discussList.add(newDiscuss!!)
+                        copyData.discuss = discussList
+                        newList[index] = copyData
+                        dataList.value = newList
+                        clearDiscussEditMode()
+                        return@httpCheckConsumer
+                    }
+                }
+            }).onCheckError(errorConsumer())
+        }
+        showLoadingDialog(job)
     }
 
 }

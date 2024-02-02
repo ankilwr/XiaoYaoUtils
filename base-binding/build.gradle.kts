@@ -46,6 +46,8 @@ dependencies {
     api("androidx.viewpager2:viewpager2:1.1.0-beta02")
     api("androidx.media:media:1.6.0")
     api("com.google.android:flexbox:1.1.0")
+    api("androidx.dynamicanimation:dynamicanimation-ktx:1.0.0-alpha03")
+
     //adapter适配器
     api("com.drakeet.multitype:multitype:4.2.0")
 

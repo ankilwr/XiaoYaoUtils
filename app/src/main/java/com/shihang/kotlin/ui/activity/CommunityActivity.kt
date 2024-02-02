@@ -6,21 +6,29 @@ import android.graphics.Color
 import android.net.Uri
 import android.text.SpannableStringBuilder
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.viewModels
-import androidx.lifecycle.lifecycleScope
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsAnimationCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.viewbinding.ViewBinding
+import com.mellivora.base.api.getDefaultLoadingDialogApi
 import com.mellivora.base.api.textview.ClickMovementMethod
 import com.mellivora.base.binding.adapter.BaseMultiTypeAdapter
 import com.mellivora.base.binding.adapter.BindingItemViewBinder
 import com.mellivora.base.binding.adapter.RecyclerHolder
 import com.mellivora.base.binding.ui.activity.BaseBindingActivity
+import com.mellivora.base.binding.ui.widget.keyboard.callback.RootViewDeferringInsetsCallback
+import com.mellivora.base.binding.ui.widget.keyboard.callback.TranslateDeferringInsetsAnimationCallback
 import com.mellivora.base.expansion.getClickText
 import com.mellivora.base.expansion.getColorText
+import com.mellivora.base.expansion.hideSoftInputFromWindow
 import com.mellivora.base.expansion.setMultipleClick
+import com.mellivora.base.expansion.showSoftInputFromWindow
 import com.mellivora.base.expansion.showToast
 import com.mellivora.data.repository.bean.CommunityData
 import com.shihang.kotlin.R
@@ -32,8 +40,6 @@ import com.shihang.kotlin.databinding.ItemCommunityLinkBinding
 import com.shihang.kotlin.databinding.ItemCommunityNormalBinding
 import com.shihang.kotlin.databinding.ItemCommunityVideoBinding
 import com.shihang.kotlin.vm.CommunityListViewModel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 
 /**
@@ -45,6 +51,7 @@ class CommunityActivity: BaseBindingActivity<ActivityCommunityListBinding>() {
     private val endSmoothScroller by lazy { EndLinearSmoothScroller(this) }
 
     override fun initBinding(binding: ActivityCommunityListBinding) {
+        viewModel.registerLoadingDialog(this, getDefaultLoadingDialogApi())
         binding.vm = viewModel
         binding.adapter = BaseMultiTypeAdapter().apply {
             //注册一对多类型的绑定(一种数据类型对应多种布局)
@@ -66,23 +73,101 @@ class CommunityActivity: BaseBindingActivity<ActivityCommunityListBinding>() {
     }
 
     override fun initViews() {
+        viewBinding.appThemeBar.setLeftIconClick{
+            finish()
+        }
+        viewModel.communityData.observe(this){
+            if(it != null){
+                viewBinding.etReply.showSoftInputFromWindow()
+            }else{
+                viewBinding.etReply.hideSoftInputFromWindow()
+            }
+        }
+
         viewModel.loadListData(true, isPull = false)
+
+        val deferringInsetsListener = RootViewDeferringInsetsCallback(
+            persistentInsetTypes = WindowInsetsCompat.Type.systemBars(),
+            deferredInsetTypes = WindowInsetsCompat.Type.ime()
+        )
+        ViewCompat.setWindowInsetsAnimationCallback(viewBinding.root, deferringInsetsListener)
+        ViewCompat.setOnApplyWindowInsetsListener(viewBinding.root, deferringInsetsListener)
+        //监听软键盘的动画
+        ViewCompat.setWindowInsetsAnimationCallback(
+            viewBinding.blockReply,
+            object: TranslateDeferringInsetsAnimationCallback(
+                view = viewBinding.blockReply,
+                persistentInsetTypes = WindowInsetsCompat.Type.statusBars(),
+                deferredInsetTypes = WindowInsetsCompat.Type.ime(),
+                dispatchMode = WindowInsetsAnimationCompat.Callback.DISPATCH_MODE_CONTINUE_ON_SUBTREE
+            ){
+                override fun onStart(animation: WindowInsetsAnimationCompat, bounds: WindowInsetsAnimationCompat.BoundsCompat): WindowInsetsAnimationCompat.BoundsCompat {
+                    val insets = ViewCompat.getRootWindowInsets(viewBinding.root)
+                    if(insets != null){
+                        //在软键盘收起前，提前隐藏EditView()
+                        //如果放到onEnd里面去隐藏，表现的效果就是，EditView跟着键盘下滑收起后, EditView才隐藏
+                        val imeVisible = insets.isVisible(WindowInsetsCompat.Type.ime())
+                        if(!imeVisible){
+                            viewModel.clearDiscussEditMode()
+                        }
+                    }
+                    return super.onStart(animation, bounds)
+                }
+
+                override fun onEnd(animation: WindowInsetsAnimationCompat) {
+                    super.onEnd(animation)
+                    val insets = ViewCompat.getRootWindowInsets(viewBinding.root) ?: return
+                    val imeVisible = insets.isVisible(WindowInsetsCompat.Type.ime())
+                    if(imeVisible){
+                        val editData = viewModel.communityData.value ?: return
+                        val index = viewModel.dataList.value?.indexOf(editData) ?: -1
+                        if(index > -1){
+                            val manager = viewBinding.rvList.layoutManager as? LinearLayoutManager ?: return
+                            endSmoothScroller.targetPosition = index
+                            manager.startSmoothScroll(endSmoothScroller)
+                        }
+                    }
+                }
+            }
+        )
     }
 
     //编辑评论的点击事件
     private val discussClick = fun (view: View, data:CommunityData, discuss: CommunityData.Discuss?){
-        viewModel.showDiscussEditMode(view, data, discuss)
-        val index = viewModel.dataList.value?.indexOf(data) ?: -1
-        if(index > -1){
-            lifecycleScope.launch {
-                delay(500L)
-                val manager = viewBinding.rvList.layoutManager as? LinearLayoutManager ?: return@launch
-                endSmoothScroller.targetPosition = index
-                manager.startSmoothScroll(endSmoothScroller)
-            }
-        }
+        viewModel.showDiscussEditMode(data, discuss)
     }
-    
+
+
+    override fun dispatchTouchEvent(event: MotionEvent?): Boolean {
+        val insets = ViewCompat.getRootWindowInsets(viewBinding.root)
+        val imeVisible = insets?.isVisible(WindowInsetsCompat.Type.ime())
+        if(imeVisible != true){
+            return super.dispatchTouchEvent(event)
+        }
+        try {
+            if(event != null){
+                val x = event.rawX
+                val y = event.rawY
+                val location = IntArray(2)
+                viewBinding.blockReply.getLocationInWindow(location)
+                val left = location[0]
+                val top = location[1]
+                val right: Int = left + viewBinding.blockReply.width
+                val bottom: Int = top + viewBinding.blockReply.height
+                when (event.action) {
+                    MotionEvent.ACTION_DOWN -> if (x < left || x > right || y < top || y > bottom) {
+                        //点击事件发生在目标视图的范围外
+                        viewBinding.etReply.hideSoftInputFromWindow()
+                    }
+                    else -> {}
+                }
+            }
+        }catch (e: Throwable){
+            e.printStackTrace()
+        }
+        return super.dispatchTouchEvent(event)
+    }
+
     /**
      * 普通类型的朋友圈(基础文字)
      * @param onDiscussClick: 去回复xxx

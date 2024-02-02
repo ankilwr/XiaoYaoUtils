@@ -5,6 +5,10 @@ import androidx.lifecycle.LifecycleOwner
 import com.mellivora.base.ui.dialog.LoadingDialog
 import kotlinx.coroutines.Job
 
+/**
+ * 需要自定义LoadingDialog的可以实现该接口
+ * viewModel关联loading弹窗可使用[com.mellivora.base.vm.LoadingViewModel.registerLoadingDialog]
+ */
 interface LoadingDialogApi {
 
     private fun getLoadingDialogTag(): String{
