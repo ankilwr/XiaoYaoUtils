@@ -6,7 +6,6 @@ import android.view.Gravity
 import android.view.Window
 import android.view.WindowManager
 import androidx.fragment.app.viewModels
-import com.mellivora.base.R
 import com.mellivora.base.api.getDefaultLoadingDialogApi
 import com.mellivora.base.binding.ui.dialog.BaseBindingDialog
 import com.mellivora.data.repository.consumer.httpCheckConsumer
@@ -19,6 +18,7 @@ import com.mellivora.base.expansion.showToast
 import com.mellivora.base.vm.LoadingViewModel
 import com.mellivora.data.repository.bean.CommunityData
 import com.mellivora.data.repository.service.BaseService
+import com.shihang.kotlin.R
 import com.shihang.kotlin.databinding.DialogCommunityDiscussEditBinding
 
 /**

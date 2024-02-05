@@ -15,7 +15,7 @@ import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
-import com.mellivora.base.R
+import com.mellivora.base.binding.R
 import com.mellivora.base.utils.Utils
 import com.mellivora.base.utils.dp
 import com.opensource.svgaplayer.SVGADrawable

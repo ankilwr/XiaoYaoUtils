@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.drakeet.multitype.MultiTypeAdapter
-import com.mellivora.base.R
+import com.mellivora.base.binding.R
 import com.mellivora.base.binding.adapter.BaseMultiTypeAdapter
 import com.mellivora.base.binding.ui.widget.multiple.MultipleStatusView
 import com.mellivora.base.exception.ErrorStatus
