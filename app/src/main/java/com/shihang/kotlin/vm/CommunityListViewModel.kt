@@ -1,12 +1,12 @@
 package com.shihang.kotlin.vm
 
 import androidx.lifecycle.MutableLiveData
-import com.mellivora.base.coroutine.httpCheckConsumer
-import com.mellivora.base.coroutine.httpCheckData
+import com.mellivora.data.repository.consumer.httpCheckConsumer
+import com.mellivora.data.repository.consumer.httpCheckData
 import com.mellivora.base.coroutine.withIOResult
 import com.mellivora.base.coroutine.onCheckError
 import com.mellivora.base.coroutine.onCheckSuccess
-import com.mellivora.base.coroutine.updateUiList
+import com.mellivora.data.repository.consumer.updateUiList
 import com.mellivora.base.expansion.showToast
 import com.mellivora.base.utils.Utils
 import com.mellivora.base.vm.LoadingViewModel

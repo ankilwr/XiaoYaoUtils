@@ -2,6 +2,7 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
+    id("maven-publish")
 }
 
 android {
@@ -10,6 +11,7 @@ android {
     defaultConfig {
         compileSdk = 33
         minSdk = 21
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
@@ -67,6 +69,20 @@ dependencies {
     //下拉刷新
     api("io.github.scwang90:refresh-layout-kernel:2.0.6")
     api("io.github.scwang90:refresh-header-classics:2.0.6")
+}
 
-
+//是否为发行版本的库【false；发布快照版本，true:发布release版本】
+val releaseVersion = false
+afterEvaluate {
+    publishing {
+        publications {
+            register<MavenPublication>("release") {
+                from(components["release"])
+                groupId = "com.github.ankilwr.XiaoYaoUtils"
+                artifactId = "binding"
+                val libraryVersion = "1.0.0"
+                version = if(releaseVersion) libraryVersion else "$libraryVersion-SNAPSHOT"
+            }
+        }
+    }
 }

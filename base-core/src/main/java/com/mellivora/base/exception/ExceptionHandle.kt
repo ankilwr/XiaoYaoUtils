@@ -2,7 +2,7 @@ package com.mellivora.base.exception
 
 import android.util.MalformedJsonException
 import com.google.gson.JsonParseException
-import com.mellivora.base.R
+import com.mellivora.base.core.R
 import com.mellivora.base.expansion.getResString
 import com.mellivora.base.utils.LogUtils
 import kotlinx.coroutines.CancellationException

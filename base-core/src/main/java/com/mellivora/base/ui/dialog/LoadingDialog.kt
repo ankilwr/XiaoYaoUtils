@@ -1,12 +1,11 @@
 package com.mellivora.base.ui.dialog
 
 import android.app.Dialog
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.*
 import androidx.core.view.isGone
-import com.mellivora.base.R
-import com.mellivora.base.databinding.BaseDialogLoadingBinding
+import com.mellivora.base.core.R
+import com.mellivora.base.core.databinding.BaseDialogLoadingBinding
 
 
 class LoadingDialog: BaseCoreDialog() {

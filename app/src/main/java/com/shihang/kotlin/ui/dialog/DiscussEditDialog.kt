@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import com.mellivora.base.R
 import com.mellivora.base.api.getDefaultLoadingDialogApi
 import com.mellivora.base.binding.ui.dialog.BaseBindingDialog
-import com.mellivora.base.coroutine.httpCheckConsumer
+import com.mellivora.data.repository.consumer.httpCheckConsumer
 import com.mellivora.base.coroutine.onCheckError
 import com.mellivora.base.coroutine.onCheckSuccess
 import com.mellivora.base.coroutine.withIOResult

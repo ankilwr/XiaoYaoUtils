@@ -1,7 +1,9 @@
-package com.mellivora.base.coroutine
+package com.mellivora.data.repository.consumer
 
 import androidx.core.util.Consumer
 import androidx.lifecycle.MutableLiveData
+import com.mellivora.base.coroutine.IResult
+import com.mellivora.base.coroutine.getData
 import com.mellivora.base.exception.DataCheckException
 import com.mellivora.base.exception.ErrorStatus
 import com.mellivora.data.repository.bean.BaseData

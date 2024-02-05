@@ -12,7 +12,7 @@ import android.provider.Settings
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts.RequestMultiplePermissions
 import androidx.core.app.ActivityCompat
-import com.mellivora.base.R
+import com.mellivora.base.core.R
 import com.mellivora.base.expansion.formatText
 import com.mellivora.base.expansion.getResString
 

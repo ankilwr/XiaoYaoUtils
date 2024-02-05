@@ -7,7 +7,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.viewModelScope
-import com.mellivora.base.R
+import com.mellivora.base.core.R
 import com.mellivora.base.api.LoadingDialogApi
 import com.mellivora.base.exception.ErrorStatus
 import com.mellivora.base.expansion.getResString
