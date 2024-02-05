@@ -65,7 +65,7 @@ afterEvaluate {
                 from components.release
                 groupId = 'com.github.ankilwr.XiaoYaoUtils'
                 artifactId = "core"
-                def libraryVersion = "1.0.0"
+                def libraryVersion = "1.0.1"
                 version = releaseVersion ? libraryVersion : libraryVersion + '-SNAPSHOT'
             }
         }

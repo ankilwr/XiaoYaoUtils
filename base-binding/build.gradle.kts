@@ -80,7 +80,7 @@ afterEvaluate {
                 from(components["release"])
                 groupId = "com.github.ankilwr.XiaoYaoUtils"
                 artifactId = "binding"
-                val libraryVersion = "1.0.0"
+                val libraryVersion = "1.0.1"
                 version = if(releaseVersion) libraryVersion else "$libraryVersion-SNAPSHOT"
             }
         }
